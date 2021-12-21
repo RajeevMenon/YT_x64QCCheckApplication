@@ -21,6 +21,7 @@ Public Class MainForm
         Dim IndexNo = "100003859546"
         If IndexNo.Length = 10 Then FieldName = "BAR" Else FieldName = "INDEX_NO"
         CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
+        Button1.PerformClick()
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click

@@ -57,6 +57,7 @@
             If selectedItemValue = MainForm.CurrentCheckPoint.UserInputAction.UserInputCorrect Then
                 ListView1.BackColor = Color.Green
                 MainForm.wait(1)
+                MainForm.Button2.PerformClick()
                 Me.Close()
             Else
                 ListView1.BackColor = Color.Red
@@ -82,6 +83,7 @@
             If selectedItemValue = MainForm.CurrentCheckPoint.UserInputAction.UserInputCorrect Then
                 ListView1.BackColor = Color.Green
                 MainForm.wait(1)
+                MainForm.Button2.PerformClick()
                 Me.Close()
             Else
                 ListView1.BackColor = Color.Red
