@@ -14,6 +14,7 @@
         Finish
     End Enum
     Public Result As Status = Status.InActive
+    Dim rnd As New Random()
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
             Result = Status.Finish
@@ -27,7 +28,6 @@
     Private Sub SelectUserInput_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
             Result = Status.Start
-            Dim rnd As New Random()
             RichTextBoxMessage.Text = Message
             RichTextBox_AutoSize(RichTextBoxMessage)
             ListView1.Items.Clear()
@@ -56,12 +56,19 @@
             selectedItemValue = ListView1.SelectedItems.Item(0).Text
             If selectedItemValue = MainForm.CurrentCheckPoint.UserInputAction.UserInputCorrect Then
                 ListView1.BackColor = Color.Green
-                MainForm.wait(2)
+                MainForm.wait(1)
                 Me.Close()
             Else
                 ListView1.BackColor = Color.Red
-                MainForm.wait(2)
+                MainForm.wait(1)
                 ListView1.BackColor = Color.White
+                ListView1.Items.Clear()
+                If inputValues.Length > 0 Then
+                    Dim ShuffledItems = inputValues.OrderBy(Function() Rnd.Next).ToArray()
+                    For Each inputvalue In ShuffledItems
+                        ListView1.Items.Add(inputvalue)
+                    Next
+                End If
             End If
         Catch ex As Exception
             selectedItemValue = "NaN"
@@ -74,11 +81,19 @@
             selectedItemValue = ListView1.SelectedItems.Item(0).Text
             If selectedItemValue = MainForm.CurrentCheckPoint.UserInputAction.UserInputCorrect Then
                 ListView1.BackColor = Color.Green
-                MainForm.wait(2)
+                MainForm.wait(1)
                 Me.Close()
             Else
                 ListView1.BackColor = Color.Red
-                MainForm.wait(2)
+                MainForm.wait(1)
+                ListView1.BackColor = Color.White
+                ListView1.Items.Clear()
+                If inputValues.Length > 0 Then
+                    Dim ShuffledItems = inputValues.OrderBy(Function() Rnd.Next).ToArray()
+                    For Each inputvalue In ShuffledItems
+                        ListView1.Items.Add(inputvalue)
+                    Next
+                End If
             End If
         Catch ex As Exception
             selectedItemValue = "NaN"

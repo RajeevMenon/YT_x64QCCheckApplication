@@ -1,12 +1,13 @@
 ﻿Public Class YTA_CheckSheet
 
 #Region "Common"
-    Public Shared Function ProcessStepNo(ByVal StepNo As Integer, ByVal Initial As String, ByVal IndexNo As String, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Shared Function ProcessStepNo(ByVal StepNo As Integer, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim ProcessStepReturn As New CheckSheetStep
 
             If StepNo = 20 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo20(Initial)
-            If StepNo = 30 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo30(Initial, IndexNo, ErrMsg)
+            If StepNo = 30 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo30(Initial, CustOrd, ErrMsg)
+            If StepNo = 31 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo31(Initial, CustOrd, ErrMsg)
 
             Return ProcessStepReturn
         Catch ex As Exception
@@ -31,20 +32,12 @@
         End Try
     End Function
 
-    Public Function ProcessStepNo30(ByVal Initial As String, ByVal IndexNo As String, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo30(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
-            Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
-            Dim FieldName As String = ""
-            If IndexNo.Length = 10 Then FieldName = "BAR" Else FieldName = "INDEX_NO"
-            Dim CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
-            If ErrMsg.Length > 0 Then
-                Return Nothing
-                Exit Function
-            End If
 
             Dim PlatePartNo As String = ""
             Dim Inst_Lib As New TML_Library.Instrument
-            PlatePartNo = Inst_Lib.GetNamePlatePartNumber(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, IndexNo)
+            PlatePartNo = Inst_Lib.GetNamePlatePartNumber(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, CustOrd.INDEX_NO)
             Dim allParts() As String
             allParts = Inst_Lib.GetYTA_AllPlatePartNumberList(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, ErrMsg)
             If Len(ErrMsg) > 0 Then
@@ -90,15 +83,20 @@
         End Try
     End Function
 
-    Public Function ProcessStepNo31(ByVal Initial As String) As CheckSheetStep
+    Public Function ProcessStepNo31(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
+            Dim RL_Tag As New TML_Library.RandomArray
+            Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
+
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "30"
-            ProcessStepReturn.ProcessStep = "Data Plate/ Tag Plate Marking"
-            ProcessStepReturn.ActivityToCheck = "Tag Plate Marking"
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.ProcedureStep
+            ProcessStepReturn.ProcessNo = "31"
+            ProcessStepReturn.ProcessStep = "Tag Plate Marking"
+            ProcessStepReturn.ActivityToCheck = "Tag Plates with correct contents."
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_51_ProStepView_ImagePath & "YTA\20\" & "B_J_Bracket.jpg"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed in the plate and Click SELECT button."
+            ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
+            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
