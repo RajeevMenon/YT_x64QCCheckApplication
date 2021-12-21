@@ -8,6 +8,7 @@
             If StepNo = 20 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo20(Initial)
             If StepNo = 30 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo30(Initial, CustOrd, ErrMsg)
             If StepNo = 31 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo31(Initial, CustOrd, ErrMsg)
+            If StepNo = 32 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo32(Initial, CustOrd, ErrMsg)
 
             Return ProcessStepReturn
         Catch ex As Exception
@@ -97,6 +98,30 @@
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed in the plate and Click SELECT button."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
             ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            Return ProcessStepReturn
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function ProcessStepNo32(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+            Dim RL_Tag As New TML_Library.RandomArray
+            Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "32"
+            ProcessStepReturn.ProcessStep = "Data Plate Marking"
+            ProcessStepReturn.ActivityToCheck = "Data Plates with correct COO."
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the COO printed in the plate."
+            ProcessStepReturn.UserInputAction.UserInputList = {"Made in China", "Made in Japan", "Made in KSA", "Made in Singapore"}
+            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made in KSA"
+            Else
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made in China"
+            End If
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
