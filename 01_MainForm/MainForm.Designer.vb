@@ -91,7 +91,7 @@ Partial Class MainForm
         Me.RichTextBox_Step.Name = "RichTextBox_Step"
         Me.RichTextBox_Step.Size = New System.Drawing.Size(109, 72)
         Me.RichTextBox_Step.TabIndex = 1
-        Me.RichTextBox_Step.Text = ""
+        Me.RichTextBox_Step.Text = "0"
         '
         'Button1
         '
@@ -130,7 +130,6 @@ Partial Class MainForm
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.DoubleBuffered = True
-        Me.KeyPreview = True
         Me.Name = "MainForm"
         Me.Text = "QC Check"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized

@@ -1,11 +1,12 @@
 ﻿Public Class YTA_CheckSheet
 
 #Region "Common"
-    Public Shared Function ProcessStepNo(ByVal StepNo As Integer, ByVal Initial As String) As CheckSheetStep
+    Public Shared Function ProcessStepNo(ByVal StepNo As Integer, ByVal Initial As String, ByVal IndexNo As String, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim ProcessStepReturn As New CheckSheetStep
 
             If StepNo = 20 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo20(Initial)
+            If StepNo = 30 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo30(Initial, IndexNo, ErrMsg)
 
             Return ProcessStepReturn
         Catch ex As Exception

@@ -9,6 +9,13 @@
     Public Const WS_VSCROLL As Integer = &H200000
     Public Const WS_HSCROLL As Integer = &H100000
 
+    Enum Status
+        InActive
+        Start
+        Finish
+    End Enum
+    Public Result As Status = Status.InActive
+
     ''' <summary>
     ''' Assign the input parameters to load images and message in the SIP window when it opens to user.
     ''' </summary>
@@ -16,6 +23,9 @@
     ''' <param name="Message">Message to be displayed at the TOP</param>
     ''' <param name="PicturePath">Full path of the Picture file to be displayed</param>
     Public Sub InputFeatures(ByVal WindowText As String, ByVal Message As String, ByVal PicturePath As String)
+
+        Result = Status.Start
+
         Try
             If WindowText <> "" Then
                 Me.Text = WindowText
@@ -54,6 +64,7 @@
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
         Try
+            Result = Status.Finish
             Me.Hide()
         Catch ex As Exception
 
@@ -61,6 +72,7 @@
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
+            Result = Status.Finish
             Me.Hide()
         Catch ex As Exception
 
