@@ -12,10 +12,14 @@ Public Class MainForm
     Public CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
     Public CustOrd As POCO_YGSP.cust_ord
+    Public Shared AllowedSteps As String()
+    Public Shared AllCheckResult As String()
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = Me.Text & " [ Ver:" & Version & "]"
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+        AllowedSteps = Setting.Var_08_StepsAllowed.Split(",")
+        ReDim AllCheckResult(AllowedSteps.Length - 1)
         Dim BEY As New Login
         BEY.TopLevel = False
         PanelSubForm.Controls.Add(BEY)
@@ -122,11 +126,9 @@ Public Class MainForm
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
-
-            For i As Integer = Array.IndexOf(StepNumbers, TextBox_Step.Text) + 1 To StepNumbers.Length - 1 Step 1
+            For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 To AllowedSteps.Length - 1 Step 1
                 RichTextBox_ActivityToCheck.Text = "Wait.."
-                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(i)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(AllowedSteps(i)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
@@ -192,8 +194,6 @@ Public Class MainForm
                 End If
             Next
 
-
-
         Catch ex As Exception
 
         End Try
@@ -201,11 +201,10 @@ Public Class MainForm
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
             Dim ErMsg As String = ""
-            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
             CurrentCheckPoint = New CheckSheetStep
-            For i As Integer = Array.IndexOf(StepNumbers, TextBox_Step.Text) - 1 To 0 Step -1
+            For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) - 1 To 0 Step -1
                 RichTextBox_ActivityToCheck.Text = "Wait.."
-                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(i)), Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
+                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(AllowedSteps(i)), Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
@@ -318,5 +317,12 @@ Public Class MainForm
 
         End Try
     End Sub
+    Public Function InspectionStatus(ByVal InspectionStep As String, ByVal CheckResult As Boolean) As String
+        Try
+            AllCheckResult(Array.IndexOf(AllowedSteps, InspectionStep)) = InspectionStep & "-" & CheckResult.ToString
+        Catch ex As Exception
+
+        End Try
+    End Function
 
 End Class

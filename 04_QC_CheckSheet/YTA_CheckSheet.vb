@@ -26,6 +26,14 @@
             If StepNo = 101 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo101(Initial, CustOrd, ErrMsg)
             If StepNo = 111 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo111(Initial, CustOrd, ErrMsg)
 
+            If MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)) = StepNo & "-" & True.ToString Then
+                MainForm.RichTextBox_Step.BackColor = Color.LightGreen
+            ElseIf MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)) = StepNo & "-" & False.ToString Then
+                MainForm.RichTextBox_Step.BackColor = Color.OrangeRed
+            Else
+                MainForm.RichTextBox_Step.BackColor = Color.Yellow
+            End If
+
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
