@@ -12,8 +12,9 @@
                     Label_Message.Text = ErrMsg
                 Else
                     Me.Close()
-                    MainForm.TextBox_Step.Text = 1
-                    MainForm.Button2.PerformClick()
+                    MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
+                    MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsAllowed.Split(",")(0)
+                    MainForm.FirstCheckPoint()
                 End If
             End If
         Catch ex As Exception

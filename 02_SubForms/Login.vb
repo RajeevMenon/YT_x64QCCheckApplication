@@ -21,6 +21,7 @@ Public Class Login
         Else
             If GetMD5(psswd) = LoginTbl.PASSWORD Then
                 Me.Close()
+                MainForm.Initial = loginID
                 MainForm.LoadIndexScan()
             Else
                 PasswordTextBox.BackColor = Color.Red

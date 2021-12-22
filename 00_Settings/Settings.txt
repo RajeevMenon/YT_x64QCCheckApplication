@@ -1,9 +1,13 @@
-﻿Var_01_ServerIP						=	10.25.125.121
-Var_02_ServerPort					=	4600
-Var_03_MySql_YGSP					=	Server=10.25.125.121;Port=4600;Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
-Var_04_MySql_QA						=	Server=10.25.125.121;Port=4600;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
-Var_05_Factory						=	2
-Var_06_DocsStore					=	\\10.25.125.121\DocsStore\
+﻿Var_01_ServerIP				=	10.25.125.121
+Var_02_ServerPort				=	4600
+Var_03_MySql_YGSP				=	Server=10.25.125.121;Port=4600;Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
+Var_04_MySql_QA				=	Server=10.25.125.121;Port=4600;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
+Var_05_Factory				=	2
+Var_06_DocsStore				=	\\10.25.125.121\DocsStore\
+
+Var_07_Station				=	Build
+Var_08_StepsAllowed			=	90,100
+
 Var_51_ProStepView_ImagePath		=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
 Var_52_SinglePntInst_ImagePath		=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
-Var_52_ImageSize					=	512 x 384
+Var_52_ImageSize				=	512 x 384

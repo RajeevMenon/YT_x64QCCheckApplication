@@ -8,6 +8,7 @@ Public Class MainForm
     Public Const WS_HSCROLL As Integer = &H100000
     Public Shared Setting As New Settings
 
+    Public Initial As String
     Public CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
     Public CustOrd As POCO_YGSP.cust_ord
@@ -40,13 +41,92 @@ Public Class MainForm
 
         End Try
     End Sub
+    Public Sub FirstCheckPoint()
+        Try
+            Dim ErMsg As String = ""
+            CurrentCheckPoint = New CheckSheetStep
+            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
+
+            RichTextBox_ActivityToCheck.Text = "Wait.."
+            CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(0)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+            If Not IsDBNull(CurrentCheckPoint) Then
+                If Not IsNothing(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                        RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                        TextBox_Step.Text = CurrentCheckPoint.StepNo
+                        RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                        RichTextBox_AutoSize(RichTextBox_Step)
+                        RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                        RichTextBox_ActivityToCheck.Refresh()
+                        PanelSubForm.Controls.Clear()
+
+                        If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                            Dim PSV As New ProcedureStepView
+                            PSV.TopLevel = False
+                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                            PanelSubForm.Controls.Add(PSV)
+                            PSV.AutoScroll = True
+                            PSV.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            PSV.PictureBox1.Select()
+                            PSV.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                            Dim SUI As SelectUserInput = New SelectUserInput
+                            SUI.TopLevel = False
+                            SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                            SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                            PanelSubForm.Controls.Add(SUI)
+                            'SUI.BringToFront()
+                            SUI.AutoScroll = True
+                            SUI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SUI.ListView1.Select()
+                            SUI.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                            Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                            SPI.TopLevel = False
+                            SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                            PanelSubForm.Controls.Add(SPI)
+                            SPI.AutoScroll = True
+                            SPI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SPI.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.DocumentCheck Then
+                            Dim VDOC As ViewDocument = New ViewDocument
+                            VDOC.TopLevel = False
+                            VDOC.curNaviageUrl = CurrentCheckPoint.ViewDocAction.PdfPath_DocumentCheck
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
+                        End If
+                    End If
+                End If
+            End If
+
+
+
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            For StepNumber As Integer = Integer.Parse(TextBox_Step.Text) + 1 To 210
+            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
+
+            For i As Integer = Array.IndexOf(StepNumbers, TextBox_Step.Text) + 1 To StepNumbers.Length - 1 Step 1
                 RichTextBox_ActivityToCheck.Text = "Wait.."
-                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=StepNumber, Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
+                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(i)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
@@ -112,39 +192,7 @@ Public Class MainForm
                 End If
             Next
 
-            'If Not IsNothing(CurrentCheckPoint) Then
-            '    RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
-            '    RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
-            '    RichTextBox_AutoSize(RichTextBox_Step)
-            '    RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
-            '    If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
-            '        ' ProcedureStepView.Parent = PanelSubForm
-            '        'PanelSubForm.SetAutoScrollMargin(AD.Size.Width - PanelSubForm.Size.Width, AD.Size.Height - PanelSubForm.Size.Height)
-            '        Dim PSV As New ProcedureStepView
-            '        PSV.TopLevel = False
-            '        PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
-            '        PanelSubForm.Controls.Add(PSV)
-            '        PSV.AutoScroll = True
-            '        PSV.Dock = DockStyle.Fill
-            '        PanelSubForm.AutoScroll = True
-            '        PSV.PictureBox1.Select()
-            '        PSV.Show()
-            '        Me.Refresh()
-            '        Exit For
-            '    ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
-            '        Dim SUI As SelectUserInput = New SelectUserInput
-            '        SUI.TopLevel = False
-            '        SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
-            '        SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
-            '        PanelSubForm.Controls.Add(SUI)
-            '        SUI.AutoScroll = True
-            '        SUI.Dock = DockStyle.Fill
-            '        PanelSubForm.AutoScroll = True
-            '        SUI.ListView1.Select()
-            '        SUI.Show()
-            '        Exit For
-            '    End If
-            'End If
+
 
         Catch ex As Exception
 
@@ -153,10 +201,11 @@ Public Class MainForm
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
             Dim ErMsg As String = ""
+            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
             CurrentCheckPoint = New CheckSheetStep
-            For StepNumber As Integer = (Integer.Parse(TextBox_Step.Text) - 1) To 0 Step -1
+            For i As Integer = Array.IndexOf(StepNumbers, TextBox_Step.Text) - 1 To 0 Step -1
                 RichTextBox_ActivityToCheck.Text = "Wait.."
-                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=StepNumber, Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
+                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(i)), Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
