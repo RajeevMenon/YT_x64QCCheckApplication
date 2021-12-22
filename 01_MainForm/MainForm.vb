@@ -10,36 +10,36 @@ Public Class MainForm
 
     Public CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
-    Dim CustOrd As POCO_YGSP.cust_ord
+    Public CustOrd As POCO_YGSP.cust_ord
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = Me.Text & " [ Ver:" & Version & "]"
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
-        RichTextBox_Step.Enabled = False
-        RichTextBox_ActivityToCheck.Select()
-        RichTextBox_ActivityToCheck.Focus()
+        Dim BEY As New Login
+        BEY.TopLevel = False
+        PanelSubForm.Controls.Add(BEY)
+        BEY.AutoScroll = True
+        BEY.Dock = DockStyle.Fill
+        PanelSubForm.AutoScroll = True
+        BEY.UsernameTextBox.Select()
+        BEY.Show()
+        Me.Refresh()
     End Sub
-
-    Private Sub RichTextBox_ActivityToCheck_KeyDown(sender As Object, e As KeyEventArgs) Handles RichTextBox_ActivityToCheck.KeyDown
+    Public Sub LoadIndexScan()
         Try
-            If e.KeyCode = Keys.Enter Then
-                Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
-                Dim FieldName As String = ""
-                Dim IndexNo = "100003859546"
-                If IndexNo.Length = 10 Then FieldName = "BAR" Else FieldName = "INDEX_NO"
-                CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
-                If ErrMsg.Length > 0 Then
-                    MsgBox(ErrMsg)
-                Else
-                    RichTextBox_ActivityToCheck.ReadOnly = True
-                    Button2.PerformClick()
-                End If
-            End If
+            PanelSubForm.Controls.Clear()
+            Dim BEY As New BarcodeEntry
+            BEY.TopLevel = False
+            PanelSubForm.Controls.Add(BEY)
+            BEY.AutoScroll = True
+            BEY.Dock = DockStyle.Fill
+            PanelSubForm.AutoScroll = True
+            BEY.Show()
+            BEY.TextBox_Scan.Focus()
         Catch ex As Exception
 
         End Try
     End Sub
-
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Try
             Dim ErMsg As String = ""

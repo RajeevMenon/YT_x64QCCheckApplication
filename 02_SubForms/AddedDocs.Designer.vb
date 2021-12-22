@@ -132,7 +132,7 @@ Partial Class AddedDocs
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.PaleTurquoise
+        Me.BackColor = System.Drawing.Color.PaleGreen
         Me.ClientSize = New System.Drawing.Size(615, 450)
         Me.ControlBox = False
         Me.Controls.Add(Me.Label_Error)
@@ -148,6 +148,7 @@ Partial Class AddedDocs
         Me.Name = "AddedDocs"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "SCAN DOCUMENT QR CODE"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

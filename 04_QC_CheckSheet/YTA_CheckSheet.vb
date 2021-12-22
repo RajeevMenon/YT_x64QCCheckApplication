@@ -28,7 +28,7 @@
             Dim ProcessStepReturn As New CheckSheetStep
             Dim RL_Tag As New TML_Library.RandomArray
             Dim SelPartsSNO = RL_Tag.RandomStringArraySERIAL(CustOrd.SERIAL_NO_BEFORE, 4)
-            ProcessStepReturn.ProcessNo = "32"
+            ProcessStepReturn.ProcessNo = "21"
             ProcessStepReturn.ProcessStep = "Parts correctness"
             ProcessStepReturn.ActivityToCheck = "Check Complete Unit Correctly Picked."
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
@@ -76,7 +76,6 @@
             Return Nothing
         End Try
     End Function
-
     Public Function ProcessStepNo32(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
@@ -96,7 +95,6 @@
             Return Nothing
         End Try
     End Function
-
     Public Function ProcessStepNo33(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
@@ -120,7 +118,6 @@
             Return Nothing
         End Try
     End Function
-
     Public Function ProcessStepNo34(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -143,7 +140,6 @@
             Return Nothing
         End Try
     End Function
-
     Public Function ProcessStepNo41(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -194,7 +190,6 @@
             Return Nothing
         End Try
     End Function
-
     Public Function ProcessStepNo42(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 

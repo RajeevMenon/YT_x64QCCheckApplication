@@ -79,6 +79,7 @@ Partial Class MainForm
         Me.RichTextBox_ActivityToCheck.Font = New System.Drawing.Font("Microsoft Sans Serif", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RichTextBox_ActivityToCheck.Location = New System.Drawing.Point(156, 3)
         Me.RichTextBox_ActivityToCheck.Name = "RichTextBox_ActivityToCheck"
+        Me.RichTextBox_ActivityToCheck.ReadOnly = True
         Me.RichTextBox_ActivityToCheck.Size = New System.Drawing.Size(570, 72)
         Me.RichTextBox_ActivityToCheck.TabIndex = 0
         Me.RichTextBox_ActivityToCheck.Text = ""
@@ -89,9 +90,10 @@ Partial Class MainForm
         Me.RichTextBox_Step.Font = New System.Drawing.Font("Microsoft Sans Serif", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RichTextBox_Step.Location = New System.Drawing.Point(41, 3)
         Me.RichTextBox_Step.Name = "RichTextBox_Step"
+        Me.RichTextBox_Step.ReadOnly = True
         Me.RichTextBox_Step.Size = New System.Drawing.Size(109, 72)
         Me.RichTextBox_Step.TabIndex = 1
-        Me.RichTextBox_Step.Text = "0"
+        Me.RichTextBox_Step.Text = ""
         '
         'Button1
         '
