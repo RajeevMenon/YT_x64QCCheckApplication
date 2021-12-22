@@ -22,6 +22,7 @@
             If StepNo = 53 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo53(Initial, CustOrd, ErrMsg)
             If StepNo = 54 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo54(Initial, CustOrd, ErrMsg)
             If StepNo = 55 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo55(Initial, CustOrd, ErrMsg)
+            If StepNo = 56 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo56(Initial, CustOrd, ErrMsg)
 
             Return ProcessStepReturn
         Catch ex As Exception
@@ -273,7 +274,7 @@
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA*/C[123]*" Then
                 ProcessStepReturn.StepNo = "52"
-                ProcessStepReturn.ProcessNo = "50"
+                ProcessStepReturn.ProcessNo = "60"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
                 ProcessStepReturn.ActivityToCheck = "BOUT Switch setting"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
@@ -300,14 +301,14 @@
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA*" Then
                 ProcessStepReturn.StepNo = "53"
-                ProcessStepReturn.ProcessNo = "50"
+                ProcessStepReturn.ProcessNo = "60"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
                 ProcessStepReturn.ActivityToCheck = "Plug for Electrical connection"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Plug] Confirm Red Plug on Electrical Connection"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Installed.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Not Installed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
             End If
             Return ProcessStepReturn
@@ -323,25 +324,25 @@
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA*" Then
                 ProcessStepReturn.StepNo = "54"
-                ProcessStepReturn.ProcessNo = "50"
+                ProcessStepReturn.ProcessNo = "70"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
                 ProcessStepReturn.ActivityToCheck = "Display Indicator"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
                 If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Installed.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Not Installed.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
                 ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Added or Removed?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Added.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Removed.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Removed.jpg"
                 ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Added or Removed?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Removed.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Added.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
                 End If
 
@@ -359,7 +360,7 @@
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                 ProcessStepReturn.StepNo = "55"
-                ProcessStepReturn.ProcessNo = "50"
+                ProcessStepReturn.ProcessNo = "70"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
                 ProcessStepReturn.ActivityToCheck = "Display Cover Assembling"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
@@ -368,6 +369,62 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "No Galling.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Galling.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Galling.jpg"
+            End If
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo56(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            If CustOrd.MS_CODE Like "YTA[67]10-?????D?*/[KSF][UF][12]*" Then
+                ProcessStepReturn.StepNo = "56"
+                ProcessStepReturn.ProcessNo = "80"
+                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+                ProcessStepReturn.ActivityToCheck = "Lock Screw installation"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_w_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_wo_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_w_F9900RP.jpg"
+            ElseIf CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
+                ProcessStepReturn.StepNo = "55"
+                ProcessStepReturn.ProcessNo = "80"
+                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+                ProcessStepReturn.ActivityToCheck = "Lock Screw installation"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_w_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_wo_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_wo_F9900RP.jpg"
+            ElseIf CustOrd.MS_CODE Like "YTA[67]10-?????N?*/[KSF][UF][12]*" Then
+                ProcessStepReturn.StepNo = "55"
+                ProcessStepReturn.ProcessNo = "80"
+                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+                ProcessStepReturn.ActivityToCheck = "Lock Screw installation"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_w_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_wo_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Blind_w_F9900RP.jpg"
+            Else
+                ProcessStepReturn.StepNo = "55"
+                ProcessStepReturn.ProcessNo = "80"
+                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+                ProcessStepReturn.ActivityToCheck = "Lock Screw installation"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_w_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_wo_F9900RP.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Blind_wo_F9900RP.jpg"
             End If
             Return ProcessStepReturn
 

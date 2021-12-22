@@ -12,7 +12,7 @@
                     Label_Message.Text = ErrMsg
                 Else
                     Me.Close()
-                    MainForm.TextBox_Step.Text = 42
+                    MainForm.TextBox_Step.Text = 1
                     MainForm.Button2.PerformClick()
                 End If
             End If
