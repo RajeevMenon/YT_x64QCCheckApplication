@@ -31,7 +31,9 @@ Partial Class ViewDocument
         '
         'ViewBrowser
         '
-        Me.ViewBrowser.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ViewBrowser.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ViewBrowser.Location = New System.Drawing.Point(0, 32)
         Me.ViewBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.ViewBrowser.Name = "ViewBrowser"

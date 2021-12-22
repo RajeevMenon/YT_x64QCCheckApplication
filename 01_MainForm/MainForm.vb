@@ -44,13 +44,14 @@ Public Class MainForm
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            For StepNumber As Integer = Integer.Parse(RichTextBox_Step.Text) + 1 To 210
+            For StepNumber As Integer = Integer.Parse(TextBox_Step.Text) + 1 To 210
                 RichTextBox_ActivityToCheck.Text = "Wait.."
                 CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=StepNumber, Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
                             RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                            TextBox_Step.Text = CurrentCheckPoint.StepNo
                             RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
                             RichTextBox_AutoSize(RichTextBox_Step)
                             RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
@@ -92,6 +93,17 @@ Public Class MainForm
                                 SPI.Dock = DockStyle.Fill
                                 PanelSubForm.AutoScroll = True
                                 SPI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.DocumentCheck Then
+                                Dim VDOC As ViewDocument = New ViewDocument
+                                VDOC.TopLevel = False
+                                VDOC.curNaviageUrl = CurrentCheckPoint.ViewDocAction.PdfPath_DocumentCheck
+                                PanelSubForm.Controls.Add(VDOC)
+                                VDOC.AutoScroll = True
+                                VDOC.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                VDOC.Show()
                                 Me.Refresh()
                                 Exit For
                             End If
@@ -138,18 +150,18 @@ Public Class MainForm
 
         End Try
     End Sub
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            For StepNumber As Integer = (Integer.Parse(RichTextBox_Step.Text) - 1) To 0 Step -1
+            For StepNumber As Integer = (Integer.Parse(TextBox_Step.Text) - 1) To 0 Step -1
                 RichTextBox_ActivityToCheck.Text = "Wait.."
                 CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=StepNumber, Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
                             RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                            TextBox_Step.Text = CurrentCheckPoint.StepNo
                             RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
                             RichTextBox_AutoSize(RichTextBox_Step)
                             RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
@@ -204,7 +216,6 @@ Public Class MainForm
 
         End Try
     End Sub
-
     Public Sub wait(ByVal interval As Integer)
         Dim sw As New Stopwatch
         Dim wait_time As Double
@@ -218,7 +229,6 @@ Public Class MainForm
         Loop
         sw.Stop()
     End Sub
-
     Private Sub RichTextBox_AutoSize(ByVal Rc As RichTextBox)
         Try
 
@@ -259,6 +269,5 @@ Public Class MainForm
 
         End Try
     End Sub
-
 
 End Class

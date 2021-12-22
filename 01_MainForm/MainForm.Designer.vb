@@ -29,8 +29,10 @@ Partial Class MainForm
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.PanelSubForm = New System.Windows.Forms.Panel()
+        Me.TextBox_Step = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
+        Me.PanelSubForm.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -119,11 +121,19 @@ Partial Class MainForm
         '
         Me.PanelSubForm.AutoScroll = True
         Me.PanelSubForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelSubForm.Controls.Add(Me.TextBox_Step)
         Me.PanelSubForm.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelSubForm.Location = New System.Drawing.Point(4, 89)
         Me.PanelSubForm.Name = "PanelSubForm"
         Me.PanelSubForm.Size = New System.Drawing.Size(768, 333)
         Me.PanelSubForm.TabIndex = 1
+        '
+        'TextBox_Step
+        '
+        Me.TextBox_Step.Location = New System.Drawing.Point(731, 3)
+        Me.TextBox_Step.Name = "TextBox_Step"
+        Me.TextBox_Step.Size = New System.Drawing.Size(32, 20)
+        Me.TextBox_Step.TabIndex = 0
         '
         'MainForm
         '
@@ -137,6 +147,8 @@ Partial Class MainForm
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel2.ResumeLayout(False)
+        Me.PanelSubForm.ResumeLayout(False)
+        Me.PanelSubForm.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -148,4 +160,5 @@ Partial Class MainForm
     Friend WithEvents RichTextBox_Step As RichTextBox
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
+    Friend WithEvents TextBox_Step As TextBox
 End Class

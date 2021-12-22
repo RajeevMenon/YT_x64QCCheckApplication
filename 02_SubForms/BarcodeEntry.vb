@@ -5,14 +5,14 @@
                 Dim ErrMsg As String = ""
                 Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
                 Dim FieldName As String = ""
-                Dim IndexNo = "100003859546"
+                Dim IndexNo = TextBox_Scan.Text
                 If IndexNo.Length = 10 Then FieldName = "BAR" Else FieldName = "INDEX_NO"
                 MainForm.CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
                 If ErrMsg.Length > 0 Then
                     Label_Message.Text = ErrMsg
                 Else
                     Me.Close()
-                    MainForm.RichTextBox_Step.Text = 0
+                    MainForm.TextBox_Step.Text = 42
                     MainForm.Button2.PerformClick()
                 End If
             End If

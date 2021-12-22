@@ -1,5 +1,5 @@
 ﻿Public Class ViewDocument
-    Dim curNaviageUrl As String
+    Public curNaviageUrl As String
     Public webLoaded As Boolean
     Private Sub Button3_Click(sender As System.Object, e As System.EventArgs) Handles Button3.Click
         Me.Hide()
@@ -15,4 +15,8 @@
         ViewBrowser.Refresh()
     End Sub
 
+    Private Sub ViewDocument_Load(sender As Object, e As EventArgs) Handles Me.Load
+        ViewBrowser.Navigate(curNaviageUrl)
+        ViewBrowser.Refresh()
+    End Sub
 End Class

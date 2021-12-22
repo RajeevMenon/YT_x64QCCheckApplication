@@ -122,7 +122,7 @@ Public Class SinglePointInstruction
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox1.ImageLocation)
-            If SelectedSideFile Like "*" & MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct & "*" Then
+            If SelectedSideFile = MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct Then
                 MainForm.Button2.PerformClick()
                 Me.Close()
             Else
@@ -142,7 +142,7 @@ Public Class SinglePointInstruction
     Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox2.ImageLocation)
-            If SelectedSideFile Like "*" & MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct & "*" Then
+            If SelectedSideFile = MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct Then
                 MainForm.Button2.PerformClick()
                 Me.Close()
             Else
