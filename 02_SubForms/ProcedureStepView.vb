@@ -65,7 +65,7 @@
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
         Try
             Result = Status.Finish
-            MainForm.InspectionStatus(MainForm.TextBox_Step.Text, True)
+            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
             MainForm.Button2.PerformClick()
             Me.Hide()
         Catch ex As Exception

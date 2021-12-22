@@ -93,6 +93,12 @@
       <DependentUpon>MainForm.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="02_SubForms\CompleteInspection.Designer.vb">
+      <DependentUpon>CompleteInspection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="02_SubForms\CompleteInspection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="02_SubForms\BarcodeEntry.Designer.vb">
       <DependentUpon>BarcodeEntry.vb</DependentUpon>
     </Compile>
@@ -167,6 +173,9 @@
   <ItemGroup>
     <EmbeddedResource Include="01_MainForm\MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="02_SubForms\CompleteInspection.resx">
+      <DependentUpon>CompleteInspection.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="02_SubForms\BarcodeEntry.resx">
       <DependentUpon>BarcodeEntry.vb</DependentUpon>

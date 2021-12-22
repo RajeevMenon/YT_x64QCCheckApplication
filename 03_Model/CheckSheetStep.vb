@@ -16,5 +16,5 @@
     Public Property ProcedureStepAction As New ProcedureStep
     Public Property SinglePointAction As New SinglePointInstCheck
     Public Property ViewDocAction As New DocumentCheck
-
+    Public Property CheckResult As New Boolean
 End Class

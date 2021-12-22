@@ -46,7 +46,7 @@
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Result = Status.InActive
-        MainForm.InspectionStatus(MainForm.TextBox_Step.Text, False)
+        MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
         selectedItemValue = "EXIT"
         Me.Close()
     End Sub
@@ -58,14 +58,14 @@
             If selectedItemValue = MainForm.CurrentCheckPoint.UserInputAction.UserInputCorrect Then
                 ListView1.BackColor = Color.Green
                 MainForm.wait(1)
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, True)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
                 MainForm.Button2.PerformClick()
                 Me.Close()
             Else
                 ListView1.BackColor = Color.Red
                 MainForm.wait(1)
                 ListView1.BackColor = Color.White
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, False)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
                 ListView1.Items.Clear()
                 If inputValues.Length > 0 Then
                     Dim ShuffledItems = inputValues.OrderBy(Function() Rnd.Next).ToArray()
@@ -85,13 +85,13 @@
             selectedItemValue = ListView1.SelectedItems.Item(0).Text
             If selectedItemValue = MainForm.CurrentCheckPoint.UserInputAction.UserInputCorrect Then
                 ListView1.BackColor = Color.Green
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, True)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
                 MainForm.wait(1)
                 MainForm.Button2.PerformClick()
                 Me.Close()
             Else
                 ListView1.BackColor = Color.Red
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, False)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
                 MainForm.wait(1)
                 ListView1.BackColor = Color.White
                 ListView1.Items.Clear()

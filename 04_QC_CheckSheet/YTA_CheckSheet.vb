@@ -26,13 +26,25 @@
             If StepNo = 101 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo101(Initial, CustOrd, ErrMsg)
             If StepNo = 111 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo111(Initial, CustOrd, ErrMsg)
 
-            If MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)) = StepNo & "-" & True.ToString Then
-                MainForm.RichTextBox_Step.BackColor = Color.LightGreen
-            ElseIf MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)) = StepNo & "-" & False.ToString Then
-                MainForm.RichTextBox_Step.BackColor = Color.OrangeRed
-            Else
-                MainForm.RichTextBox_Step.BackColor = Color.Yellow
-            End If
+            MainForm.SetInspectionColor(StepNo.ToString)
+
+            '        If Not IsNothing(MainForm.AllCheckResult) And MainForm.AllCheckResult.Count > 0 Then
+            '            If MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).ProcessStep = StepNo _
+            'And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = True Then
+            '                MainForm.RichTextBox_Step.BackColor = Color.LightGreen
+            '            ElseIf MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).ProcessStep = StepNo _
+            '                And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = False Then
+            '                MainForm.RichTextBox_Step.BackColor = Color.OrangeRed
+            '            Else
+            '                MainForm.RichTextBox_Step.BackColor = Color.Yellow
+            '            End If
+            '        Else
+            '            MainForm.RichTextBox_Step.BackColor = Color.Yellow
+            '        End If
+
+
+
+
 
             Return ProcessStepReturn
         Catch ex As Exception

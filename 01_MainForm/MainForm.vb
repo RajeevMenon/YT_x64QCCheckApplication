@@ -9,11 +9,12 @@ Public Class MainForm
     Public Shared Setting As New Settings
 
     Public Initial As String
-    Public CurrentCheckPoint As CheckSheetStep
+    Public Shared CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
     Public CustOrd As POCO_YGSP.cust_ord
     Public Shared AllowedSteps As String()
-    Public Shared AllCheckResult As String()
+    'Public Shared AllCheckResult As List(Of CheckSheetStep)
+    Public Shared AllCheckResult As CheckSheetStep()
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = Me.Text & " [ Ver:" & Version & "]"
@@ -122,12 +123,92 @@ Public Class MainForm
 
         End Try
     End Sub
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Public Sub LastCheckPoint()
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
+            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
+
+            RichTextBox_ActivityToCheck.Text = "Wait.."
+            CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(StepNumbers.Length - 1)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+            If Not IsDBNull(CurrentCheckPoint) Then
+                If Not IsNothing(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                        RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                        TextBox_Step.Text = CurrentCheckPoint.StepNo
+                        RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                        RichTextBox_AutoSize(RichTextBox_Step)
+                        RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                        RichTextBox_ActivityToCheck.Refresh()
+                        PanelSubForm.Controls.Clear()
+
+                        If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                            Dim PSV As New ProcedureStepView
+                            PSV.TopLevel = False
+                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                            PanelSubForm.Controls.Add(PSV)
+                            PSV.AutoScroll = True
+                            PSV.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            PSV.PictureBox1.Select()
+                            PSV.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                            Dim SUI As SelectUserInput = New SelectUserInput
+                            SUI.TopLevel = False
+                            SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                            SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                            PanelSubForm.Controls.Add(SUI)
+                            'SUI.BringToFront()
+                            SUI.AutoScroll = True
+                            SUI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SUI.ListView1.Select()
+                            SUI.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                            Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                            SPI.TopLevel = False
+                            SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                            PanelSubForm.Controls.Add(SPI)
+                            SPI.AutoScroll = True
+                            SPI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SPI.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.DocumentCheck Then
+                            Dim VDOC As ViewDocument = New ViewDocument
+                            VDOC.TopLevel = False
+                            VDOC.curNaviageUrl = CurrentCheckPoint.ViewDocAction.PdfPath_DocumentCheck
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
+                        End If
+                    End If
+                End If
+            End If
+
+
+
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Try
+            Dim LoopStarted As Boolean = False
+            Dim ErMsg As String = ""
+            CurrentCheckPoint = New CheckSheetStep
             For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 To AllowedSteps.Length - 1 Step 1
+                LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."
+                PanelSubForm.Controls.Clear()
                 CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(AllowedSteps(i)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
@@ -194,16 +275,52 @@ Public Class MainForm
                 End If
             Next
 
+            If LoopStarted = False And RichTextBox_Step.BackColor <> Color.Yellow Then
+                Dim AllPass As Boolean = True
+                For Each item In AllCheckResult
+                    If Not item.CheckResult Like "*True*" Then
+                        AllPass = False
+                        Exit For
+                    End If
+                Next
+                If AllPass = True Then
+                    RichTextBox_ActivityToCheck.Text = ""
+                    RichTextBox_Step.Text = ""
+                    TextBox_Step.Text = ""
+                    RichTextBox_Step.BackColor = Color.White
+                    PanelSubForm.Controls.Clear()
+                    Dim BEY As New CompleteInspection
+                    BEY.TopLevel = False
+                    PanelSubForm.Controls.Add(BEY)
+                    BEY.AutoScroll = True
+                    BEY.Dock = DockStyle.Fill
+                    PanelSubForm.AutoScroll = True
+                    BEY.Show()
+                    BEY.Button1.Select()
+                Else
+                    FirstCheckPoint()
+                End If
+            End If
+
         Catch ex As Exception
 
         End Try
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
+            Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) - 1 To 0 Step -1
+            Dim StartIndex As Integer = 0
+            If TextBox_Step.Text = "" Then
+                StartIndex = AllowedSteps.Length
+            Else
+                StartIndex = Array.IndexOf(AllowedSteps, TextBox_Step.Text)
+            End If
+            For i As Integer = StartIndex - 1 To 0 Step -1
+                LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."
+                PanelSubForm.Controls.Clear()
                 CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(AllowedSteps(i)), Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint) Then
@@ -259,6 +376,32 @@ Public Class MainForm
                 End If
             Next
 
+            If LoopStarted = False And RichTextBox_Step.BackColor <> Color.Yellow Then
+                Dim AllPass As Boolean = True
+                For Each item In AllCheckResult
+                    If Not item.CheckResult Like "*True*" Then
+                        AllPass = False
+                        Exit For
+                    End If
+                Next
+                If AllPass = True Then
+                    RichTextBox_ActivityToCheck.Text = ""
+                    RichTextBox_Step.Text = ""
+                    TextBox_Step.Text = ""
+                    RichTextBox_Step.BackColor = Color.White
+                    PanelSubForm.Controls.Clear()
+                    Dim BEY As New CompleteInspection
+                    BEY.TopLevel = False
+                    PanelSubForm.Controls.Add(BEY)
+                    BEY.AutoScroll = True
+                    BEY.Dock = DockStyle.Fill
+                    PanelSubForm.AutoScroll = True
+                    BEY.Show()
+                    BEY.Button1.Select()
+                Else
+                    LastCheckPoint()
+                End If
+            End If
 
         Catch ex As Exception
 
@@ -317,12 +460,32 @@ Public Class MainForm
 
         End Try
     End Sub
-    Public Function InspectionStatus(ByVal InspectionStep As String, ByVal CheckResult As Boolean) As String
+    Public Function InspectionStatus(ByVal InspectionResult As CheckSheetStep, ByVal CheckResult As Boolean) As String
         Try
-            AllCheckResult(Array.IndexOf(AllowedSteps, InspectionStep)) = InspectionStep & "-" & CheckResult.ToString
+            InspectionResult.CheckResult = CheckResult
+            AllCheckResult(Array.IndexOf(AllowedSteps, InspectionResult.StepNo)) = InspectionResult
+            SetInspectionColor(InspectionResult.StepNo)
         Catch ex As Exception
 
         End Try
     End Function
+    Public Sub SetInspectionColor(ByVal StepNo As String)
+        Try
+            If Not IsNothing(MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString))) Then
+                If MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).StepNo = StepNo _
+    And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = True Then
+                    RichTextBox_Step.BackColor = Color.LightGreen
+                ElseIf MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).StepNo = StepNo _
+                        And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = False Then
+                    RichTextBox_Step.BackColor = Color.OrangeRed
+                Else
+                    RichTextBox_Step.BackColor = Color.Yellow
+                End If
+            Else
+                RichTextBox_Step.BackColor = Color.Yellow
+            End If
+        Catch ex As Exception
 
+        End Try
+    End Sub
 End Class

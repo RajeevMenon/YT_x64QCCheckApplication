@@ -123,12 +123,12 @@ Public Class SinglePointInstruction
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox1.ImageLocation)
             If SelectedSideFile = MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct Then
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, True)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
                 MainForm.Button2.PerformClick()
                 Me.Close()
             Else
                 RichTextBoxMessage.BackColor = Color.Red
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, False)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
                 MainForm.wait(1)
                 RichTextBoxMessage.BackColor = Color.PaleGreen
                 InputFeatures(MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, MainForm.CurrentCheckPoint.SinglePointAction.SPI_Message)
@@ -145,12 +145,12 @@ Public Class SinglePointInstruction
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox2.ImageLocation)
             If SelectedSideFile = MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct Then
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, True)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
                 MainForm.Button2.PerformClick()
                 Me.Close()
             Else
                 RichTextBoxMessage.BackColor = Color.Red
-                MainForm.InspectionStatus(MainForm.TextBox_Step.Text, False)
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
                 MainForm.wait(1)
                 RichTextBoxMessage.BackColor = Color.PaleGreen
                 InputFeatures(MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, MainForm.CurrentCheckPoint.SinglePointAction.SPI_Message)
