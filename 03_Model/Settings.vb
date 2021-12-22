@@ -5,4 +5,5 @@
     Public Property Var_04_MySql_QA As String
     Public Property Var_05_Factory As String
     Public Property Var_51_ProStepView_ImagePath As String
+    Public Property Var_52_SinglePntInst_ImagePath As String
 End Class

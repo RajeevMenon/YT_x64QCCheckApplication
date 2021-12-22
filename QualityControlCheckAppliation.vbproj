@@ -158,6 +158,9 @@
     <EmbeddedResource Include="02_SubForms\SelectUserInput.resx">
       <DependentUpon>SelectUserInput.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="02_SubForms\SinglePointInstruction.resx">
+      <DependentUpon>SinglePointInstruction.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>

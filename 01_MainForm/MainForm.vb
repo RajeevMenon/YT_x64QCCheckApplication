@@ -15,13 +15,29 @@ Public Class MainForm
         Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = Me.Text & " [ Ver:" & Version & "]"
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+        RichTextBox_Step.Enabled = False
+        RichTextBox_ActivityToCheck.Select()
+        RichTextBox_ActivityToCheck.Focus()
+    End Sub
 
-        Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
-        Dim FieldName As String = ""
-        Dim IndexNo = "100003859546"
-        If IndexNo.Length = 10 Then FieldName = "BAR" Else FieldName = "INDEX_NO"
-        CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
-        Button1.PerformClick()
+    Private Sub RichTextBox_ActivityToCheck_KeyDown(sender As Object, e As KeyEventArgs) Handles RichTextBox_ActivityToCheck.KeyDown
+        Try
+            If e.KeyCode = Keys.Enter Then
+                Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
+                Dim FieldName As String = ""
+                Dim IndexNo = "100003859546"
+                If IndexNo.Length = 10 Then FieldName = "BAR" Else FieldName = "INDEX_NO"
+                CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
+                If ErrMsg.Length > 0 Then
+                    MsgBox(ErrMsg)
+                Else
+                    RichTextBox_ActivityToCheck.ReadOnly = True
+                    Button2.PerformClick()
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -38,6 +54,9 @@ Public Class MainForm
                             RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
                             RichTextBox_AutoSize(RichTextBox_Step)
                             RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                            RichTextBox_ActivityToCheck.Refresh()
+                            PanelSubForm.Controls.Clear()
+
                             If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
                                 Dim PSV As New ProcedureStepView
                                 PSV.TopLevel = False
@@ -56,11 +75,23 @@ Public Class MainForm
                                 SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
                                 SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
                                 PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
                                 SUI.AutoScroll = True
                                 SUI.Dock = DockStyle.Fill
                                 PanelSubForm.AutoScroll = True
                                 SUI.ListView1.Select()
                                 SUI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                                Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                                SPI.TopLevel = False
+                                SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                                PanelSubForm.Controls.Add(SPI)
+                                SPI.AutoScroll = True
+                                SPI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SPI.Show()
                                 Me.Refresh()
                                 Exit For
                             End If
@@ -102,6 +133,72 @@ Public Class MainForm
             '        Exit For
             '    End If
             'End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            Dim ErMsg As String = ""
+            CurrentCheckPoint = New CheckSheetStep
+            For StepNumber As Integer = (Integer.Parse(RichTextBox_Step.Text) - 1) To 0 Step -1
+                RichTextBox_ActivityToCheck.Text = "Wait.."
+                CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=StepNumber, Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
+                If Not IsDBNull(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint) Then
+                        If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                            RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                            RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                            RichTextBox_AutoSize(RichTextBox_Step)
+                            RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                            RichTextBox_ActivityToCheck.Refresh()
+                            PanelSubForm.Controls.Clear()
+
+                            If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                                Dim PSV As New ProcedureStepView
+                                PSV.TopLevel = False
+                                PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                                PanelSubForm.Controls.Add(PSV)
+                                PSV.AutoScroll = True
+                                PSV.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                PSV.PictureBox1.Select()
+                                PSV.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                                Dim SUI As SelectUserInput = New SelectUserInput
+                                SUI.TopLevel = False
+                                SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                                SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                                PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
+                                SUI.AutoScroll = True
+                                SUI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SUI.ListView1.Select()
+                                SUI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                                Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                                SPI.TopLevel = False
+                                SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                                PanelSubForm.Controls.Add(SPI)
+                                SPI.AutoScroll = True
+                                SPI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SPI.Show()
+                                Me.Refresh()
+                                Exit For
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+
 
         Catch ex As Exception
 
@@ -162,5 +259,6 @@ Public Class MainForm
 
         End Try
     End Sub
+
 
 End Class

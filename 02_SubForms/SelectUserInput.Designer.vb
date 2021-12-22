@@ -68,7 +68,7 @@ Partial Class SelectUserInput
         '
         Me.RichTextBoxMessage.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RichTextBoxMessage.BackColor = System.Drawing.Color.PaleTurquoise
+        Me.RichTextBoxMessage.BackColor = System.Drawing.Color.PaleGreen
         Me.RichTextBoxMessage.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.RichTextBoxMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RichTextBoxMessage.Location = New System.Drawing.Point(12, 12)
@@ -81,7 +81,7 @@ Partial Class SelectUserInput
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.PaleTurquoise
+        Me.BackColor = System.Drawing.Color.PaleGreen
         Me.ClientSize = New System.Drawing.Size(615, 450)
         Me.ControlBox = False
         Me.Controls.Add(Me.RichTextBoxMessage)

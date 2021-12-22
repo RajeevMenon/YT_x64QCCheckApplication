@@ -43,11 +43,11 @@
                 Dim Source As Image
                 Source = Image.FromFile(PicturePath)
                 PictureBox1.Image = Source
-                If Source.Width > PictureBox1.ClientSize.Width OrElse Source.Height > PictureBox1.ClientSize.Height Then
-                    PictureBox1.SizeMode = PictureBoxSizeMode.AutoSize 'if image is larger than picturebox
-                Else
-                    PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage 'if image is smaller than picturebox
-                End If
+                'If Source.Width > PictureBox1.ClientSize.Width OrElse Source.Height > PictureBox1.ClientSize.Height Then
+                '    PictureBox1.SizeMode = PictureBoxSizeMode.AutoSize 'if image is larger than picturebox
+                'Else
+                '    PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage 'if image is smaller than picturebox
+                'End If
                 PictureBox1.Anchor = AnchorStyles.Top
 
                 'Me.DoubleBuffered = True
@@ -71,7 +71,7 @@
 
         End Try
     End Sub
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
         Try
             Result = Status.Finish
             MainForm.Button2.PerformClick()

@@ -1,7 +1,14 @@
 ﻿''' <summary>
 ''' Library to handle Single Point instruction check point with Images.
 ''' </summary>
-Public Class SinglePointInst
+Public Class SinglePointInstruction
+
+    Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As IntPtr, ByVal nIndex As Integer) As Integer
+    Public Declare Function GetSystemMetrics Lib "user32.dll" (ByVal nIndex As Integer) As Integer
+    Public Const GWL_STYLE As Integer = (-16)
+    Public Const WS_VSCROLL As Integer = &H200000
+    Public Const WS_HSCROLL As Integer = &H100000
+
     ''' <summary>
     ''' The path of Image file to be loaded on the LEFT view.
     ''' </summary>
@@ -44,6 +51,14 @@ Public Class SinglePointInst
 
     Private Sub SinglePointInstruction_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
+            LoadImage()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub LoadImage()
+        Try
             If LeftImage <> "" Then
                 Dim Source As Image
                 Source = Image.FromFile(LeftImage)
@@ -65,24 +80,40 @@ Public Class SinglePointInst
                 PictureBox2.Load(RightImage)
             End If
             RichTextBoxMessage.Text = Message
+            RichTextBox_AutoSize(RichTextBoxMessage)
+            PictureBox1.Select()
         Catch ex As Exception
 
         End Try
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox1.ImageLocation)
-            Me.Hide()
+            If SelectedSideFile Like "*" & MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct & "*" Then
+                MainForm.Button2.PerformClick()
+                Me.Close()
+            Else
+                InputFeatures(MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, MainForm.CurrentCheckPoint.SinglePointAction.SPI_Message)
+                LoadImage()
+                Me.Refresh()
+            End If
         Catch ex As Exception
 
         End Try
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs)
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox2.ImageLocation)
-            Me.Hide()
+            If SelectedSideFile Like "*" & MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct & "*" Then
+                MainForm.Button2.PerformClick()
+                Me.Close()
+            Else
+                InputFeatures(MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, MainForm.CurrentCheckPoint.SinglePointAction.SPI_Message)
+                LoadImage()
+                Me.Refresh()
+            End If
         Catch ex As Exception
 
         End Try
@@ -91,7 +122,18 @@ Public Class SinglePointInst
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox1.ImageLocation)
-            Me.Hide()
+            If SelectedSideFile Like "*" & MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct & "*" Then
+                MainForm.Button2.PerformClick()
+                Me.Close()
+            Else
+                RichTextBoxMessage.BackColor = Color.Red
+                MainForm.wait(1)
+                RichTextBoxMessage.BackColor = Color.PaleGreen
+                InputFeatures(MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, MainForm.CurrentCheckPoint.SinglePointAction.SPI_Message)
+                LoadImage()
+                Me.Refresh()
+            End If
+
         Catch ex As Exception
 
         End Try
@@ -100,9 +142,60 @@ Public Class SinglePointInst
     Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
         Try
             SelectedSideFile = System.IO.Path.GetFileName(PictureBox2.ImageLocation)
-            Me.Hide()
+            If SelectedSideFile Like "*" & MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_Correct & "*" Then
+                MainForm.Button2.PerformClick()
+                Me.Close()
+            Else
+                RichTextBoxMessage.BackColor = Color.Red
+                MainForm.wait(1)
+                RichTextBoxMessage.BackColor = Color.PaleGreen
+                InputFeatures(MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, MainForm.CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, MainForm.CurrentCheckPoint.SinglePointAction.SPI_Message)
+                LoadImage()
+                Me.Refresh()
+            End If
         Catch ex As Exception
 
         End Try
     End Sub
+
+    Private Sub RichTextBox_AutoSize(ByVal Rc As RichTextBox)
+        Try
+
+            'Center the text in the RichBox
+            Rc.SelectAll()
+            Rc.SelectionAlignment = HorizontalAlignment.Center
+            'Is scrollbar visible?
+            Dim bVScrollBar As Boolean
+            bVScrollBar = ((GetWindowLong(Rc.Handle, GWL_STYLE) And WS_VSCROLL) = WS_VSCROLL)
+            Select Case bVScrollBar
+                Case True
+                    'Scrollbar is visible - Make it smaller
+                    Do
+                        Rc.ZoomFactor = Rc.ZoomFactor - 0.01
+                        bVScrollBar = ((GetWindowLong(Rc.Handle, GWL_STYLE) And WS_VSCROLL) = WS_VSCROLL)
+                        'If the scrollbar is no longer visible we are done!
+                        If bVScrollBar = False Then Exit Do
+                    Loop
+                Case False
+                    'Scrollbar is not visible - Make it bigger
+                    Do
+                        Rc.ZoomFactor = Rc.ZoomFactor + 0.01
+                        bVScrollBar = ((GetWindowLong(Rc.Handle, GWL_STYLE) And WS_VSCROLL) = WS_VSCROLL)
+                        If bVScrollBar = True Then
+                            Do
+                                'Found the scrollbar, make smaller until bar is not visible
+                                Rc.ZoomFactor = Rc.ZoomFactor - 0.01
+                                bVScrollBar = ((GetWindowLong(Rc.Handle, GWL_STYLE) And WS_VSCROLL) = WS_VSCROLL)
+                                'If the scrollbar is no longer visible we are done!
+                                If bVScrollBar = False Then Exit Do
+                            Loop
+                            Exit Do
+                        End If
+                    Loop
+            End Select
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 End Class
