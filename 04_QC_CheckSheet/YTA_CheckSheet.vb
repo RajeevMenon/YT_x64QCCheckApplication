@@ -75,21 +75,6 @@
             Return Nothing
         End Try
     End Function
-
-    'Public Function ProcessStepNo22(ByVal Initial As String) As CheckSheetStep
-    '    Try
-    '        Dim ProcessStepReturn As New CheckSheetStep
-    '        ProcessStepReturn.ProcessNo = "22"
-    '        ProcessStepReturn.ProcessStep = "Parts correctness"
-    '        ProcessStepReturn.ActivityToCheck = "Complete unit And KD Part correctness check. Part numbers And Quantity As per Bill Of Material"
-    '        ProcessStepReturn.Method = CheckSheetStep.MethodOption.ProcedureStep
-    '        ProcessStepReturn.Initial = Initial
-    '        ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_51_ProStepView_ImagePath & "YTA\20\" & "B_J_Bracket.jpg"
-    '        Return ProcessStepReturn
-    '    Catch ex As Exception
-    '        Return Nothing
-    '    End Try
-    'End Function
     Public Function ProcessStepNo31(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
