@@ -555,9 +555,11 @@
             If CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                 ProcessStepReturn.ProcessNo = "90"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-
+                ProcessStepReturn.Activity = "Display Cover Assembling"
+                ProcessStepReturn.ToCheck = "Clean & No galling"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.StepNo_Group = "91"
 
                 ProcessStepReturn.StepNo = "91"
                 ProcessStepReturn.ActivityToCheck = "Display Cover Assembling"
@@ -566,6 +568,7 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Galling.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Galling.jpg"
             End If
+            ProcessStepReturn.Result = "Tick-13,70,30.6"
             Return ProcessStepReturn
 
 
