@@ -136,7 +136,6 @@
             Return Nothing
         End Try
     End Function
-
     Public Function ProcessStepNo32(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
@@ -251,15 +250,20 @@
                 End If
 
                 Dim ProcessStepReturn As New CheckSheetStep
-                ProcessStepReturn.StepNo = "41"
                 ProcessStepReturn.ProcessNo = "40"
-                ProcessStepReturn.ProcessStep = "Data Plate Mounting"
-                ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
+                ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
+                ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
+                ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
                 ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.StepNo_Group = "41,42"
+
+                ProcessStepReturn.StepNo = "41"
+                ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
                 ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Plate Part number from below list and Click SELECT button."
                 ProcessStepReturn.UserInputAction.UserInputList = SelParts
                 ProcessStepReturn.UserInputAction.UserInputCorrect = PlatePartNo
+                ProcessStepReturn.Result = PlatePartNo & "-8,62,21.8"
                 Return ProcessStepReturn
 
             End If
@@ -272,16 +276,22 @@
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.StepNo = "42"
             ProcessStepReturn.ProcessNo = "40"
-            ProcessStepReturn.ProcessStep = "Data Plate Mounting"
-            ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
+            ProcessStepReturn.ProcessNo = "40"
+            ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
+            ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
+            ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
+            ProcessStepReturn.StepNo_Group = "41,42"
+
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo = "42"
+            ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Screw Tightness/Appearance]Is the Plate fixed correctly with No space or raised edges."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "Nameplate_with_gaps.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "NamePlate_Edge_Correct.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_Edge_Correct.jpg"
+            ProcessStepReturn.Result = "OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
             Return ProcessStepReturn
 
 
