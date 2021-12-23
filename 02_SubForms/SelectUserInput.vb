@@ -143,4 +143,11 @@
         End Try
     End Sub
 
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            MainForm.PrintQcc_Rev1()
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Class

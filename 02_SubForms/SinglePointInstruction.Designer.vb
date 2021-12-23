@@ -30,6 +30,7 @@ Partial Class SinglePointInstruction
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -52,6 +53,7 @@ Partial Class SinglePointInstruction
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Button2)
         Me.GroupBox1.Controls.Add(Me.PictureBox1)
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox1.Location = New System.Drawing.Point(3, 3)
@@ -141,6 +143,16 @@ Partial Class SinglePointInstruction
         Me.TableLayoutPanel2.Size = New System.Drawing.Size(799, 352)
         Me.TableLayoutPanel2.TabIndex = 3
         '
+        'Button2
+        '
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.Location = New System.Drawing.Point(350, 318)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(37, 23)
+        Me.Button2.TabIndex = 3
+        Me.Button2.Text = "P"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'SinglePointInstruction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -171,4 +183,5 @@ Partial Class SinglePointInstruction
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
     Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
 End Class

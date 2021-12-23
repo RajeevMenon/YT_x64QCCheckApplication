@@ -16,10 +16,12 @@ Public Class MainForm
     Public Shared AllowedSteps As String()
     'Public Shared AllCheckResult As List(Of CheckSheetStep)
     Public Shared AllCheckResult As CheckSheetStep()
+    Dim TmlEntityQA As MFG_ENTITY.Op
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = Me.Text & " [ Ver:" & Version & "]"
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+        TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
         AllowedSteps = Setting.Var_08_StepsAllowed.Split(",")
         ReDim AllCheckResult(AllowedSteps.Length - 1)
         Dim BEY As New Login
@@ -486,7 +488,7 @@ Public Class MainForm
         Try
             If Not IsNothing(AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString))) Then
                 If AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).StepNo = StepNo _
-    And MainForm.AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).CheckResult = True Then
+    And AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).CheckResult = True Then
                     RichTextBox_Step.BackColor = Color.LightGreen
                 ElseIf AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).StepNo = StepNo _
                         And AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).CheckResult = False Then
@@ -614,4 +616,167 @@ Public Class MainForm
 
         End Try
     End Sub
+    Public Sub PrintQcc_Rev0()
+        Try
+            Dim ErrMsg As String = ""
+            QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
+            If QcData.Count > 0 Then
+                Dim BlankDoc As String = Setting.Var_06_DocsStore & "Production Release Documents\QC Check Sheets\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
+                Dim FinalDoc As String = Setting.Var_06_DocsStore & "Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+                Dim UseDoc As New PdfSharp.Pdf.PdfDocument
+                If System.IO.File.Exists(FinalDoc) Then
+                    Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
+                    For Each QcWrite In QcData
+                        Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
+                        For Each WriteParam In WriteParams
+                            Dim WriteInput = WriteParam.Split("-")(0)
+                            Dim WriteSXY = WriteParam.Split("-")(1)
+                            Dim WriteS = WriteSXY.Split(",")(0)
+                            Dim WriteX = WriteSXY.Split(",")(1)
+                            Dim WriteY = WriteSXY.Split(",")(2)
+                            Dim TextToWrite As String = WriteInput
+                            Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
+                            If WriteInput = "Tick" Then
+                                TextToWrite = "ü"
+                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                            End If
+                            Dim WP As New OpenPdfOperation.WriteTextParameters With {
+                                        .Name = FontToWrite,
+                                        .Colour = OpenPdfOperation.FileOp.FontColor.Black,
+                                        .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                        .TextSize = Integer.Parse(WriteS),
+                                        .TextValue = TextToWrite,
+                                        .X_Position = CDbl(WriteX / 100),
+                                        .Y_Position = CDbl(WriteY / 100)}
+                            Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
+                            WPS.Add(WP)
+                            'OpenPdfOperation.FileOp.PDF_WriteText(FinalDoc, FinalDoc, WPS, ErrMsg)
+                            OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+                            If ErrMsg.Length > 0 Then
+                                MsgBox(ErrMsg)
+                                Exit Sub
+                            End If
+                        Next
+                    Next
+                    P_Doc.Save(FinalDoc)
+                    Process.Start(FinalDoc)
+                ElseIf System.IO.File.Exists(BlankDoc) Then
+                    Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
+                    For Each QcWrite In QcData
+                        Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
+                        For Each WriteParam In WriteParams
+                            Dim WriteInput = WriteParam.Split("-")(0)
+                            Dim WriteSXY = WriteParam.Split("-")(1)
+                            Dim WriteS = WriteSXY.Split(",")(0)
+                            Dim WriteX = WriteSXY.Split(",")(1)
+                            Dim WriteY = WriteSXY.Split(",")(2)
+                            Dim TextToWrite As String = WriteInput
+                            Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
+                            If WriteInput = "Tick" Then
+                                TextToWrite = "ü"
+                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                            ElseIf WriteInput = "Circle" Then
+                                TextToWrite = "¡"
+                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                            ElseIf WriteInput = "Cross" Then
+                                TextToWrite = "û"
+                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                            End If
+                            Dim WP As New OpenPdfOperation.WriteTextParameters With {
+                                        .Name = FontToWrite,
+                                        .Colour = OpenPdfOperation.FileOp.FontColor.Blue,
+                                        .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                        .TextSize = Integer.Parse(WriteS),
+                                        .TextValue = TextToWrite,
+                                        .X_Position = CDbl(WriteX / 100),
+                                        .Y_Position = CDbl(WriteY / 100)}
+                            Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
+                            WPS.Add(WP)
+                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                            OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+                            If ErrMsg.Length > 0 Then
+                                MsgBox(ErrMsg)
+                                Exit Sub
+                            End If
+                        Next
+                    Next
+                    P_Doc.Save(FinalDoc)
+                    Process.Start(FinalDoc)
+                Else
+                    MsgBox("QC Template Not created in TML System. Please create it first.")
+                    Exit Sub
+                End If
+
+
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Public Sub PrintQcc_Rev1()
+        Try
+            Dim ErrMsg As String = ""
+            QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
+            If QcData.Count > 0 Then
+                Dim BlankDoc As String = Setting.Var_06_DocsStore & "Production Release Documents\QC Check Sheets\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
+                Dim FinalDoc As String = Setting.Var_06_DocsStore & "Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+                Dim UseDoc As New PdfSharp.Pdf.PdfDocument
+                If System.IO.File.Exists(BlankDoc) Then
+                    Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
+                    For Each QcWrite In QcData
+                        Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
+                        For Each WriteParam In WriteParams
+                            Dim WriteInput = WriteParam.Split("-")(0)
+                            Dim WriteSXY = WriteParam.Split("-")(1)
+                            Dim WriteS = WriteSXY.Split(",")(0)
+                            Dim WriteX = WriteSXY.Split(",")(1)
+                            Dim WriteY = WriteSXY.Split(",")(2)
+                            Dim TextToWrite As String = WriteInput
+                            Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
+                            If WriteInput = "Tick" Then
+                                TextToWrite = "ü"
+                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                            ElseIf WriteInput = "Circle" Then
+                                TextToWrite = "¡"
+                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                            ElseIf WriteInput = "Cross" Then
+                                TextToWrite = "û"
+                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                            End If
+                            Dim WP As New OpenPdfOperation.WriteTextParameters With {
+                                        .Name = FontToWrite,
+                                        .Colour = OpenPdfOperation.FileOp.FontColor.Blue,
+                                        .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                        .TextSize = Integer.Parse(WriteS),
+                                        .TextValue = TextToWrite,
+                                        .X_Position = CDbl(WriteX / 100),
+                                        .Y_Position = CDbl(WriteY / 100)}
+                            Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
+                            WPS.Add(WP)
+                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                            OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+                            If ErrMsg.Length > 0 Then
+                                MsgBox(ErrMsg)
+                                Exit Sub
+                            End If
+                        Next
+                    Next
+                    P_Doc.Save(FinalDoc)
+                    Process.Start(FinalDoc)
+                Else
+                    MsgBox("QC Template Not created in TML System. Please create it first.")
+                    Exit Sub
+                End If
+
+
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 End Class

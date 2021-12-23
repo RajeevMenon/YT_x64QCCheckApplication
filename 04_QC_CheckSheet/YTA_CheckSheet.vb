@@ -25,10 +25,13 @@
 
             If StepNo = 71 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo71(Initial, CustOrd, ErrMsg)
             If StepNo = 72 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo72(Initial, CustOrd, ErrMsg)
+
             If StepNo = 81 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo81(Initial, CustOrd, ErrMsg)
             If StepNo = 91 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo91(Initial, CustOrd, ErrMsg)
             If StepNo = 101 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo101(Initial, CustOrd, ErrMsg)
+
             If StepNo = 111 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo111(Initial, CustOrd, ErrMsg)
+            If StepNo = 112 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo112(Initial, CustOrd, ErrMsg)
 
             MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
 
@@ -626,11 +629,11 @@
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "110"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.Activity = "Ground Screws Fixing"
-            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL"
+            ProcessStepReturn.Activity = "Ground Screws Fixing/DLM QR Label Fixing"
+            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "111"
+            ProcessStepReturn.StepNo_Group = "111,112"
 
             ProcessStepReturn.StepNo = "111"
             ProcessStepReturn.ActivityToCheck = "External Ground Screw"
@@ -653,6 +656,32 @@
             Return Nothing
         End Try
     End Function
+    Public Function ProcessStepNo112(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
 
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "110"
+            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.Activity = "Ground Screws Fixing/DLM QR Label Fixing"
+            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "111,112"
+
+            ProcessStepReturn.StepNo = "112"
+            ProcessStepReturn.ActivityToCheck = "DLM QR Label Fixing"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "[Affix QR Label] Confirm QR Label Attached"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithOutQR_Label.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithQR_Label.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithQR_Label.jpg"
+
+            ProcessStepReturn.Result = "Tick-13,70,36.5"
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
 #End Region
 End Class
