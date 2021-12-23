@@ -51,6 +51,9 @@
     <Reference Include="MFG_ENTITY">
       <HintPath>..\..\OTHERS\MVC_MODEL\MFG_ENTITY\bin\Debug\MFG_ENTITY.dll</HintPath>
     </Reference>
+    <Reference Include="OpenPdfOperation">
+      <HintPath>..\..\OTHERS\LIBRARY\OpenPdfOperation\bin\Debug\OpenPdfOperation.dll</HintPath>
+    </Reference>
     <Reference Include="POCO_QA">
       <HintPath>..\..\OTHERS\MVC_MODEL\POCO_QA\bin\Debug\POCO_QA.dll</HintPath>
     </Reference>

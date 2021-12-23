@@ -113,4 +113,13 @@
         End Try
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            Me.Close()
+            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+            MainForm.ShowCompleteInspection()
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Class

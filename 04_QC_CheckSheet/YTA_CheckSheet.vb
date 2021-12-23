@@ -5,7 +5,7 @@
         Try
             Dim ProcessStepReturn As New CheckSheetStep
 
-            If StepNo = 11 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo11(Initial, CustOrd, ErrMsg)
+            'If StepNo = 11 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo11(Initial, CustOrd, ErrMsg)
 
             If StepNo = 21 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo21(Initial, CustOrd, ErrMsg)
 
@@ -26,7 +26,7 @@
             If StepNo = 101 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo101(Initial, CustOrd, ErrMsg)
             If StepNo = 111 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo111(Initial, CustOrd, ErrMsg)
 
-            MainForm.SetInspectionColor(StepNo.ToString)
+            MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
 
             '        If Not IsNothing(MainForm.AllCheckResult) And MainForm.AllCheckResult.Count > 0 Then
             '            If MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).ProcessStep = StepNo _
@@ -55,38 +55,48 @@
 
 #Region "Version 1.2"
 
-    Public Function ProcessStepNo11(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-        Try
-            Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.StepNo = "11"
-            ProcessStepReturn.ProcessNo = "10"
-            ProcessStepReturn.ProcessStep = "Line Receiving Inspection "
-            ProcessStepReturn.ActivityToCheck = "Check QC Checksheet correctness."
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
-            ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "QCC Correct?."
-            'ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = MainForm.Setting.Var_06_DocsStore & "Production Release Documents\OrderTag\" &
-            '    "" & CustOrd.PROD_NO & "\" & "Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-OrderTag.pdf"
-            ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = MainForm.Setting.Var_06_DocsStore & "Production Release Documents\QC Check Sheets\" &
-                "" & CustOrd.PROD_NO & "\" & "Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
-            Return ProcessStepReturn
+    'Public Function ProcessStepNo11(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    '    Try
+    '        Dim ProcessStepReturn As New CheckSheetStep
+    '        ProcessStepReturn.ProcessNo = "10"
+    '        ProcessStepReturn.ProcessStep = "Line Receiving Inspection "
+    '        ProcessStepReturn.Activity = ""
+    '        ProcessStepReturn.ToCheck = ""
+    '        ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
+    '        ProcessStepReturn.Initial = Initial
 
-        Catch ex As Exception
-            Return Nothing
-        End Try
-    End Function
+    '        ProcessStepReturn.StepNo = "11"
+    '        ProcessStepReturn.StepNo_Group = "11"
+    '        ProcessStepReturn.ActivityToCheck = "Check QC Checksheet correctness."
+    '        ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "QCC Correct?."
+    '        'ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = MainForm.Setting.Var_06_DocsStore & "Production Release Documents\OrderTag\" &
+    '        '    "" & CustOrd.PROD_NO & "\" & "Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-OrderTag.pdf"
+    '        ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = MainForm.Setting.Var_06_DocsStore & "Production Release Documents\QC Check Sheets\" &
+    '            "" & CustOrd.PROD_NO & "\" & "Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
+    '        Return ProcessStepReturn
+
+    '    Catch ex As Exception
+    '        Return Nothing
+    '    End Try
+    'End Function
     Public Function ProcessStepNo21(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim ProcessStepReturn As New CheckSheetStep
             Dim RL_Tag As New TML_Library.RandomArray
             Dim SelPartsSNO = RL_Tag.RandomStringArraySERIAL(CustOrd.SERIAL_NO_BEFORE, 4)
-            ProcessStepReturn.StepNo = "21"
+
             ProcessStepReturn.ProcessNo = "20"
             ProcessStepReturn.ProcessStep = "Parts correctness"
+            ProcessStepReturn.Activity = "Complete unit and KD Part correctness check"
+            ProcessStepReturn.ToCheck = "Part numbers and Quantity as per Bill of Material"
             ProcessStepReturn.ActivityToCheck = "Check Complete Unit Correctly Picked."
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate Of before Modificaiton unit."
+            ProcessStepReturn.Result = "Tick-0,0$Initial-0,0"
+
+            ProcessStepReturn.StepNo = "21"
+            ProcessStepReturn.StepNo_Group = "21"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate of before Modificaiton unit."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsSNO
             ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.SERIAL_NO_BEFORE
             Return ProcessStepReturn

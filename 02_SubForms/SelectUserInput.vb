@@ -24,7 +24,6 @@
             selectedItemValue = "NaN"
         End Try
     End Sub
-
     Private Sub SelectUserInput_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
             Result = Status.Start
@@ -43,14 +42,13 @@
             selectedItemValue = "NaN"
         End Try
     End Sub
-
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Result = Status.InActive
-        MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
         selectedItemValue = "EXIT"
         Me.Close()
+        MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+        MainForm.ShowCompleteInspection()
     End Sub
-
     Private Sub ListView1_MouseDoubleClick(sender As Object, e As EventArgs) Handles ListView1.MouseDoubleClick
         Try
             Result = Status.Finish
@@ -78,7 +76,6 @@
             selectedItemValue = "NaN"
         End Try
     End Sub
-
     Private Sub ListView1_MouseClick(sender As Object, e As MouseEventArgs) Handles ListView1.MouseClick
         Try
             Result = Status.Finish
@@ -106,7 +103,6 @@
             selectedItemValue = "NaN"
         End Try
     End Sub
-
     Private Sub RichTextBox_AutoSize(ByVal Rc As RichTextBox)
         Try
 

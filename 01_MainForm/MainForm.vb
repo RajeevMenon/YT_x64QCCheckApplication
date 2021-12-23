@@ -12,6 +12,7 @@ Public Class MainForm
     Public Shared CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
     Public CustOrd As POCO_YGSP.cust_ord
+    Public QcData As List(Of POCO_QA.yta_qcc_v1p2)
     Public Shared AllowedSteps As String()
     'Public Shared AllCheckResult As List(Of CheckSheetStep)
     Public Shared AllCheckResult As CheckSheetStep()
@@ -284,19 +285,20 @@ Public Class MainForm
                     End If
                 Next
                 If AllPass = True Then
-                    RichTextBox_ActivityToCheck.Text = ""
-                    RichTextBox_Step.Text = ""
-                    TextBox_Step.Text = ""
-                    RichTextBox_Step.BackColor = Color.White
-                    PanelSubForm.Controls.Clear()
-                    Dim BEY As New CompleteInspection
-                    BEY.TopLevel = False
-                    PanelSubForm.Controls.Add(BEY)
-                    BEY.AutoScroll = True
-                    BEY.Dock = DockStyle.Fill
-                    PanelSubForm.AutoScroll = True
-                    BEY.Show()
-                    BEY.Button1.Select()
+                    ShowCompleteInspection()
+                    'RichTextBox_ActivityToCheck.Text = ""
+                    'RichTextBox_Step.Text = ""
+                    'TextBox_Step.Text = ""
+                    'RichTextBox_Step.BackColor = Color.White
+                    'PanelSubForm.Controls.Clear()
+                    'Dim BEY As New CompleteInspection
+                    'BEY.TopLevel = False
+                    'PanelSubForm.Controls.Add(BEY)
+                    'BEY.AutoScroll = True
+                    'BEY.Dock = DockStyle.Fill
+                    'PanelSubForm.AutoScroll = True
+                    'BEY.Show()
+                    'BEY.Button1.Select()
                 Else
                     FirstCheckPoint()
                 End If
@@ -385,19 +387,20 @@ Public Class MainForm
                     End If
                 Next
                 If AllPass = True Then
-                    RichTextBox_ActivityToCheck.Text = ""
-                    RichTextBox_Step.Text = ""
-                    TextBox_Step.Text = ""
-                    RichTextBox_Step.BackColor = Color.White
-                    PanelSubForm.Controls.Clear()
-                    Dim BEY As New CompleteInspection
-                    BEY.TopLevel = False
-                    PanelSubForm.Controls.Add(BEY)
-                    BEY.AutoScroll = True
-                    BEY.Dock = DockStyle.Fill
-                    PanelSubForm.AutoScroll = True
-                    BEY.Show()
-                    BEY.Button1.Select()
+                    ShowCompleteInspection()
+                    'RichTextBox_ActivityToCheck.Text = ""
+                    'RichTextBox_Step.Text = ""
+                    'TextBox_Step.Text = ""
+                    'RichTextBox_Step.BackColor = Color.White
+                    'PanelSubForm.Controls.Clear()
+                    'Dim BEY As New CompleteInspection
+                    'BEY.TopLevel = False
+                    'PanelSubForm.Controls.Add(BEY)
+                    'BEY.AutoScroll = True
+                    'BEY.Dock = DockStyle.Fill
+                    'PanelSubForm.AutoScroll = True
+                    'BEY.Show()
+                    'BEY.Button1.Select()
                 Else
                     LastCheckPoint()
                 End If
@@ -469,21 +472,54 @@ Public Class MainForm
 
         End Try
     End Function
-    Public Sub SetInspectionColor(ByVal StepNo As String)
+    Public Sub SetInspectionColor(ByVal StepNo As String, Optional ByVal ProcessNo As String = "")
         Try
-            If Not IsNothing(MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString))) Then
-                If MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).StepNo = StepNo _
-    And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = True Then
+            If Not IsNothing(AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString))) Then
+                If AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).StepNo = StepNo _
+    And MainForm.AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).CheckResult = True Then
                     RichTextBox_Step.BackColor = Color.LightGreen
-                ElseIf MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).StepNo = StepNo _
-                        And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = False Then
+                ElseIf AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).StepNo = StepNo _
+                        And AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).CheckResult = False Then
                     RichTextBox_Step.BackColor = Color.OrangeRed
                 Else
                     RichTextBox_Step.BackColor = Color.Yellow
                 End If
             Else
-                RichTextBox_Step.BackColor = Color.Yellow
+                If QcData.Count > 0 Then
+                    For Each Item In QcData
+                        If Item.PROCESS_NO = ProcessNo Then
+                            If Item.REMARK Like "*GO*" Then
+                                RichTextBox_Step.BackColor = Color.LightGreen
+                            ElseIf Item.REMARK Like "*NG*" Then
+                                RichTextBox_Step.BackColor = Color.OrangeRed
+                            Else
+                                RichTextBox_Step.BackColor = Color.Yellow
+                            End If
+                        End If
+                    Next
+                Else
+                    RichTextBox_Step.BackColor = Color.Yellow
+                End If
             End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Public Sub ShowCompleteInspection()
+        Try
+            RichTextBox_ActivityToCheck.Text = ""
+            RichTextBox_Step.Text = ""
+            TextBox_Step.Text = ""
+            RichTextBox_Step.BackColor = Color.White
+            PanelSubForm.Controls.Clear()
+            Dim BEY As New CompleteInspection
+            BEY.TopLevel = False
+            PanelSubForm.Controls.Add(BEY)
+            BEY.AutoScroll = True
+            BEY.Dock = DockStyle.Fill
+            PanelSubForm.AutoScroll = True
+            BEY.Show()
+            BEY.Button1.Select()
         Catch ex As Exception
 
         End Try

@@ -56,13 +56,13 @@ Partial Class SelectUserInput
         '
         'Button2
         '
-        Me.Button2.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold)
-        Me.Button2.Location = New System.Drawing.Point(479, 395)
+        Me.Button2.Location = New System.Drawing.Point(567, 395)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(124, 43)
+        Me.Button2.Size = New System.Drawing.Size(36, 27)
         Me.Button2.TabIndex = 2
-        Me.Button2.Text = "CANCEL"
+        Me.Button2.Text = "X"
         Me.Button2.UseVisualStyleBackColor = True
         '
         'SelectUserInput
