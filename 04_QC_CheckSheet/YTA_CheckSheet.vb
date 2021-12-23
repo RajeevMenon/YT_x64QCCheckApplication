@@ -581,30 +581,38 @@
 
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA*" Then
-                ProcessStepReturn.StepNo = "101"
                 ProcessStepReturn.ProcessNo = "100"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.ActivityToCheck = "[Screw Tighten/Appearance] Lightning Arrestor Check"
+                ProcessStepReturn.Activity = "Lightning Protector"
+                ProcessStepReturn.ToCheck = "ADDED    REMOVED    NO-CHANGE"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.StepNo_Group = "101"
+
+                ProcessStepReturn.StepNo = "101"
+                ProcessStepReturn.ActivityToCheck = "[Screw Tighten/Appearance] Lightning Arrestor Check"
                 If Not CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Lightning Arrestor Installed?"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
+                    ProcessStepReturn.Result = "Circle-16,47.4,33.3"
                 ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And Not CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Confirm Lightning Arrestor Status?"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Removed.jpg"
+                    ProcessStepReturn.Result = "Circle-16,55,33.3"
                 ElseIf Not CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And Not CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Confirm Lightning Arrestor Status?"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                    ProcessStepReturn.Result = "Circle-16,63,33.3"
                 End If
 
             End If
+            ProcessStepReturn.Result &= "$Tick-13,70,33.6"
             Return ProcessStepReturn
 
 
@@ -616,29 +624,28 @@
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "110"
+            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.Activity = "Ground Screws Fixing"
+            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "111"
+
+            ProcessStepReturn.StepNo = "111"
+            ProcessStepReturn.ActivityToCheck = "External Ground Screw"
             If CustOrd.MS_CODE Like "YTA[67]10-???????*/[KS][UFS][12]*" Then
-                ProcessStepReturn.StepNo = "111"
-                ProcessStepReturn.ProcessNo = "110"
-                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.ActivityToCheck = "External Ground Screw"
-                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-                ProcessStepReturn.Initial = Initial
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Screw tighten/Appearance] Confirm Type of Ground Screw Installed ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "ExtEarth_w_Washer.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "ExtEarth_wo_Washer.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "ExtEarth_w_Washer.jpg"
             Else
-                ProcessStepReturn.StepNo = "111"
-                ProcessStepReturn.ProcessNo = "110"
-                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.ActivityToCheck = "External Ground Screw"
-                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-                ProcessStepReturn.Initial = Initial
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Screw tighten/Appearance] Confirm Type of Ground Screw Installed ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "ExtEarth_w_Washer.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "ExtEarth_wo_Washer.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "ExtEarth_wo_Washer.jpg"
             End If
+            ProcessStepReturn.Result = "Tick-13,70,35"
             Return ProcessStepReturn
 
 
