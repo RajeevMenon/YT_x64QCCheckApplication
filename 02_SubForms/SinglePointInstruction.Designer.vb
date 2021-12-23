@@ -26,10 +26,10 @@ Partial Class SinglePointInstruction
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -86,6 +86,16 @@ Partial Class SinglePointInstruction
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "TYPE-2"
         '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(357, 317)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(37, 23)
+        Me.Button1.TabIndex = 2
+        Me.Button1.Text = "X"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'PictureBox2
         '
         Me.PictureBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -130,15 +140,6 @@ Partial Class SinglePointInstruction
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.TableLayoutPanel2.Size = New System.Drawing.Size(799, 352)
         Me.TableLayoutPanel2.TabIndex = 3
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(357, 317)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(37, 23)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "X"
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'SinglePointInstruction
         '

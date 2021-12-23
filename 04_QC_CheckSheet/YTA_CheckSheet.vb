@@ -1,6 +1,7 @@
 ﻿Public Class YTA_CheckSheet
 
 #Region "Common"
+
     Public Shared Function ProcessStepNo(ByVal StepNo As Integer, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim ProcessStepReturn As New CheckSheetStep
@@ -92,11 +93,11 @@
             ProcessStepReturn.ActivityToCheck = "Check Complete Unit Correctly Picked."
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.Result = "Tick-0,0$Initial-0,0"
+            ProcessStepReturn.Result = "Tick-13,70,18$" & Initial & "-11,84,18$" & CustOrd.SERIAL_NO_BEFORE & "-10,83,9.7"
 
             ProcessStepReturn.StepNo = "21"
             ProcessStepReturn.StepNo_Group = "21"
-            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate of before Modificaiton unit."
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate Of before Modificaiton unit."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsSNO
             ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.SERIAL_NO_BEFORE
             Return ProcessStepReturn
@@ -111,35 +112,51 @@
             Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.StepNo = "31"
             ProcessStepReturn.ProcessNo = "30"
-            ProcessStepReturn.ProcessStep = "Tag Plate Marking"
-            ProcessStepReturn.ActivityToCheck = "Tag Plates With correct contents."
+            ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Marking"
+            ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
+            ProcessStepReturn.ToCheck = "Country of Origin"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed In the plate And Click Select button."
-            ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
-            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            ProcessStepReturn.StepNo_Group = "31,32,33,34"
+
+            ProcessStepReturn.StepNo = "31"
+            ProcessStepReturn.ActivityToCheck = "Prepare Data Plates with correct COO."
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the COO printed In the plate."
+            ProcessStepReturn.UserInputAction.UserInputList = {"Made In China", "Made In Japan", "Made In KSA", "Made In Singapore"}
+            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
+                ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
+            Else
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
+                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-15,69,21$" & Initial & "-11,84,20"
+            End If
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
         End Try
     End Function
+
     Public Function ProcessStepNo32(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
             Dim SelPartsSNO = RL_Tag.RandomStringArraySERIAL(CustOrd.SERIAL_NO, 4)
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.StepNo = "32"
             ProcessStepReturn.ProcessNo = "30"
-            ProcessStepReturn.ProcessStep = "Date Plate Marking"
-            ProcessStepReturn.ActivityToCheck = "Date Plates With correct contents."
+            ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Marking"
+            ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
+            ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "31,32,33,34"
+
+            ProcessStepReturn.StepNo = "32"
+            ProcessStepReturn.ActivityToCheck = "Date Plates With correct contents."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate And Click Select button."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsSNO
             ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.SERIAL_NO
+            ProcessStepReturn.Result = ""
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
@@ -151,19 +168,20 @@
             Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.StepNo = "33"
             ProcessStepReturn.ProcessNo = "30"
-            ProcessStepReturn.ProcessStep = "Data Plate Marking"
-            ProcessStepReturn.ActivityToCheck = "Data Plates With correct COO."
+            ProcessStepReturn.ProcessStep = "Tag Plate Marking"
+            ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
+            ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the COO printed In the plate."
-            ProcessStepReturn.UserInputAction.UserInputList = {"Made In China", "Made In Japan", "Made In KSA", "Made In Singapore"}
-            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
-                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
-            Else
-                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
-            End If
+            ProcessStepReturn.StepNo_Group = "31,32,33,34"
+
+            ProcessStepReturn.StepNo = "33"
+            ProcessStepReturn.ActivityToCheck = "Tag Plates With correct contents."
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed In the plate And Click Select button."
+            ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
+            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            ProcessStepReturn.Result = ""
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
@@ -173,20 +191,27 @@
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.StepNo = "34"
             ProcessStepReturn.ProcessNo = "30"
             ProcessStepReturn.ProcessStep = "Data Plate Marking"
-            ProcessStepReturn.ActivityToCheck = "RoHS Confirmatatory Marking"
+            ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
+            ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "31,32,33,34"
+
+            ProcessStepReturn.StepNo = "34"
+            ProcessStepReturn.ActivityToCheck = "RoHS Confirmatatory Marking"
             ProcessStepReturn.SinglePointAction.SPI_Message = "The Plate has which Of the following [with CE Or without CE]. This Is sample picture, so don't check other contents."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_with_CE.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_without_CE.jpg"
             If CustOrd.SERIAL_NO_BEFORE Like "S5WC*" Or CustOrd.SERIAL_NO_BEFORE Like "S5X1*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_without_CE.jpg"
+                ProcessStepReturn.Result = "Yes without CE-8,57,20.6"
             Else
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_with_CE.jpg"
+                ProcessStepReturn.Result = "Yes with CE-8,57,20.6"
             End If
+
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing

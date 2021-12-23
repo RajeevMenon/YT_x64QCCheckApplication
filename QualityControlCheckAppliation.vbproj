@@ -54,6 +54,12 @@
     <Reference Include="OpenPdfOperation">
       <HintPath>..\..\OTHERS\LIBRARY\OpenPdfOperation\bin\Debug\OpenPdfOperation.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="POCO_QA">
       <HintPath>..\..\OTHERS\MVC_MODEL\POCO_QA\bin\Debug\POCO_QA.dll</HintPath>
     </Reference>
@@ -219,6 +225,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="00_Settings\Settings.txt" />

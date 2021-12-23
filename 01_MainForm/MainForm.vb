@@ -276,10 +276,15 @@ Public Class MainForm
                 End If
             Next
 
-            If LoopStarted = False And RichTextBox_Step.BackColor <> Color.Yellow Then
+            If LoopStarted = False And Not (RichTextBox_Step.BackColor = Color.Yellow Or RichTextBox_Step.BackColor = Color.OrangeRed) Then
                 Dim AllPass As Boolean = True
                 For Each item In AllCheckResult
-                    If Not item.CheckResult Like "*True*" Then
+                    If Not IsNothing(item) Then
+                        If Not item.CheckResult Like "*True*" Then
+                            AllPass = False
+                            Exit For
+                        End If
+                    Else
                         AllPass = False
                         Exit For
                     End If
@@ -378,10 +383,15 @@ Public Class MainForm
                 End If
             Next
 
-            If LoopStarted = False And RichTextBox_Step.BackColor <> Color.Yellow Then
+            If LoopStarted = False And Not (RichTextBox_Step.BackColor = Color.Yellow Or RichTextBox_Step.BackColor = Color.OrangeRed) Then
                 Dim AllPass As Boolean = True
                 For Each item In AllCheckResult
-                    If Not item.CheckResult Like "*True*" Then
+                    If Not IsNothing(item) Then
+                        If Not item.CheckResult Like "*True*" Then
+                            AllPass = False
+                            Exit For
+                        End If
+                    Else
                         AllPass = False
                         Exit For
                     End If
