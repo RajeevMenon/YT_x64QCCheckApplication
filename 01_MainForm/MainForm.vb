@@ -14,7 +14,6 @@ Public Class MainForm
     Public CustOrd As POCO_YGSP.cust_ord
     Public QcData As List(Of POCO_QA.yta_qcc_v1p2)
     Public Shared AllowedSteps As String()
-    'Public Shared AllCheckResult As List(Of CheckSheetStep)
     Public Shared AllCheckResult As CheckSheetStep()
     Dim TmlEntityQA As MFG_ENTITY.Op
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load

@@ -35,24 +35,6 @@
 
             MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
 
-            '        If Not IsNothing(MainForm.AllCheckResult) And MainForm.AllCheckResult.Count > 0 Then
-            '            If MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).ProcessStep = StepNo _
-            'And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = True Then
-            '                MainForm.RichTextBox_Step.BackColor = Color.LightGreen
-            '            ElseIf MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).ProcessStep = StepNo _
-            '                And MainForm.AllCheckResult(Array.IndexOf(MainForm.AllowedSteps, StepNo.ToString)).CheckResult = False Then
-            '                MainForm.RichTextBox_Step.BackColor = Color.OrangeRed
-            '            Else
-            '                MainForm.RichTextBox_Step.BackColor = Color.Yellow
-            '            End If
-            '        Else
-            '            MainForm.RichTextBox_Step.BackColor = Color.Yellow
-            '        End If
-
-
-
-
-
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
