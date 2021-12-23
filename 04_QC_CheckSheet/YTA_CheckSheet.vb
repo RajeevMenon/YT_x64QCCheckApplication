@@ -19,7 +19,10 @@
             If StepNo = 42 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo42(Initial, CustOrd, ErrMsg)
 
             If StepNo = 51 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo51(Initial, CustOrd, ErrMsg)
+
             If StepNo = 61 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo61(Initial, CustOrd, ErrMsg)
+            If StepNo = 62 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo62(Initial, CustOrd, ErrMsg)
+
             If StepNo = 71 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo71(Initial, CustOrd, ErrMsg)
             If StepNo = 72 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo72(Initial, CustOrd, ErrMsg)
             If StepNo = 81 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo81(Initial, CustOrd, ErrMsg)
@@ -277,7 +280,6 @@
 
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "40"
-            ProcessStepReturn.ProcessNo = "40"
             ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
             ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
             ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
@@ -303,16 +305,21 @@
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.StepNo = "51"
             ProcessStepReturn.ProcessNo = "50"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.ActivityToCheck = "Display, Terminal Cover Open"
+            ProcessStepReturn.Activity = "Display, Terminal Cover Open"
+            ProcessStepReturn.ToCheck = "No Thread damage"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "51"
+
+            ProcessStepReturn.StepNo = "51"
+            ProcessStepReturn.ActivityToCheck = "Display, Terminal Cover Open"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Cover open/Appearance] No Thread damage."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "DamagedCovers.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "UnDamagedCovers.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "UnDamagedCovers.jpg"
+            ProcessStepReturn.Result = "[GO]-8,65,24.6$Tick-13,70,24$" & Initial & "-11,84,30"
             Return ProcessStepReturn
 
 
@@ -324,22 +331,56 @@
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            If CustOrd.MS_CODE Like "YTA*/C[123]*" Then
-                ProcessStepReturn.StepNo = "61"
-                ProcessStepReturn.ProcessNo = "60"
-                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.ProcessNo = "60"
+            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.Activity = "BOUT Switch setting/Plug for electrical connection"
+            ProcessStepReturn.ToCheck = "/C1  /C2  /C3  NA / Plug Installed"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "61,62"
+            ProcessStepReturn.StepNo = "61"
+
+            If ((CustOrd.MS_CODE Like "YTA*/C[123]*") And (Not CustOrd.MS_CODE_BEFORE Like "YTA*/C[123]*")) _
+                Or ((Not CustOrd.MS_CODE Like "YTA*/C[123]*") And (CustOrd.MS_CODE_BEFORE Like "YTA*/C[123]*")) Then
                 ProcessStepReturn.ActivityToCheck = "BOUT Switch setting"
-                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-                ProcessStepReturn.Initial = Initial
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Burn-Out Switch] Confirm Switch [1] Position on Switch Block - SW1"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C1_C2.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C3_NORMAL.jpg"
                 If CustOrd.MS_CODE Like "YTA*/C[12]*" Then
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C1_C2.jpg"
+                    If CustOrd.MS_CODE Like "YTA*/C1*" Then ProcessStepReturn.Result = "Circle-16,50,25.8"
+                    If CustOrd.MS_CODE Like "YTA*/C2*" Then ProcessStepReturn.Result = "Circle-16,54.1,25.8"
                 Else
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C3_NORMAL.jpg"
+                    ProcessStepReturn.Result = "Circle-16,58.5,25.8"
+                End If
+            Else
+                If CustOrd.MS_CODE Like "YTA*/C[12]*" Then
+                    ProcessStepReturn.ActivityToCheck = "BOUT Switch setting"
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Burn-Out Switch] Confirm Switch [1] Position on Switch Block - SW1"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C1_C2.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C3_NORMAL.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C1_C2.jpg"
+                    If CustOrd.MS_CODE Like "YTA*/C1*" Then ProcessStepReturn.Result = "Circle-16,50,25.8"
+                    If CustOrd.MS_CODE Like "YTA*/C2*" Then ProcessStepReturn.Result = "Circle-16,54.1,25.8"
+                ElseIf CustOrd.MS_CODE Like "YTA*/C3*" Then
+                    ProcessStepReturn.ActivityToCheck = "BOUT Switch setting"
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Burn-Out Switch] Confirm Switch [1] Position on Switch Block - SW1"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C1_C2.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C3_NORMAL.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C3_NORMAL.jpg"
+                    ProcessStepReturn.Result = "Circle-16,58.5,25.8"
+                Else
+                    ProcessStepReturn.ActivityToCheck = "BOUT Switch setting"
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Burn-Out Switch] Confirm Switch [1] Position on Switch Block - SW1"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C1_C2.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                    ProcessStepReturn.Result = "Circle-16,62.5,25.8"
                 End If
             End If
+
+            ProcessStepReturn.Result &= "$Tick-13,70,26"
             Return ProcessStepReturn
 
 
@@ -352,16 +393,21 @@
 
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA*" Then
-                ProcessStepReturn.StepNo = "62"
                 ProcessStepReturn.ProcessNo = "60"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.ActivityToCheck = "Plug for Electrical connection"
+                ProcessStepReturn.Activity = "BOUT Switch setting/Plug for electrical connection"
+                ProcessStepReturn.ToCheck = "/C1  /C2  /C3  NA / Plug Installed"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
+                ProcessStepReturn.StepNo_Group = "61,62"
+
+                ProcessStepReturn.StepNo = "62"
+                ProcessStepReturn.ActivityToCheck = "Plug for Electrical connection"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Plug] Confirm Red Plug on Electrical Connection"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
+                ProcessStepReturn.Result &= "Tick-13,70,27.6" '"OK-8,65,26.6$Tick-13,70,26"
             End If
             Return ProcessStepReturn
 
@@ -375,12 +421,14 @@
 
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA*" Then
-                ProcessStepReturn.StepNo = "71"
+
                 ProcessStepReturn.ProcessNo = "70"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
                 ProcessStepReturn.ActivityToCheck = "Display Indicator"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
+
+                ProcessStepReturn.StepNo = "71"
                 If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"

@@ -131,19 +131,25 @@ UpdateResult:
                             Dim WriteY = WriteSXY.Split(",")(2)
                             Dim TextToWrite As String = WriteInput
                             Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
-                            If WriteInput = "Tick" Then
-                                TextToWrite = "ü"
-                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
-                            End If
-                            Dim WP As New OpenPdfOperation.WriteTextParameters With {
+                        If WriteInput = "Tick" Then
+                            TextToWrite = "ü"
+                            FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                        ElseIf WriteInput = "Circle" Then
+                            TextToWrite = "¡"
+                            FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                        ElseIf WriteInput = "Cross" Then
+                            TextToWrite = "û"
+                            FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                        End If
+                        Dim WP As New OpenPdfOperation.WriteTextParameters With {
                                         .Name = FontToWrite,
-                                        .Colour = OpenPdfOperation.FileOp.FontColor.Black,
+                                        .Colour = OpenPdfOperation.FileOp.FontColor.Blue,
                                         .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
                                         .TextSize = Integer.Parse(WriteS),
                                         .TextValue = TextToWrite,
                                         .X_Position = CDbl(WriteX / 100),
                                         .Y_Position = CDbl(WriteY / 100)}
-                            Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
+                        Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
                             WPS.Add(WP)
                             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
                             OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
