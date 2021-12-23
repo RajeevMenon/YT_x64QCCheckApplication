@@ -488,4 +488,84 @@ Public Class MainForm
 
         End Try
     End Sub
+    Private Sub RichTextBox_Step_Click(sender As Object, e As EventArgs) Handles RichTextBox_Step.Click
+        Try
+            Dim ErMsg As String = ""
+            If Not IsNumeric(RichTextBox_Step.Text) Then
+                ErMsg = "Cannot load Inspection point. Click Next/Previous buttons."
+                MsgBox(ErrMsg, MsgBoxStyle.Critical, "Error")
+                Exit Sub
+            End If
+            CurrentCheckPoint = New CheckSheetStep
+            RichTextBox_ActivityToCheck.Text = "Wait.."
+            CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(RichTextBox_Step.Text), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+            If Not IsDBNull(CurrentCheckPoint) Then
+                If Not IsNothing(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                        RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                        TextBox_Step.Text = CurrentCheckPoint.StepNo
+                        RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                        RichTextBox_AutoSize(RichTextBox_Step)
+                        RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                        RichTextBox_ActivityToCheck.Refresh()
+                        PanelSubForm.Controls.Clear()
+
+                        If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                            Dim PSV As New ProcedureStepView
+                            PSV.TopLevel = False
+                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                            PanelSubForm.Controls.Add(PSV)
+                            PSV.AutoScroll = True
+                            PSV.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            PSV.PictureBox1.Select()
+                            PSV.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                            Dim SUI As SelectUserInput = New SelectUserInput
+                            SUI.TopLevel = False
+                            SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                            SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                            PanelSubForm.Controls.Add(SUI)
+                            'SUI.BringToFront()
+                            SUI.AutoScroll = True
+                            SUI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SUI.ListView1.Select()
+                            SUI.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                            Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                            SPI.TopLevel = False
+                            SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                            PanelSubForm.Controls.Add(SPI)
+                            SPI.AutoScroll = True
+                            SPI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SPI.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.DocumentCheck Then
+                            Dim VDOC As ViewDocument = New ViewDocument
+                            VDOC.TopLevel = False
+                            VDOC.curNaviageUrl = CurrentCheckPoint.ViewDocAction.PdfPath_DocumentCheck
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
+                        End If
+                    End If
+                End If
+            End If
+
+
+
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Class
