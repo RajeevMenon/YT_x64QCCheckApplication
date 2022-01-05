@@ -4,6 +4,7 @@
 
     Public Shared Function ProcessStepNo(ByVal StepNo As Integer, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
+
             Dim ProcessStepReturn As New CheckSheetStep
 
             'If StepNo = 11 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo11(Initial, CustOrd, ErrMsg)
@@ -32,6 +33,18 @@
 
             If StepNo = 111 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo111(Initial, CustOrd, ErrMsg)
             If StepNo = 112 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo112(Initial, CustOrd, ErrMsg)
+
+            If StepNo = 121 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo121(Initial, CustOrd, ErrMsg)
+            If StepNo = 122 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo122(Initial, CustOrd, ErrMsg)
+            If StepNo = 123 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo123(Initial, CustOrd, ErrMsg)
+            If StepNo = 124 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo124(Initial, CustOrd, ErrMsg)
+            If StepNo = 125 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo125(Initial, CustOrd, ErrMsg)
+
+            If StepNo = 161 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo161(Initial, CustOrd, ErrMsg)
+            If StepNo = 171 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo171(Initial, CustOrd, ErrMsg)
+            If StepNo = 172 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo172(Initial, CustOrd, ErrMsg)
+
+            If StepNo = 181 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo181(Initial, CustOrd, ErrMsg)
 
             MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
 
@@ -81,7 +94,10 @@
             ProcessStepReturn.ActivityToCheck = "Check Complete Unit Correctly Picked."
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.Result = "Tick-13,70,18$" & Initial & "-11,84,18$" & CustOrd.SERIAL_NO_BEFORE & "-10,83,9.7"
+            'ProcessStepReturn.Result = "Tick-13,70,18$" & Initial & "-11,84,18$" & CustOrd.SERIAL_NO_BEFORE & "-10,83,9.7"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_020_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_020_Position_Initial.Replace("Initial", MainForm.Initial)
+            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_020_Position_SerialBefore.Replace("SERIAL_NO_BEFORE", MainForm.CustOrd.SERIAL_NO_BEFORE)
 
             ProcessStepReturn.StepNo = "21"
             ProcessStepReturn.StepNo_Group = "21"
@@ -665,5 +681,330 @@
             Return Nothing
         End Try
     End Function
+    Public Function ProcessStepNo121(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "120"
+            ProcessStepReturn.ProcessStep = "Basic Checks"
+            ProcessStepReturn.Activity = "Protocol check,Sensor Input,MOC,Electrical Connection,Display Type"
+            ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
+
+            ProcessStepReturn.StepNo = "121"
+            ProcessStepReturn.ActivityToCheck = "Output Singal of YTA Unit"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "[Output Singal] Confirm Communication Protocol"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "HART.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "Fieldbus.jpg"
+            If MainForm.CustOrd.MS_CODE Like "YTA???-J*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "HART.jpg"
+            ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-F*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Fieldbus.jpg"
+            Else
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BRAIN.jpg"
+            End If
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo122(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "120"
+            ProcessStepReturn.ProcessStep = "Basic Checks"
+            ProcessStepReturn.Activity = "Protocol check,Sensor Input,MOC,Electrical Connection,Display Type"
+            ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
+
+            ProcessStepReturn.StepNo = "122"
+            ProcessStepReturn.ActivityToCheck = "Number of Sensor Inputs of YTA Unit"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "[Inputs] Confirm the number of Sensor Inputs"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "SingleSensor.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "DualSensor.jpg"
+            If MainForm.CustOrd.MS_CODE Like "YTA???-??1*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "SingleSensor.jpg"
+            ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-??2*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "DualSensor.jpg"
+            End If
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo123(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "120"
+            ProcessStepReturn.ProcessStep = "Basic Checks"
+            ProcessStepReturn.Activity = "Protocol check,Sensor Input,MOC,Electrical Connection,Display Type"
+            ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
+
+            ProcessStepReturn.StepNo = "123"
+            ProcessStepReturn.ActivityToCheck = "Housing Material of YTA Unit"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "[MOC] Confirm the Material of Housing and Covers"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "Aluminum.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "SUS.jpg"
+            If MainForm.CustOrd.MS_CODE Like "YTA???-???A*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Aluminum.jpg"
+            ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-???C*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "SUS.jpg"
+            End If
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo124(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "120"
+            ProcessStepReturn.ProcessStep = "Basic Checks"
+            ProcessStepReturn.Activity = "Protocol check,Sensor Input,MOC,Electrical Connection,Display Type"
+            ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
+
+            ProcessStepReturn.StepNo = "124"
+            ProcessStepReturn.ActivityToCheck = "Electrical Connection Type of YTA Unit"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm the Electrical Connection type of Housing/Case"
+
+            If MainForm.CustOrd.MS_CODE Like "YTA???-????2*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NPT.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "M20.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NPT.jpg"
+            ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-????4*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NPT.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "M20.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "M20.jpg"
+            ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-????0*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "G12.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NPT.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "G12.jpg"
+            End If
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo125(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "120"
+            ProcessStepReturn.ProcessStep = "Basic Checks"
+            ProcessStepReturn.Activity = "Protocol check,Sensor Input,MOC,Electrical Connection,Display Type"
+            ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
+
+            ProcessStepReturn.StepNo = "125"
+            ProcessStepReturn.ActivityToCheck = "Display Type of YTA Unit"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm the Display Type"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "INDICATOR.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NO INDICATOR.jpg"
+            If MainForm.CustOrd.MS_CODE Like "YTA???-?????D*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "INDICATOR.jpg"
+            ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-?????N*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NO INDICATOR.jpg"
+            End If
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,46.5$" & Initial & "-11,84,40"
+            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_120_Position_Initial.Replace("Initial", MainForm.Initial)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo161(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "160"
+            ProcessStepReturn.ProcessStep = "Final Assembly"
+            ProcessStepReturn.Activity = "Mount Terminal cover"
+            ProcessStepReturn.ToCheck = "Mounted Terminal cover YES || NO"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "161"
+
+            ProcessStepReturn.StepNo = "161"
+            ProcessStepReturn.ActivityToCheck = "Mount Terminal cover"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Cover Tighten and Loosen 1/2 turn, then tighten complete"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_160_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,46.5$" & Initial & "-11,84,40"
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_160_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo171(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "170"
+            ProcessStepReturn.ProcessStep = "Final Assembly"
+            ProcessStepReturn.Activity = "Remove or Attach Mounting Bracket"
+            ProcessStepReturn.ToCheck = "Remove or Attach Brackets YES || NO"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "171,172"
+
+            ProcessStepReturn.StepNo = "171"
+            If MainForm.CustOrd.MS_CODE_BEFORE Like "YTA???-??????N" Or (MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1)) Then
+                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket of Before modification unit?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+            Else
+                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket of Before modification unit?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Removed.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            End If
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo172(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "170"
+            ProcessStepReturn.ProcessStep = "Final Assembly"
+            ProcessStepReturn.Activity = "Remove or Attach Mounting Bracket"
+            ProcessStepReturn.ToCheck = "Remove or Attach Brackets YES || NO"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "171,172"
+
+            ProcessStepReturn.StepNo = "172"
+            If MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1) Then
+                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
+                If MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = "N" Then
+                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+                Else
+                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+                End If
+            Else
+                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Added.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
+                If MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) <> "N" Then
+                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+                Else
+                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+                End If
+            End If
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo181(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "180"
+            ProcessStepReturn.ProcessStep = "Print QIC"
+            ProcessStepReturn.Activity = "Print Certificates"
+            ProcessStepReturn.ToCheck = "Printed YES || NO"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "181"
+
+            ProcessStepReturn.StepNo = "181"
+            ProcessStepReturn.ActivityToCheck = "Print QIC"
+            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_180_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_180_Position_Initial.Replace("Initial", MainForm.Initial)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_180_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+
+
+            Dim QicFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\QICDOC\"
+            If Not (System.IO.Directory.Exists(QicFolerPath & MainForm.CustOrd.PROD_NO)) Then
+                System.IO.Directory.CreateDirectory(QicFolerPath & MainForm.CustOrd.PROD_NO)
+            End If
+            QicFolerPath = QicFolerPath & MainForm.CustOrd.PROD_NO & "\"
+            Dim lotNo As String = MainForm.CustOrd.SHIP_LOT
+            If Not (System.IO.Directory.Exists(QicFolerPath & lotNo)) Then
+                System.IO.Directory.CreateDirectory(QicFolerPath & lotNo)
+            End If
+            QicFolerPath = QicFolerPath & lotNo & "\"
+
+            Dim QicFile As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_QIC\" & MainForm.CustOrd.SERIAL_NO
+            Dim TargetFile As String = QicFolerPath & "LINE-" & MainForm.CustOrd.LINE_NO & "-" & MainForm.CustOrd.INDEX_NO & "(1)-CQIC"
+            If System.IO.File.Exists(QicFile & ".pdf") Then
+                If Not System.IO.File.Exists(TargetFile & ".pdf") Then
+                    System.IO.File.Copy(QicFile & ".pdf", TargetFile & ".pdf", True)
+                End If
+            End If
+
+            ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = TargetFile & ".pdf"
+
+            Return ProcessStepReturn
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+
 #End Region
 End Class

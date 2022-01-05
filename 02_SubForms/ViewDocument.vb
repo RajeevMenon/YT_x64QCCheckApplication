@@ -19,4 +19,24 @@
         ViewBrowser.Navigate(curNaviageUrl)
         ViewBrowser.Refresh()
     End Sub
+
+    Private Sub Button_GO_Click(sender As Object, e As EventArgs) Handles Button_GO.Click
+        Try
+            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
+            MainForm.Button2.PerformClick()
+            Me.Close()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub Button_NG_Click(sender As Object, e As EventArgs) Handles Button_NG.Click
+        Try
+            Me.Close()
+            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+            MainForm.ShowCompleteInspection()
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Class

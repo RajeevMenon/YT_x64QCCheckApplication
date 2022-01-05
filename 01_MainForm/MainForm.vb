@@ -204,6 +204,7 @@ Public Class MainForm
     End Sub
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Try
+            Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
@@ -316,6 +317,7 @@ Public Class MainForm
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
+            Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
@@ -716,6 +718,7 @@ Public Class MainForm
     End Sub
     Public Sub PrintQcc_Rev1()
         Try
+
             Dim ErrMsg As String = ""
             QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
             If QcData.Count > 0 Then

@@ -26,6 +26,8 @@ Partial Class ViewDocument
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Button_NG = New System.Windows.Forms.Button()
+        Me.Button_GO = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -68,6 +70,8 @@ Partial Class ViewDocument
         '
         Me.Panel1.BackColor = System.Drawing.Color.PaleGreen
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.Button_NG)
+        Me.Panel1.Controls.Add(Me.Button_GO)
         Me.Panel1.Controls.Add(Me.Button3)
         Me.Panel1.Controls.Add(Me.Button1)
         Me.Panel1.Controls.Add(Me.ViewBrowser)
@@ -76,6 +80,30 @@ Partial Class ViewDocument
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(602, 470)
         Me.Panel1.TabIndex = 1
+        '
+        'Button_NG
+        '
+        Me.Button_NG.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_NG.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_NG.ForeColor = System.Drawing.Color.Red
+        Me.Button_NG.Location = New System.Drawing.Point(121, 3)
+        Me.Button_NG.Name = "Button_NG"
+        Me.Button_NG.Size = New System.Drawing.Size(57, 23)
+        Me.Button_NG.TabIndex = 4
+        Me.Button_NG.Text = "NG"
+        Me.Button_NG.UseVisualStyleBackColor = True
+        '
+        'Button_GO
+        '
+        Me.Button_GO.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_GO.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button_GO.ForeColor = System.Drawing.Color.Blue
+        Me.Button_GO.Location = New System.Drawing.Point(23, 3)
+        Me.Button_GO.Name = "Button_GO"
+        Me.Button_GO.Size = New System.Drawing.Size(57, 23)
+        Me.Button_GO.TabIndex = 3
+        Me.Button_GO.Text = "GO"
+        Me.Button_GO.UseVisualStyleBackColor = True
         '
         'ViewDocument
         '
@@ -95,4 +123,6 @@ Partial Class ViewDocument
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents Button_NG As Button
+    Friend WithEvents Button_GO As Button
 End Class

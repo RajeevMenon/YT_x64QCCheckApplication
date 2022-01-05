@@ -6,8 +6,23 @@
                 Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
                 Dim TmlEntityQA As New MFG_ENTITY.Op(MainForm.Setting.Var_04_MySql_QA)
                 Dim FieldName As String = ""
-                Dim IndexNo = TextBox_Scan.Text
-                If IndexNo.Length = 10 Then FieldName = "BAR" Else FieldName = "INDEX_NO"
+                Dim IndexNo = ""
+
+                If TextBox_Scan.Text Like "*MFR:*S/N:*" Then
+                    IndexNo = TextBox_Scan.Text.Substring(TextBox_Scan.Text.Length - 9, 9)
+                Else
+                    IndexNo = TextBox_Scan.Text
+                End If
+                If IndexNo.Length = 10 Then
+                    FieldName = "BAR"
+                ElseIf IndexNo.Length = 9 Then
+                    FieldName = "SERIAL_NO"
+                ElseIf IndexNo.Length = 12 Then
+                    FieldName = "INDEX_NO"
+                Else
+                    Label_Message.Text = "Please scan SerialNo./IndexNo./BarNo. or QR Code"
+                    Exit Sub
+                End If
                 MainForm.CustOrd = TmlEntityYGS.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
                 If ErrMsg.Length > 0 Then
                     Label_Message.Text = ErrMsg

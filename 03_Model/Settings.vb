@@ -9,4 +9,17 @@
     Public Property Var_06_DocsStore As String
     Public Property Var_51_ProStepView_ImagePath As String
     Public Property Var_52_SinglePntInst_ImagePath As String
+    Public Property Var_60_020_Position_Initial As String
+    Public Property Var_60_020_Position_Tick As String
+    Public Property Var_60_020_Position_SerialBefore As String
+    Public Property Var_60_120_Position_Initial As String
+    Public Property Var_60_120_Position_Tick As String
+    Public Property Var_60_160_Position_Circle As String
+    Public Property Var_60_160_Position_Tick As String
+    Public Property Var_60_170_Position_Circle As String
+    Public Property Var_60_170_Position_Initial As String
+    Public Property Var_60_170_Position_Tick As String
+    Public Property Var_60_180_Position_Circle As String
+    Public Property Var_60_180_Position_Initial As String
+    Public Property Var_60_180_Position_Tick As String
 End Class

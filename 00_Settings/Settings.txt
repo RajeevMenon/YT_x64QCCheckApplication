@@ -11,3 +11,6 @@ Var_08_StepsAllowed			=	90,100
 Var_51_ProStepView_ImagePath		=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
 Var_52_SinglePntInst_ImagePath		=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
 Var_52_ImageSize				=	512 x 384
+
+Var_60_120_Position_Initial		=	Initial-11,84,40
+Var_60_120_Position_Tick		=	121$Tick-13,70,36.5|122$Tick-13,70,36.5|123$Tick-13,70,36.5|124$Tick-13,70,36.5|125$Tick-13,70,36.5
