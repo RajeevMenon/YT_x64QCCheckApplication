@@ -1,16 +1,38 @@
-﻿Var_01_ServerIP				=	10.25.125.121
-Var_02_ServerPort				=	4600
-Var_03_MySql_YGSP				=	Server=10.25.125.121;Port=4600;Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
-Var_04_MySql_QA				=	Server=10.25.125.121;Port=4600;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
-Var_05_Factory				=	2
-Var_06_DocsStore				=	\\10.25.125.121\DocsStore\
+﻿Var_01_ServerIP			=	127.0.0.1
+Var_02_ServerPort			=	6801
+Var_03_MySql_YGSP			=	Server=127.0.0.1;Port=6801;Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
+Var_04_MySql_QA			=	Server=127.0.0.1;Port=6801;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
+Var_05_Factory			=	2
+Var_06_DocsStore			=	C:\MyFiles\Controlled_Apps\OTHERS\QCC\Test_QCC\TEST_OP\
+Var_07_Station			=	Build
 
-Var_07_Station				=	Build
-Var_08_StepsAllowed			=	90,100
+#Total Tests: 21,31,32,33,34,41,42,51,61,62,71,72,81,91,101,111,112,121,122,123,124,125,161,171,172,181
+Var_08_StepsAllowed		=	181
 
-Var_51_ProStepView_ImagePath		=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
-Var_52_SinglePntInst_ImagePath		=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
-Var_52_ImageSize				=	512 x 384
+Var_51_ProStepView_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
+Var_52_SinglePntInst_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
 
-Var_60_120_Position_Initial		=	Initial-11,84,40
-Var_60_120_Position_Tick		=	121$Tick-13,70,36.5|122$Tick-13,70,36.5|123$Tick-13,70,36.5|124$Tick-13,70,36.5|125$Tick-13,70,36.5
+Var_60_020_Position_Initial		=	Initial-11,84,41
+Var_60_020_Position_Tick		=	21$Tick-13,70,18
+Var_60_020_Position_SerialBefore	=	SERIAL_NO_BEFORE-10,83,9.7
+
+Var_60_030_Position_Initial		=	Initial-11,84,20
+Var_60_030_Position_Tick		=	31$Tick-13,70,20|32$Tick-13,70,20|33$Tick-13,70,20|34$Tick-13,70,20
+Var_60_030_Position_SerialBefore	=	SERIAL_NO_BEFORE-10,83,9.7
+
+Var_60_120_Position_Initial		=	Initial-11,84,41
+Var_60_120_Position_Tick		=	121$Tick-13,70,38|122$Tick-13,70,39.5|123$Tick-13,70,41|124$Tick-13,70,42.5|125$Tick-13,70,44
+
+Var_60_160_Position_Circle		=	161$Circle-11,51.5,52.7
+Var_60_160_Position_Tick		=	161$Tick-13,70,52.7
+
+Var_60_170_Position_Initial		=	Initial-11,84,54.5
+Var_60_170_Position_Circle		=	171$Circle-11,51.5,54.2;Circle-11,62,54.2|172$Circle-11,51.5,55.7;Circle-11,62,55.7
+Var_60_170_Position_Tick		=	171$Tick-13,70,54.2|172$Tick-13,70,55.7
+
+Var_60_180_Position_Initial		=	Initial-11,84,57.3
+Var_60_180_Position_Circle		=	181$Circle-11,51.5,57.2;Circle-11,62,57.2
+Var_60_180_Position_Tick		=	181$Tick-13,70,57.2
+
+
+

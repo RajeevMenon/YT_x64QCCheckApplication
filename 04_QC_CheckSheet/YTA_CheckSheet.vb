@@ -46,6 +46,13 @@
 
             If StepNo = 181 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo181(Initial, CustOrd, ErrMsg)
 
+            If StepNo = 191 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo191(Initial, CustOrd, ErrMsg)
+            If StepNo = 192 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo192(Initial, CustOrd, ErrMsg)
+            If StepNo = 193 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo193(Initial, CustOrd, ErrMsg)
+            If StepNo = 194 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo194(Initial, CustOrd, ErrMsg)
+            If StepNo = 195 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo195(Initial, CustOrd, ErrMsg)
+            If StepNo = 196 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo196(Initial, CustOrd, ErrMsg)
+
             MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
 
             Return ProcessStepReturn
@@ -923,7 +930,7 @@
             ProcessStepReturn.StepNo_Group = "171,172"
 
             ProcessStepReturn.StepNo = "172"
-            If MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1) Then
+            If CustOrd.MS_CODE_BEFORE.Substring(13, 1) = CustOrd.MS_CODE.Substring(13, 1) Then
                 ProcessStepReturn.ActivityToCheck = "Bracket Assy"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
@@ -944,7 +951,7 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Added.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
-                If MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) <> "N" Then
+                If CustOrd.MS_CODE_BEFORE.Substring(13, 1) <> "N" Then
                     ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
                 Else
                     ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
@@ -978,8 +985,8 @@
 
 
             Dim QicFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\QICDOC\"
-            If Not (System.IO.Directory.Exists(QicFolerPath & MainForm.CustOrd.PROD_NO)) Then
-                System.IO.Directory.CreateDirectory(QicFolerPath & MainForm.CustOrd.PROD_NO)
+            If Not (System.IO.Directory.Exists(QicFolerPath & CustOrd.PROD_NO)) Then
+                System.IO.Directory.CreateDirectory(QicFolerPath & CustOrd.PROD_NO)
             End If
             QicFolerPath = QicFolerPath & MainForm.CustOrd.PROD_NO & "\"
             Dim lotNo As String = MainForm.CustOrd.SHIP_LOT
@@ -1004,7 +1011,225 @@
             Return Nothing
         End Try
     End Function
+    Public Function ProcessStepNo191(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190"
+            ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
+            ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+
+            ProcessStepReturn.StepNo = "191"
+            ProcessStepReturn.ActivityToCheck = "Correct MS-CODE"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Confirm MS-CODE in YTA, QIC and OrderTag/SAP Sheet"
+            Dim Var1, Var2, Var3 As New String("")
+            Dim Mscode As String = CustOrd.MS_CODE
+            If Mscode Like "YTA610*" Then Var1 = Mscode.Replace("YTA610", "YTA710")
+            If Mscode Like "YTA710*" Then Var1 = Mscode.Replace("YTA710", "YTA610")
+            If Mscode Like "YTA???-??1*" Then Var2 = Mscode.Remove(9, 1).Insert(9, "2")
+            If Mscode Like "YTA???-??2*" Then Var2 = Mscode.Remove(9, 1).Insert(9, "1")
+            If Mscode Like "YTA???-?????D*" Then Var3 = Mscode.Remove(12, 1).Insert(12, "N")
+            If Mscode Like "YTA???-?????N*" Then Var3 = Mscode.Remove(12, 1).Insert(12, "D")
+            ProcessStepReturn.UserInputAction.UserInputList = {Mscode, Var1, Var2, Var3}
+            ProcessStepReturn.UserInputAction.UserInputCorrect = Mscode
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Return ProcessStepReturn
 
 
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo192(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190"
+            ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
+            ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+
+            ProcessStepReturn.StepNo = "192"
+            ProcessStepReturn.ActivityToCheck = "Correct SERIAL Number"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Confirm SERIAL NO. in YTA, QIC and OrderTag/SAP Sheet"
+            Dim Var1, Var2, Var3 As New String("")
+            Dim SerialNo As String = CustOrd.SERIAL_NO
+            Dim Randm As Random = New Random
+
+FixVar1:
+            Var1 = SerialNo.Remove(8, 1).Insert(8, Randm.Next(0, 9))
+            If SerialNo Like Var1 Then
+                GoTo FixVar1
+            End If
+
+FixVar2:
+            Var2 = SerialNo.Remove(7, 1).Insert(7, Randm.Next(0, 9))
+            If SerialNo Like Var2 Then
+                GoTo FixVar2
+            End If
+
+FixVar3:
+            Var3 = SerialNo.Remove(6, 1).Insert(6, Randm.Next(0, 9))
+            If SerialNo Like Var3 Then
+                GoTo FixVar3
+            End If
+
+            ProcessStepReturn.UserInputAction.UserInputList = {SerialNo, Var1, Var2, Var3}
+            ProcessStepReturn.UserInputAction.UserInputCorrect = SerialNo
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo193(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190"
+            ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
+            ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+
+            ProcessStepReturn.StepNo = "193"
+            ProcessStepReturn.ActivityToCheck = "Correct Calibration Range"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Confirm Range Value. in YTA, QIC and OrderTag/SAP Sheet"
+            Dim Var1, Var2, Var3 As New String("")
+            Dim Range_1 As String = ""
+            Dim Range_2 As String = ""
+            Dim Range As String
+            Dim Randm As Random = New Random
+            Dim Mscode = CustOrd.MS_CODE
+            If Mscode Like "YTA???-??2*" Then
+                Range_1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & CustOrd.ORD_INST_MAX_T70 & " " & CustOrd.UNIT_T70
+                Range_2 = "S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & CustOrd.ORD_INST_MAX_T71 & " " & CustOrd.UNIT_T71
+                Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
+                Var1 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) - 25).ToString & " " & CustOrd.UNIT_T71
+                Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
+                Var2 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) + 25).ToString & " " & CustOrd.UNIT_T71
+                Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
+                Var3 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) - 50).ToString & " " & CustOrd.UNIT_T71
+            Else
+                Range_1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & CustOrd.ORD_INST_MAX_T70 & " " & CustOrd.UNIT_T70
+                Range_2 = "S2: "
+                Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
+                Var1 &= "|| S2: "
+                Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
+                Var2 &= "|| S2: "
+                Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
+                Var3 &= "|| S2: "
+            End If
+            Range = Range_1 & " || " & Range_2
+            ProcessStepReturn.UserInputAction.UserInputList = {Range, Var1, Var2, Var3}
+            ProcessStepReturn.UserInputAction.UserInputCorrect = Range
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo194(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+            Dim RL_Tag As New TML_Library.RandomArray
+            Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190"
+            ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
+            ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+
+            ProcessStepReturn.StepNo = "194"
+            ProcessStepReturn.ActivityToCheck = "Tag Number correctness"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed In the plate And Click Select button."
+            ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
+            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Return ProcessStepReturn
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo195(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190"
+            ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
+            ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+
+            ProcessStepReturn.StepNo = "195"
+            ProcessStepReturn.ActivityToCheck = "Agency Approvals"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the correct Approval of the YTA Unit."
+            ProcessStepReturn.UserInputAction.UserInputList = {"ATEX", "FM", "IECEx", "NONE"}
+            If CustOrd.MS_CODE Like "YTA???-*/K[FSU]*" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "ATEX"
+            ElseIf CustOrd.MS_CODE Like "YTA???-*/F[FSU]*" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "FM"
+            ElseIf CustOrd.MS_CODE Like "YTA???-*/S[FSU]*" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "IECEx"
+            Else
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "NONE"
+            End If
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Return ProcessStepReturn
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo196(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190"
+            ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
+            ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+
+            ProcessStepReturn.StepNo = "196"
+            ProcessStepReturn.ActivityToCheck = "Check QIC Data [1] Cal.Point/Error [2] Temp.Humidity [3] Overall"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Check QIC Overall data including Cal. Points and Temp./Humidity"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Correct.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Wrong.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Correct.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_190_Position_Initial.Replace("Initial", Initial)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
 #End Region
 End Class
