@@ -28,4 +28,12 @@
     Public Property Var_60_1900_Position_Circle As String
     Public Property Var_60_1900_Position_Initial As String
     Public Property Var_60_1900_Position_Tick As String
+    Public Property Var_60_2000_Position_Circle As String
+    Public Property Var_60_2000_Position_Initial As String
+    Public Property Var_60_2000_Position_Tick As String
+    Public Property Var_60_2000_Position_IM As String
+    Public Property Var_60_2000_Position_EUDoC As String
+    Public Property Var_60_2000_Position_NoIM As String
+    Public Property Var_60_2000_Position_NoEUDoC As String
+    Public Property Var_60_2000_Position_Markings As String
 End Class

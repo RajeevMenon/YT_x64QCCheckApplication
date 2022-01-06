@@ -62,6 +62,16 @@
             If StepNo = 1907 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1907(Initial, CustOrd, ErrMsg)
             If StepNo = 1908 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1908(Initial, CustOrd, ErrMsg)
 
+            If StepNo = 2001 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2001(Initial, CustOrd, ErrMsg)
+            If StepNo = 2002 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2002(Initial, CustOrd, ErrMsg)
+            If StepNo = 2003 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2003(Initial, CustOrd, ErrMsg)
+            If StepNo = 2004 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2004(Initial, CustOrd, ErrMsg)
+            If StepNo = 2005 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2005(Initial, CustOrd, ErrMsg)
+            If StepNo = 2006 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2006(Initial, CustOrd, ErrMsg)
+            If StepNo = 2007 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2007(Initial, CustOrd, ErrMsg)
+            If StepNo = 2008 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2008(Initial, CustOrd, ErrMsg)
+
+
             MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
 
             Return ProcessStepReturn
@@ -1513,6 +1523,263 @@ FixVar3:
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             End If
             ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2001(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2001"
+            ProcessStepReturn.ActivityToCheck = "Unit Kept Inside Box?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Is the YTA unit properly packed and kept inside Box?  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2002(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.AddedDocs
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2002"
+            ProcessStepReturn.ActivityToCheck = "Scan QR-code of IM,SafetyIM,EU-Doc etc, if any."
+            If Integer.Parse(CustOrd.QTY_NO) = 1 And CustOrd.MS_CODE Like "YTA*/K[UFS]*" Then
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_IM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_EUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ElseIf Integer.Parse(CustOrd.QTY_NO) = 1 And Not (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_IM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoEUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ElseIf Integer.Parse(CustOrd.QTY_NO) <> 1 And (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoIM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_EUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Else
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoIM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoEUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            End If
+
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2003(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2003"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+
+            If Integer.Parse(CustOrd.QTY_NO) = 1 And CustOrd.MS_CODE Like "YTA*/K[UFS]*" Then
+                ProcessStepReturn.ActivityToCheck = "IM, SafetyIM and EU-Documents kept Inside Box?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "IM, SafetyIM & EU-Documents kept Inside Box??  YES  ||  NO"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ElseIf Integer.Parse(CustOrd.QTY_NO) = 1 And Not (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
+                ProcessStepReturn.ActivityToCheck = "IM+SafetyIM only kept Inside Box with [NO] EuDocument?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Only IM and SafetyIM kept Inside Box??  YES  ||  NO"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            ElseIf Integer.Parse(CustOrd.QTY_NO) <> 1 And (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
+                ProcessStepReturn.ActivityToCheck = "Eu-Document only kept Inside Box with [NO] IM/SafetyIM?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Only Eu-Document kept Inside Box??  YES  ||  NO"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Else
+                ProcessStepReturn.ActivityToCheck = "IM or SafetyIM or EuDocument kept Inside Box?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Any of the IMs or Eu-Documents kept Inside Box??  YES  ||  Not Applicable"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            End If
+
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2004(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2004"
+            ProcessStepReturn.ActivityToCheck = "QIC Status?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "How the QIC requested by customer?  Attached with Unit  ||  Seperate"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Attached.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Seperate.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Seperate.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2005(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2005"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+            If CustOrd.MS_CODE Like "YTA???-??????N*" Then
+                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Kept Inside Box?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is there any Mounting Brackets kept inside Box?  YES  ||  NO"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+            Else
+                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Kept Inside Box?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Brackets kept inside Box?  YES  ||  NO"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            End If
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2006(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2006"
+            ProcessStepReturn.ActivityToCheck = "Visually Check the Packing Box?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Is all items kept inside BOX and closed? Is it good to Ship?  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2007(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2007"
+            ProcessStepReturn.ActivityToCheck = "Marking visible outside the Packing Box?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Is Only KC + Moroccan mark visible and CPL Hidden?  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Markings.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo2008(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
+
+            ProcessStepReturn.StepNo = "2008"
+            ProcessStepReturn.ActivityToCheck = "Signed Order Tag"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Is Signed Order Tag Attached to the Packing Box??  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Attached.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Attached.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_2000_Position_Initial.Replace("Initial", Initial)
             Return ProcessStepReturn
 
 

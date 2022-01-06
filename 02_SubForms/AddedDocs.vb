@@ -1,11 +1,12 @@
 ﻿Public Class AddedDocs
-    Public CurrentIndexNo As String = ""
+
     Public AddedDocErrorMessage As String = ""
     Public INST_IM_OK As Boolean = False
     Public SFTY_IM_OK As Boolean = False
     Public EUDOC_OK As Boolean = False
     Private CustOrd As POCO_YGSP.cust_ord
     Private DocTbl As List(Of POCO_QA.t1_eudoc_table)
+    Private CurrentIndexNo As String = ""
     Private Sub Button_Done_Click(sender As Object, e As EventArgs) Handles Button_Done.Click
         Try
             If CurrentIndexNo.Length = 0 Then
@@ -17,6 +18,21 @@
                 AddedDocErrorMessage = ""
             End If
             If INST_IM_OK = True And SFTY_IM_OK = True And EUDOC_OK = True Then
+                For Each Item In MainForm.AllCheckResult
+                    If Not IsNothing(Item) Then
+                        If Item.StepNo = MainForm.CurrentCheckPoint.StepNo Then
+                            Item.Result = Item.Result.Replace("IM-", TextBox_IM.Text.ToUpper & " + " & TextBox_SIM.Text.ToUpper & "-")
+                            If TextBox_EUDoC.Text.ToUpper.Length > 0 Then Item.Result = Item.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper & "-")
+                        End If
+                    End If
+                Next
+                MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", TextBox_IM.Text.ToUpper & " + " & TextBox_SIM.Text.ToUpper & "-")
+                If TextBox_EUDoC.Text.ToUpper.Length > 0 Then
+                    MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper & "-")
+                End If
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
+                MainForm.wait(1)
+                MainForm.Button2.PerformClick()
                 Me.Hide()
             Else
                 If INST_IM_OK = False Then AddedDocErrorMessage &= " [IM Not OK] " Else AddedDocErrorMessage &= " [IM OK] "
@@ -27,6 +43,8 @@
                     AddedDocErrorMessage &= " [EU-DoC OK] "
                 End If
                 Label_Error.Text = AddedDocErrorMessage
+                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+                MainForm.wait(1)
             End If
         Catch ex As Exception
 
@@ -36,6 +54,8 @@
         INST_IM_OK = False
         SFTY_IM_OK = False
         EUDOC_OK = False
+        MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+        MainForm.wait(1)
         Me.Hide()
     End Sub
     Private Sub TextBox_EUDoC_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox_EUDoC.KeyDown
@@ -69,7 +89,7 @@
                 ElseIf TextBox_IM.Enabled = True And INST_IM_OK = False Then
                     TextBox_IM.Focus()
                 Else
-                    Me.Hide()
+                    Button_Done.PerformClick()
                 End If
             End If
 
@@ -127,7 +147,7 @@
                 ElseIf TextBox_EUDoC.Enabled = True And EUDOC_OK = False Then
                     TextBox_EUDoC.Focus()
                 Else
-                    Me.Hide()
+                    Button_Done.PerformClick()
                 End If
             End If
         Catch ex As Exception
@@ -163,7 +183,7 @@
                 ElseIf TextBox_EUDoC.Enabled = True And EUDOC_OK = False Then
                     TextBox_EUDoC.Focus()
                 Else
-                    Me.Hide()
+                    Button_Done.PerformClick()
                 End If
             End If
 
@@ -173,6 +193,7 @@
     End Sub
     Private Sub AddedDocs_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
+            CurrentIndexNo = MainForm.CustOrd.INDEX_NO
             If CurrentIndexNo.Length = 0 Then
                 SFTY_IM_OK = False
                 AddedDocErrorMessage = "IndexNo. cannot be read."
@@ -182,8 +203,9 @@
                 TextBox_IM.Text = ""
                 TextBox_SIM.Text = ""
                 AddedDocErrorMessage = ""
-                Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
-                CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)("INDEX_NO", CurrentIndexNo, "INDEX_NO", CurrentIndexNo, AddedDocErrorMessage)
+                'Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
+                'CustOrd = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)("INDEX_NO", CurrentIndexNo, "INDEX_NO", CurrentIndexNo, AddedDocErrorMessage)
+                CustOrd = MainForm.CustOrd
                 If AddedDocErrorMessage.Length > 0 Then
                     TextBox_SIM.Enabled = False
                     TextBox_EUDoC.Enabled = False
@@ -250,7 +272,7 @@
                         EUDOC_OK = True
                         INST_IM_OK = True
                         SFTY_IM_OK = True
-                        Me.Hide()
+                        Button_Done.PerformClick()
                     End If
                 End If
 

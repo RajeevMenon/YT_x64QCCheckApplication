@@ -6,8 +6,9 @@ Var_05_Factory			=	2
 Var_06_DocsStore			=	C:\MyFiles\Controlled_Apps\OTHERS\QCC\Test_QCC\TEST_OP\
 Var_07_Station			=	Build
 
-#Total Tests: 21,31,32,33,34,41,42,51,61,62,71,72,81,91,101,111,112,121,122,123,124,125,161,171,172,181
-Var_08_StepsAllowed		=	181
+#Total Tests: 21,31,32,33,34,41,42,51,61,62,71,72,81,91,101,111,112,121,122,123,124,125,161,171,172,181,191,192,193,194,195,196
+#Total Tests: 1901,1902,1903,1904,1905,1906,1907,1908,2001,2002,2003,2004,2005,2006,2007,2008
+Var_08_StepsAllowed		=	2001,2002,2003,2004,2005,2006,2007,2008
 
 Var_51_ProStepView_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
 Var_52_SinglePntInst_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
@@ -37,3 +38,17 @@ Var_60_180_Position_Tick		=	181$Tick-13,70,57.2
 Var_60_190_Position_Initial		=	Initial-11,84,62
 Var_60_190_Position_Circle		=	191$Circle-13,51.2,58.7|192$Circle-13,51.2,60.2|193$Circle-13,51.2,61.7|194$Circle-13,51.2,63.2|195$Circle-13,51.2,64.7|196$Circle-13,51.2,66.2
 Var_60_190_Position_Tick		=	191$Tick-13,70,58.7|192$Tick-13,70,60.2|193$Tick-13,70,61.7|194$Tick-13,70,63.2|195$Tick-13,70,64.7|196$Tick-13,70,66.2
+
+Var_60_1900_Position_Initial		=	Initial-11,84,68
+Var_60_1900_Position_Circle		=	1901$Circle-13,51.2,67.8;Circle-11,61.7,67.8|1902$Circle-13,51.2,69.3;Circle-11,61.7,69.3|1903$Circle-13,51.2,70.8;Circle-11,61.7,70.8|1904$Circle-13,51.2,72.3;Circle-11,61.7,72.3|1905$Circle-13,51.2,73.9;Circle-11,61.7,73.9|1906$Circle-13,51.2,75.5;Circle-11,61.7,75.5|1907$Circle-13,51.2,77.0;Circle-11,61.7,77.0|1908$Circle-13,51.2,78.5;Circle-11,61.7,78.5
+Var_60_1900_Position_Tick		=	1901$Tick-13,70,67.8|1902$Tick-13,70,69.3|1903$Tick-13,70,70.8|1904$Tick-13,70,72.3|1905$Tick-13,70,73.9|1906$Tick-13,70,75.5|1907$Tick-13,70,77.0|1908$Tick-13,70,78.5
+
+Var_60_2000_Position_Initial		=	Initial-11,84,86
+Var_60_2000_Position_Circle		=	2001$Circle-11,51.5,80.2;Circle-11,62,80.2|2003$Circle-11,65,83.5|2004$Circle-11,56.3,85.0|2005$Circle-11,51.3,86.4;Circle-11,61.7,86.4|2006$Circle-11,51.3,88.0|2008$Circle-11,49,91.2
+Var_60_2000_Position_Tick		=	2001$Tick-13,70,80.2|2002$Tick-13,70,81.7|2003$Tick-13,70,83.3|2004$Tick-13,70,84.9|2005$Tick-13,70,86.2|2006$Tick-13,70,87.8|2007$Tick-13,70,89.4|2008$Tick-13,70,91.1
+Var_60_2000_Position_IM		=	2002$IM-7,43,81.9
+Var_60_2000_Position_EUDoC		=	2002$EUDOC-10,50,83.3
+Var_60_2000_Position_NoIM		=	2002$No InstructionManual or SafetyIM Kept-7,47,81.7
+Var_60_2000_Position_NoEUDoC	=	2002$xxxxx-10,50,83.3
+Var_60_2000_Position_Markings	=	2007$O               O                 X-10,47,89.6
+

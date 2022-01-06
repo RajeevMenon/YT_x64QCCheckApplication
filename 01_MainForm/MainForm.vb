@@ -272,6 +272,16 @@ Public Class MainForm
                                 VDOC.Show()
                                 Me.Refresh()
                                 Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                                Dim VDOC As AddedDocs = New AddedDocs
+                                VDOC.TopLevel = False
+                                PanelSubForm.Controls.Add(VDOC)
+                                VDOC.AutoScroll = True
+                                VDOC.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                VDOC.Show()
+                                Me.Refresh()
+                                Exit For
                             End If
                         End If
                     End If
@@ -378,6 +388,16 @@ Public Class MainForm
                                 SPI.Dock = DockStyle.Fill
                                 PanelSubForm.AutoScroll = True
                                 SPI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                                Dim VDOC As AddedDocs = New AddedDocs
+                                VDOC.TopLevel = False
+                                PanelSubForm.Controls.Add(VDOC)
+                                VDOC.AutoScroll = True
+                                VDOC.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                VDOC.Show()
                                 Me.Refresh()
                                 Exit For
                             End If

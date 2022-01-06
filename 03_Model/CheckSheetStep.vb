@@ -5,6 +5,7 @@
         ProcedureStep = 3
         QrCodeCheck = 4
         DocumentCheck = 5
+        AddedDocs = 6
     End Enum
     Public Property ProcessNo As String 'As in EJA/YTA QC Checksheet
     Public Property ProcessStep As String 'As in YTA QC Checksheet
@@ -20,5 +21,6 @@
     Public Property ProcedureStepAction As New ProcedureStep 'Picture view to do some action
     Public Property SinglePointAction As New SinglePointInstCheck 'Selection from 2 different GO/NG pictures
     Public Property ViewDocAction As New DocumentCheck 'Load a document to check and confirm result
+    Public Property AddedDocsAction As New AddedDocsCheck 'Load IM/DuDoc form to check and confirm result
     Public Property CheckResult As New Boolean 'Final check result for the StepNo selected. This is set from subform
 End Class
