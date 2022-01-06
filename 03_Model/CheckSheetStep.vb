@@ -6,6 +6,7 @@
         QrCodeCheck = 4
         DocumentCheck = 5
         AddedDocs = 6
+        NoCheck = 7
     End Enum
     Public Property ProcessNo As String 'As in EJA/YTA QC Checksheet
     Public Property ProcessStep As String 'As in YTA QC Checksheet

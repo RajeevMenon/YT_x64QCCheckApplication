@@ -12,7 +12,11 @@ Public Class MainForm
     Public Shared CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
     Public CustOrd As POCO_YGSP.cust_ord
+    Public Hipot As POCO_YGSP.hipot_tb
+    Public YTA_Crc As POCO_YGSP.yta710_inspection_tb
     Public QcData As List(Of POCO_QA.yta_qcc_v1p2)
+    Public DataPlateCorrect As String
+    Public DataPlateCheck(3) As String
     Public Shared AllowedSteps As String()
     Public Shared AllCheckResult As CheckSheetStep()
     Dim TmlEntityQA As MFG_ENTITY.Op
@@ -507,6 +511,8 @@ Public Class MainForm
     End Function
     Public Sub SetInspectionColor(ByVal StepNo As String, Optional ByVal ProcessNo As String = "")
         Try
+            RichTextBox_Step.BackColor = Color.Yellow
+
             If Not IsNothing(AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString))) Then
                 If AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).StepNo = StepNo _
     And AllCheckResult(Array.IndexOf(AllowedSteps, StepNo.ToString)).CheckResult = True Then
@@ -520,18 +526,14 @@ Public Class MainForm
             Else
                 If QcData.Count > 0 Then
                     For Each Item In QcData
-                        If Item.PROCESS_NO = ProcessNo Then
+                        If Item.PROCESS_NO = Decimal.Parse(ProcessNo).ToString("N1") And Item.REMARK Like "*" & StepNo & "*" Then
                             If Item.REMARK Like "*GO*" Then
                                 RichTextBox_Step.BackColor = Color.LightGreen
                             ElseIf Item.REMARK Like "*NG*" Then
                                 RichTextBox_Step.BackColor = Color.OrangeRed
-                            Else
-                                RichTextBox_Step.BackColor = Color.Yellow
                             End If
                         End If
                     Next
-                Else
-                    RichTextBox_Step.BackColor = Color.Yellow
                 End If
             End If
         Catch ex As Exception

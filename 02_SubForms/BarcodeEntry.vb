@@ -26,20 +26,105 @@
                 MainForm.CustOrd = TmlEntityYGS.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)(FieldName, IndexNo, FieldName, IndexNo, ErrMsg)
                 If ErrMsg.Length > 0 Then
                     Label_Message.Text = ErrMsg
-                Else
-                    MainForm.QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                    Exit Sub
+                End If
+
+                MainForm.QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                If ErrMsg.Length > 0 Then
+                    Label_Message.Text = ErrMsg
+                    Exit Sub
+                End If
+
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("131")) = "131" Or
+                    Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("141")) = "141" Or
+                    Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("181")) = "181" Then
+
+                    Dim Hipots = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.hipot_tb)("index_no", MainForm.CustOrd.INDEX_NO, "index_no", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                    If Hipots.Count > 0 Then
+                        MainForm.Hipot = Hipots.Where(Function(x) x.rec_no = (Hipots.Max(Function(y) y.rec_no))).FirstOrDefault
+                        If ErrMsg.Length > 0 Then
+                            Label_Message.Text = ErrMsg
+                            Exit Sub
+                        End If
+                    Else
+                        MainForm.Hipot = New POCO_YGSP.hipot_tb
+                        MainForm.Hipot.acw_test_result = "NA"
+                        MainForm.Hipot.ir_test_result = "NA"
+                    End If
+                End If
+
+
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("151")) = "151" Or
+                    Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("181")) = "181" Then
+                    Dim YTA_CrcList = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.yta710_inspection_tb)("SERIAL", MainForm.CustOrd.SERIAL_NO, "SERIAL", MainForm.CustOrd.SERIAL_NO, ErrMsg)
                     If ErrMsg.Length > 0 Then
                         Label_Message.Text = ErrMsg
+                        Exit Sub
                     Else
-                        Me.Close()
-                        MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
-                        MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsAllowed.Split(",")(0)
-                        MainForm.FirstCheckPoint()
+                        If YTA_CrcList.Count > 0 Then
+                            MainForm.YTA_Crc = YTA_CrcList.Where(Function(x) x.ID = (YTA_CrcList.Max(Function(y) y.ID))).FirstOrDefault
+                        Else
+                            MainForm.YTA_Crc = New POCO_YGSP.yta710_inspection_tb
+                            MainForm.YTA_Crc.RESULT = "NA"
+                        End If
+                    End If
+                End If
+
+
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("41")) = "41" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("1904")) = "1904" Then
+                    Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        Label_Message.Text = ErrMsg
+                        Exit Sub
+                    End If
+                End If
+
+                MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
+                MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsAllowed.Split(",")(0)
+                MainForm.FirstCheckPoint()
+                Me.Close()
+
+            End If
+        Catch ex As Exception
+            Label_Message.Text = "Runtime Error:" & ex.Message.Substring(0, 50) & ".."
+        End Try
+    End Sub
+
+    Private Sub SelectYtaPlates(ByVal CustOrd As POCO_YGSP.cust_ord, ByRef ErrMsg As String)
+        Try
+            ErrMsg = ""
+            Dim PlatePartNo As String = ""
+            Dim Inst_Lib As New TML_Library.Instrument
+            PlatePartNo = Inst_Lib.GetNamePlatePartNumber(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, CustOrd.INDEX_NO)
+            Dim allParts() As String
+            allParts = Inst_Lib.GetYTA_AllPlatePartNumberList(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, ErrMsg)
+            If Len(ErrMsg) > 0 Then
+                ErrMsg = "Error in reading all plate part numbers:" & ErrMsg
+                Exit Sub
+            End If
+            If allParts.Length > 0 Then
+                Dim SelParts(3) As String
+                Dim rl As New TML_Library.RandomArray
+                SelParts = rl.MakeRandomControlledlist(PlatePartNo, allParts, 4)
+                If CustOrd.SERIAL_NO Like "S5*" Then
+                    For i As Integer = 0 To SelParts.Length - 1
+                        If SelParts(i) = "F9220MV" Then
+                            SelParts(i) = "F9220LV"
+                        End If
+                        If SelParts(i) = "F9220MW" Then
+                            SelParts(i) = "F9220LW"
+                        End If
+                    Next
+                    If PlatePartNo = "F9220MW" Then
+                        PlatePartNo = "F9220LW"
+                    End If
+                    If PlatePartNo = "F9220LV" Then
+                        PlatePartNo = "F9220LW"
                     End If
                 End If
             End If
         Catch ex As Exception
-            Label_Message.Text = "Runtime Error:" & ex.Message.Substring(0, 50) & ".."
+            ErrMsg = ex.Message
         End Try
     End Sub
 End Class

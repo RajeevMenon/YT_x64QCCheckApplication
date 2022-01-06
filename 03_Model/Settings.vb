@@ -11,9 +11,18 @@
     Public Property Var_52_SinglePntInst_ImagePath As String
     Public Property Var_60_020_Position_Initial As String
     Public Property Var_60_020_Position_Tick As String
-    Public Property Var_60_020_Position_SerialBefore As String
+    Public Property Var_60_020_Position_DateManufacture As String
+    Public Property Var_60_030_Position_SerialBefore As String
     Public Property Var_60_120_Position_Initial As String
     Public Property Var_60_120_Position_Tick As String
+    Public Property Var_60_130_Position_Circle As String
+    Public Property Var_60_130_Position_Tick As String
+    Public Property Var_60_140_Position_Circle As String
+    Public Property Var_60_140_Position_Tick As String
+    Public Property Var_60_140_Position_Initial As String
+    Public Property Var_60_150_Position_Circle As String
+    Public Property Var_60_150_Position_Tick As String
+    Public Property Var_60_150_Position_Initial As String
     Public Property Var_60_160_Position_Circle As String
     Public Property Var_60_160_Position_Tick As String
     Public Property Var_60_170_Position_Circle As String
@@ -22,6 +31,9 @@
     Public Property Var_60_180_Position_Circle As String
     Public Property Var_60_180_Position_Initial As String
     Public Property Var_60_180_Position_Tick As String
+    Public Property Var_60_180_Position_QicCircle As String
+    Public Property Var_60_180_Position_QicInitial As String
+    Public Property Var_60_180_Position_QicTick As String
     Public Property Var_60_190_Position_Circle As String
     Public Property Var_60_190_Position_Initial As String
     Public Property Var_60_190_Position_Tick As String

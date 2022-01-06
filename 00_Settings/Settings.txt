@@ -6,16 +6,16 @@ Var_05_Factory			=	2
 Var_06_DocsStore			=	C:\MyFiles\Controlled_Apps\OTHERS\QCC\Test_QCC\TEST_OP\
 Var_07_Station			=	Build
 
-#Total Tests: 21,31,32,33,34,41,42,51,61,62,71,72,81,91,101,111,112,121,122,123,124,125,161,171,172,181,191,192,193,194,195,196
-#Total Tests: 1901,1902,1903,1904,1905,1906,1907,1908,2001,2002,2003,2004,2005,2006,2007,2008
-Var_08_StepsAllowed		=	2001,2002,2003,2004,2005,2006,2007,2008
+#Total Tests: 21,31,32,33,34,41,42,51,61,62,71,72,81,91,101,111,112,121,122,123,124,125,131,141,151,161,171,172,181
+#Total Tests: ,191,192,193,194,195,196,1901,1902,1903,1904,1905,1906,1907,1908,2001,2002,2003,2004,2005,2006,2007,2008
+Var_08_StepsAllowed		=	21,31
 
 Var_51_ProStepView_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
 Var_52_SinglePntInst_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
 
-Var_60_020_Position_Initial		=	Initial-11,84,41
+Var_60_020_Position_Initial		=	Initial-11,84,17.8
 Var_60_020_Position_Tick		=	21$Tick-13,70,18
-Var_60_020_Position_SerialBefore	=	SERIAL_NO_BEFORE-10,83,9.7
+Var_60_020_Position_DateManufacture	=	DATE-10,89.7,7.7
 
 Var_60_030_Position_Initial		=	Initial-11,84,20
 Var_60_030_Position_Tick		=	31$Tick-13,70,20|32$Tick-13,70,20|33$Tick-13,70,20|34$Tick-13,70,20
@@ -23,6 +23,16 @@ Var_60_030_Position_SerialBefore	=	SERIAL_NO_BEFORE-10,83,9.7
 
 Var_60_120_Position_Initial		=	Initial-11,84,41
 Var_60_120_Position_Tick		=	121$Tick-13,70,38|122$Tick-13,70,39.5|123$Tick-13,70,41|124$Tick-13,70,42.5|125$Tick-13,70,44
+
+Var_60_130_Position_Circle		=	131$Circle-11,48.4,47;Circle-11,55.9,49.2;Circle-11,64.5,47
+Var_60_130_Position_Tick		=	131$Tick-13,70,46
+Var_60_140_Position_Circle		=	141$Circle-11,48.4,49.2;Circle-11,55.9,49.2;Circle-11,64.5,49.2
+Var_60_140_Position_Tick		=	141$Tick-13,70,48.5
+Var_60_140_Position_Initial		=	Initial-11,84,47
+
+Var_60_150_Position_Circle		=	151$Circle-11,51.5,51;Circle-11,62,51
+Var_60_150_Position_Tick		=	151$Tick-13,70,51
+Var_60_150_Position_Initial		=	Initial-11,84,51
 
 Var_60_160_Position_Circle		=	161$Circle-11,51.5,52.7
 Var_60_160_Position_Tick		=	161$Tick-13,70,52.7
@@ -34,6 +44,9 @@ Var_60_170_Position_Tick		=	171$Tick-13,70,54.2|172$Tick-13,70,55.7
 Var_60_180_Position_Initial		=	Initial-11,84,57.3
 Var_60_180_Position_Circle		=	181$Circle-11,51.5,57.2;Circle-11,62,57.2
 Var_60_180_Position_Tick		=	181$Tick-13,70,57.2
+Var_60_180_Position_QicCircle		=	181$Circle-11,51.5,50.7;Circle-11,62,50.7
+Var_60_180_Position_QicTick		=	181$Tick-13,70,50.7
+Var_60_180_Position_QicInitial		=	Initial-11,84,50.7
 
 Var_60_190_Position_Initial		=	Initial-11,84,62
 Var_60_190_Position_Circle		=	191$Circle-13,51.2,58.7|192$Circle-13,51.2,60.2|193$Circle-13,51.2,61.7|194$Circle-13,51.2,63.2|195$Circle-13,51.2,64.7|196$Circle-13,51.2,66.2
