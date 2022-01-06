@@ -122,6 +122,8 @@
                         PlatePartNo = "F9220LW"
                     End If
                 End If
+                MainForm.DataPlateCheck = SelParts
+                MainForm.DataPlateCorrect = PlatePartNo
             End If
         Catch ex As Exception
             ErrMsg = ex.Message
