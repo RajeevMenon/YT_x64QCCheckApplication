@@ -25,4 +25,7 @@
     Public Property Var_60_190_Position_Circle As String
     Public Property Var_60_190_Position_Initial As String
     Public Property Var_60_190_Position_Tick As String
+    Public Property Var_60_1900_Position_Circle As String
+    Public Property Var_60_1900_Position_Initial As String
+    Public Property Var_60_1900_Position_Tick As String
 End Class

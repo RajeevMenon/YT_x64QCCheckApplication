@@ -34,5 +34,6 @@ Var_60_180_Position_Initial		=	Initial-11,84,57.3
 Var_60_180_Position_Circle		=	181$Circle-11,51.5,57.2;Circle-11,62,57.2
 Var_60_180_Position_Tick		=	181$Tick-13,70,57.2
 
-
-
+Var_60_190_Position_Initial		=	Initial-11,84,62
+Var_60_190_Position_Circle		=	191$Circle-13,51.2,58.7|192$Circle-13,51.2,60.2|193$Circle-13,51.2,61.7|194$Circle-13,51.2,63.2|195$Circle-13,51.2,64.7|196$Circle-13,51.2,66.2
+Var_60_190_Position_Tick		=	191$Tick-13,70,58.7|192$Tick-13,70,60.2|193$Tick-13,70,61.7|194$Tick-13,70,63.2|195$Tick-13,70,64.7|196$Tick-13,70,66.2
