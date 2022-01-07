@@ -15,6 +15,7 @@
     Public Property Var_60_030_Position_SerialBefore As String
     Public Property Var_60_120_Position_Initial As String
     Public Property Var_60_120_Position_Tick As String
+    Public Property Var_60_120_Position_Circle As String
     Public Property Var_60_130_Position_Circle As String
     Public Property Var_60_130_Position_Tick As String
     Public Property Var_60_140_Position_Circle As String

@@ -18,15 +18,17 @@
                 AddedDocErrorMessage = ""
             End If
             If INST_IM_OK = True And SFTY_IM_OK = True And EUDOC_OK = True Then
+                Dim IM = TextBox_IM.Text.ToUpper.Trim & " + " & TextBox_SIM.Text.ToUpper.Trim
+                IM = IM.Replace(" ", "").Replace("-", ".")
                 For Each Item In MainForm.AllCheckResult
                     If Not IsNothing(Item) Then
                         If Item.StepNo = MainForm.CurrentCheckPoint.StepNo Then
-                            Item.Result = Item.Result.Replace("IM-", TextBox_IM.Text.ToUpper & " + " & TextBox_SIM.Text.ToUpper & "-")
+                            Item.Result = Item.Result.Replace("IM-", IM & "-")
                             If TextBox_EUDoC.Text.ToUpper.Length > 0 Then Item.Result = Item.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper & "-")
                         End If
                     End If
                 Next
-                MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", TextBox_IM.Text.ToUpper & " + " & TextBox_SIM.Text.ToUpper & "-")
+                MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", IM & "-")
                 If TextBox_EUDoC.Text.ToUpper.Length > 0 Then
                     MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper & "-")
                 End If

@@ -29,62 +29,93 @@
                     Exit Sub
                 End If
 
-                MainForm.QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                'Check if inspection already completed.
+                Dim InspRes = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
                 If ErrMsg.Length > 0 Then
                     Label_Message.Text = ErrMsg
                     Exit Sub
                 End If
+                Dim TotalStepsInspected(0) As String
+                If InspRes.Count > 0 Then
+                    For Each process In InspRes
+                        Dim StepNo = process.REMARK.Split("-")(0).Split(",")
+                        For Each Steps In StepNo
+                            TotalStepsInspected(TotalStepsInspected.Length - 1) = Steps
+                            ReDim Preserve TotalStepsInspected(TotalStepsInspected.Length)
+                        Next
+                    Next
+                    ReDim Preserve TotalStepsInspected(TotalStepsInspected.Length - 2)
+                End If
+                If TotalStepsInspected.Length = 51 Then
+                    If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
+                        MainForm.PrintQcc_Rev1()
+                        Exit Sub
+                    Else
+                        If MsgBox("Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                            Exit Sub
+                        Else
+                            MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
+                            MainForm.Refresh()
+                        End If
+                    End If
+                End If
 
-                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("131")) = "131" Or
+                MainForm.QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        Label_Message.Text = ErrMsg
+                        Exit Sub
+                    End If
+
+                    If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("131")) = "131" Or
                     Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("141")) = "141" Or
                     Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("181")) = "181" Then
 
-                    Dim Hipots = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.hipot_tb)("index_no", MainForm.CustOrd.INDEX_NO, "index_no", MainForm.CustOrd.INDEX_NO, ErrMsg)
-                    If Hipots.Count > 0 Then
-                        MainForm.Hipot = Hipots.Where(Function(x) x.rec_no = (Hipots.Max(Function(y) y.rec_no))).FirstOrDefault
+                        Dim Hipots = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.hipot_tb)("index_no", MainForm.CustOrd.INDEX_NO, "index_no", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                        If Hipots.Count > 0 Then
+                            MainForm.Hipot = Hipots.Where(Function(x) x.rec_no = (Hipots.Max(Function(y) y.rec_no))).FirstOrDefault
+                            If ErrMsg.Length > 0 Then
+                                Label_Message.Text = ErrMsg
+                                Exit Sub
+                            End If
+                        Else
+                            MainForm.Hipot = New POCO_YGSP.hipot_tb
+                            MainForm.Hipot.acw_test_result = "NA"
+                            MainForm.Hipot.ir_test_result = "NA"
+                        End If
+                    End If
+
+
+                    If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("151")) = "151" Or
+                    Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("181")) = "181" Then
+                        Dim YTA_CrcList = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.yta710_inspection_tb)("SERIAL", MainForm.CustOrd.SERIAL_NO, "SERIAL", MainForm.CustOrd.SERIAL_NO, ErrMsg)
+                        If ErrMsg.Length > 0 Then
+                            Label_Message.Text = ErrMsg
+                            Exit Sub
+                        Else
+                            If YTA_CrcList.Count > 0 Then
+                                MainForm.YTA_Crc = YTA_CrcList.Where(Function(x) x.ID = (YTA_CrcList.Max(Function(y) y.ID))).FirstOrDefault
+                            Else
+                                MainForm.YTA_Crc = New POCO_YGSP.yta710_inspection_tb
+                                MainForm.YTA_Crc.RESULT = "NA"
+                            End If
+                        End If
+                    End If
+
+
+                    If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("41")) = "41" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("1904")) = "1904" Then
+                        Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
                         If ErrMsg.Length > 0 Then
                             Label_Message.Text = ErrMsg
                             Exit Sub
                         End If
-                    Else
-                        MainForm.Hipot = New POCO_YGSP.hipot_tb
-                        MainForm.Hipot.acw_test_result = "NA"
-                        MainForm.Hipot.ir_test_result = "NA"
                     End If
+
+                    MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
+                    MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsAllowed.Split(",")(0)
+                    MainForm.FirstCheckPoint()
+                    Me.Close()
+
                 End If
-
-
-                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("151")) = "151" Or
-                    Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("181")) = "181" Then
-                    Dim YTA_CrcList = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.yta710_inspection_tb)("SERIAL", MainForm.CustOrd.SERIAL_NO, "SERIAL", MainForm.CustOrd.SERIAL_NO, ErrMsg)
-                    If ErrMsg.Length > 0 Then
-                        Label_Message.Text = ErrMsg
-                        Exit Sub
-                    Else
-                        If YTA_CrcList.Count > 0 Then
-                            MainForm.YTA_Crc = YTA_CrcList.Where(Function(x) x.ID = (YTA_CrcList.Max(Function(y) y.ID))).FirstOrDefault
-                        Else
-                            MainForm.YTA_Crc = New POCO_YGSP.yta710_inspection_tb
-                            MainForm.YTA_Crc.RESULT = "NA"
-                        End If
-                    End If
-                End If
-
-
-                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("41")) = "41" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("1904")) = "1904" Then
-                    Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
-                    If ErrMsg.Length > 0 Then
-                        Label_Message.Text = ErrMsg
-                        Exit Sub
-                    End If
-                End If
-
-                MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
-                MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsAllowed.Split(",")(0)
-                MainForm.FirstCheckPoint()
-                Me.Close()
-
-            End If
         Catch ex As Exception
             Label_Message.Text = "Runtime Error:" & ex.Message.Substring(0, 50) & ".."
         End Try

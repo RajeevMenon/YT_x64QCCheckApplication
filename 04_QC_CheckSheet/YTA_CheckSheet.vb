@@ -696,15 +696,17 @@
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Output Singal] Confirm Communication Protocol"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "HART.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "Fieldbus.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
             If MainForm.CustOrd.MS_CODE Like "YTA???-J*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "HART.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-F*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Fieldbus.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             Else
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BRAIN.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(2)
             End If
-
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
             Return ProcessStepReturn
 
 
@@ -729,13 +731,15 @@
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Inputs] Confirm the number of Sensor Inputs"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "SingleSensor.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "DualSensor.jpg"
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             If MainForm.CustOrd.MS_CODE Like "YTA???-??1*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "SingleSensor.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-??2*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "DualSensor.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             End If
-
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
             Return ProcessStepReturn
 
 
@@ -760,13 +764,15 @@
             ProcessStepReturn.SinglePointAction.SPI_Message = "[MOC] Confirm the Material of Housing and Covers"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "Aluminum.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "SUS.jpg"
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             If MainForm.CustOrd.MS_CODE Like "YTA???-???A*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Aluminum.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-???C*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "SUS.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             End If
-
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
             Return ProcessStepReturn
 
 
@@ -790,21 +796,23 @@
             ProcessStepReturn.ActivityToCheck = "Electrical Connection Type of YTA Unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm the Electrical Connection type of Housing/Case"
 
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             If MainForm.CustOrd.MS_CODE Like "YTA???-????2*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NPT.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "M20.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NPT.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-????4*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NPT.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "M20.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "M20.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(2)
             ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-????0*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "G12.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NPT.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "G12.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             End If
-
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,36.5"
             Return ProcessStepReturn
 
 
@@ -829,13 +837,15 @@
             ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm the Display Type"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "INDICATOR.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "NO INDICATOR.jpg"
+
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             If MainForm.CustOrd.MS_CODE Like "YTA???-?????D*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "INDICATOR.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             ElseIf MainForm.CustOrd.MS_CODE Like "YTA???-?????N*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NO INDICATOR.jpg"
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             End If
-
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_120_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1) '"Tick-13,70,46.5$" & Initial & "-11,84,40"
             ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_120_Position_Initial.Replace("Initial", MainForm.Initial)
             Return ProcessStepReturn
 
@@ -1083,11 +1093,11 @@
             ProcessStepReturn.ActivityToCheck = "Print QIC"
             ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
             ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_180_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_180_Position_QicTick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            'ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_180_Position_QicTick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_180_Position_Initial.Replace("Initial", MainForm.Initial)
             ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_180_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_180_Position_QicCircle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_180_Position_QicInitial.Replace("Initial", MainForm.Initial)
+            'ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_180_Position_QicCircle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            'ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_180_Position_QicInitial.Replace("Initial", MainForm.Initial)
 
 
             Dim QicFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\QICDOC\"
