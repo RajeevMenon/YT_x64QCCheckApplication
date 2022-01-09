@@ -5,7 +5,10 @@
     Public Property Var_04_MySql_QA As String
     Public Property Var_05_Factory As String
     Public Property Var_07_Station As String
-    Public Property Var_08_StepsAllowed As String
+    Public Property Var_08_StepsPrevous As String
+    Public Property Var_08_StepsCurrent As String
+    Public Property Var_08_AllSteps_01 As String
+    Public Property Var_08_AllSteps_02 As String
     Public Property Var_06_DocsStore As String
     Public Property Var_51_ProStepView_ImagePath As String
     Public Property Var_52_SinglePntInst_ImagePath As String

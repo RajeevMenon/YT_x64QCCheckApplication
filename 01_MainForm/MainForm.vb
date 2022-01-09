@@ -25,7 +25,7 @@ Public Class MainForm
         Me.Text = Me.Text & " [ Ver:" & Version & "]"
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
-        AllowedSteps = Setting.Var_08_StepsAllowed.Split(",")
+        AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
         ReDim AllCheckResult(AllowedSteps.Length - 1)
         Dim BEY As New Login
         BEY.TopLevel = False
@@ -56,7 +56,7 @@ Public Class MainForm
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
+            Dim StepNumbers = Setting.Var_08_StepsCurrent.Split(",")
 
             RichTextBox_ActivityToCheck.Text = "Wait.."
             CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(0)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
@@ -96,7 +96,6 @@ Public Class MainForm
                             SUI.ListView1.Select()
                             SUI.Show()
                             Me.Refresh()
-
                         ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
                             Dim SPI As SinglePointInstruction = New SinglePointInstruction
                             SPI.TopLevel = False
@@ -117,13 +116,19 @@ Public Class MainForm
                             PanelSubForm.AutoScroll = True
                             VDOC.Show()
                             Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                            Dim VDOC As AddedDocs = New AddedDocs
+                            VDOC.TopLevel = False
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
                         End If
                     End If
                 End If
             End If
-
-
-
 
         Catch ex As Exception
 
@@ -133,7 +138,7 @@ Public Class MainForm
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            Dim StepNumbers = Setting.Var_08_StepsAllowed.Split(",")
+            Dim StepNumbers = Setting.Var_08_StepsCurrent.Split(",")
 
             RichTextBox_ActivityToCheck.Text = "Wait.."
             CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(StepNumbers(StepNumbers.Length - 1)), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
@@ -194,13 +199,19 @@ Public Class MainForm
                             PanelSubForm.AutoScroll = True
                             VDOC.Show()
                             Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                            Dim VDOC As AddedDocs = New AddedDocs
+                            VDOC.TopLevel = False
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
                         End If
                     End If
                 End If
             End If
-
-
-
 
         Catch ex As Exception
 
@@ -802,5 +813,4 @@ Public Class MainForm
 
         End Try
     End Sub
-
 End Class
