@@ -47,7 +47,6 @@ Partial Class BarcodeEntry
         Me.TextBox_Scan.Name = "TextBox_Scan"
         Me.TextBox_Scan.Size = New System.Drawing.Size(415, 44)
         Me.TextBox_Scan.TabIndex = 1
-        Me.TextBox_Scan.Text = "100003771640"
         '
         'Label1
         '

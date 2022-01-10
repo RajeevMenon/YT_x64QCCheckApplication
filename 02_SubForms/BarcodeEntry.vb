@@ -8,6 +8,8 @@
                 Dim FieldName As String = ""
                 Dim IndexNo = ""
 
+                'TextBox_Scan.Text = "100003771640"
+
 #Region "Scan Code Read"
                 If TextBox_Scan.Text Like "*MFR:*S/N:*" Then
                     IndexNo = TextBox_Scan.Text.Substring(TextBox_Scan.Text.Length - 9, 9)
@@ -133,6 +135,7 @@
                 MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
                 MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsCurrent.Split(",")(0)
                 MainForm.FirstCheckPoint()
+                TextBox_Scan.Text = ""
                 Me.Close()
 
             End If

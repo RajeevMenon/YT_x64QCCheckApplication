@@ -76,6 +76,8 @@ UpdateResult:
         TmlEntityQA.ExecuteTransactionQuery(Sql, ErrMsg)
         If ErrMsg.Length > 0 Then
             MsgBox(ErrMsg, MsgBoxStyle.Critical, "Error")
+        Else
+            MainForm.LoadIndexScan()
         End If
     End Sub
 
