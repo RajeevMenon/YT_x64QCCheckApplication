@@ -17,7 +17,6 @@
             If StepNo = 34 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo34(Initial, CustOrd, ErrMsg)
 
             If StepNo = 41 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo41(Initial, CustOrd, ErrMsg)
-            If StepNo = 42 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo42(Initial, CustOrd, ErrMsg)
 
             If StepNo = 51 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo51(Initial, CustOrd, ErrMsg)
 
@@ -56,6 +55,7 @@
             If StepNo = 194 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo194(Initial, CustOrd, ErrMsg)
             If StepNo = 195 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo195(Initial, CustOrd, ErrMsg)
             If StepNo = 196 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo196(Initial, CustOrd, ErrMsg)
+            If StepNo = 197 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo197(Initial, CustOrd, ErrMsg)
 
             If StepNo = 1901 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1901(Initial, CustOrd, ErrMsg)
             If StepNo = 1902 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1902(Initial, CustOrd, ErrMsg)
@@ -65,6 +65,7 @@
             If StepNo = 1906 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1906(Initial, CustOrd, ErrMsg)
             If StepNo = 1907 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1907(Initial, CustOrd, ErrMsg)
             If StepNo = 1908 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1908(Initial, CustOrd, ErrMsg)
+            If StepNo = 1909 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo1909(Initial, CustOrd, ErrMsg)
 
             If StepNo = 2001 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2001(Initial, CustOrd, ErrMsg)
             If StepNo = 2002 Then ProcessStepReturn = (New YTA_CheckSheet).ProcessStepNo2002(Initial, CustOrd, ErrMsg)
@@ -122,6 +123,7 @@
             ProcessStepReturn.Activity = "Complete unit and KD Part correctness check"
             ProcessStepReturn.ToCheck = "Part numbers and Quantity as per Bill of Material"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+            ProcessStepReturn.Initial = Initial
             ProcessStepReturn.StepNo_Group = "21"
 
             ProcessStepReturn.StepNo = "21"
@@ -140,8 +142,6 @@
     End Function
     Public Function ProcessStepNo31(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
-            Dim RL_Tag As New TML_Library.RandomArray
-            Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
 
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "30"
@@ -212,7 +212,11 @@
             ProcessStepReturn.ActivityToCheck = "Tag Plates With correct contents."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed In the plate And Click Select button."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
-            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            If CustOrd.TAG_NO_525 = "" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "BLANK"
+            Else
+                ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            End If
             ProcessStepReturn.Result = ""
             Return ProcessStepReturn
         Catch ex As Exception
@@ -259,40 +263,14 @@
             ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "41,42"
+            ProcessStepReturn.StepNo_Group = "41"
 
             ProcessStepReturn.StepNo = "41"
-            ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
+            ProcessStepReturn.ActivityToCheck = "Correctness of Dataplate"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Plate Part number from below list and Click SELECT button."
             ProcessStepReturn.UserInputAction.UserInputList = MainForm.DataPlateCheck 'SelParts
             ProcessStepReturn.UserInputAction.UserInputCorrect = MainForm.DataPlateCorrect 'PlatePartNo
             ProcessStepReturn.Result = MainForm.DataPlateCorrect & "-8,62,21.8"
-            Return ProcessStepReturn
-
-
-        Catch ex As Exception
-            Return Nothing
-        End Try
-    End Function
-    Public Function ProcessStepNo42(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-        Try
-
-            Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "40"
-            ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
-            ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
-            ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
-            ProcessStepReturn.StepNo_Group = "41,42"
-
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-            ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo = "42"
-            ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "[Screw Tightness/Appearance]Is the Plate fixed correctly with No space or raised edges."
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "Nameplate_with_gaps.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "NamePlate_Edge_Correct.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_Edge_Correct.jpg"
-            ProcessStepReturn.Result = "OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
             Return ProcessStepReturn
 
 
@@ -1137,7 +1115,7 @@
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
             ProcessStepReturn.StepNo = "191"
             ProcessStepReturn.ActivityToCheck = "Correct MS-CODE"
@@ -1171,7 +1149,7 @@
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
             ProcessStepReturn.StepNo = "192"
             ProcessStepReturn.ActivityToCheck = "Correct SERIAL Number"
@@ -1219,7 +1197,7 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
             ProcessStepReturn.StepNo = "193"
             ProcessStepReturn.ActivityToCheck = "Correct Calibration Range"
@@ -1273,13 +1251,17 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
             ProcessStepReturn.StepNo = "194"
             ProcessStepReturn.ActivityToCheck = "Tag Number correctness"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed In the plate And Click Select button."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
-            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            If CustOrd.TAG_NO_525 = "" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "BLANK"
+            Else
+                ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
+            End If
             ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             Return ProcessStepReturn
@@ -1297,7 +1279,7 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
             ProcessStepReturn.StepNo = "195"
             ProcessStepReturn.ActivityToCheck = "Agency Approvals"
@@ -1329,9 +1311,39 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196"
+            ProcessStepReturn.StepNo_Group = "31,32,33,34"
 
             ProcessStepReturn.StepNo = "196"
+            ProcessStepReturn.ActivityToCheck = "RoHS Confirmatatory Marking"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "The Plate has which Of the following [with CE Or without CE]. This Is sample picture, so don't check other contents."
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_with_CE.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_without_CE.jpg"
+            If CustOrd.SERIAL_NO_BEFORE Like "S5WC*" Or CustOrd.SERIAL_NO_BEFORE Like "S5X1*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_without_CE.jpg"
+                'ProcessStepReturn.Result = "Yes without CE-8,57,20.6"
+            Else
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_with_CE.jpg"
+                'ProcessStepReturn.Result = "Yes with CE-8,57,20.6"
+            End If
+
+            Return ProcessStepReturn
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo197(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
+            ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
+
+            ProcessStepReturn.StepNo = "197"
             ProcessStepReturn.ActivityToCheck = "Check QIC Data [1] Cal.Point/Error [2] Temp.Humidity [3] Overall"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Check QIC Overall data including Cal. Points and Temp./Humidity"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Correct.jpg"
@@ -1357,7 +1369,7 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
             ProcessStepReturn.StepNo = "1901"
             ProcessStepReturn.ActivityToCheck = "Does the unit have a Display?"
@@ -1390,7 +1402,7 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
             ProcessStepReturn.StepNo = "1902"
             If CustOrd.MS_CODE Like "YTA???-?????D?*" Then
@@ -1421,7 +1433,7 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
             ProcessStepReturn.StepNo = "1903"
             ProcessStepReturn.ActivityToCheck = "Lock Screw tightened?"
@@ -1453,7 +1465,7 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
             ProcessStepReturn.StepNo = "1904"
             ProcessStepReturn.ActivityToCheck = "Approval Name plate Fixed?"
@@ -1472,22 +1484,21 @@ FixVar3:
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
-            ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
-            ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
-            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.ProcessNo = "40"
+            ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
+            ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
+            ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
+
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
-
             ProcessStepReturn.StepNo = "1905"
-            ProcessStepReturn.ActivityToCheck = "Tag Plate Fixed?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Check the Tag plate fixed correctly  YES  ||  NO"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "[Screw Tightness/Appearance]Is the Plate fixed correctly with No space or raised edges."
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "Nameplate_with_gaps.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "NamePlate_Edge_Correct.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_Edge_Correct.jpg"
+            ProcessStepReturn.Result = "OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
             Return ProcessStepReturn
 
 
@@ -1505,22 +1516,16 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
             ProcessStepReturn.StepNo = "1906"
-            ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate Fixed?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag plate fixed correctly  YES  ||  NO"
+            ProcessStepReturn.ActivityToCheck = "Tag Plate Fixed?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Check the Tag plate fixed correctly  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
-            If CustOrd.MS_CODE Like "YTA???-???????*/N4*" Then
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
-                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-            Else
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
-                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
-            End If
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             Return ProcessStepReturn
 
 
@@ -1538,11 +1543,11 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
             ProcessStepReturn.StepNo = "1907"
-            ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate has correct Tag number?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag number  YES  ||  NO"
+            ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate Fixed?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag plate fixed correctly  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If CustOrd.MS_CODE Like "YTA???-???????*/N4*" Then
@@ -1571,9 +1576,42 @@ FixVar3:
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908"
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
             ProcessStepReturn.StepNo = "1908"
+            ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate has correct Tag number?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag number  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+            If CustOrd.MS_CODE Like "YTA???-???????*/N4*" Then
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+            Else
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+            End If
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo1909(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
+            ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
+            ProcessStepReturn.ToCheck = "Correct || Not Correct"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
+
+            ProcessStepReturn.StepNo = "1909"
             ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket correct  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"

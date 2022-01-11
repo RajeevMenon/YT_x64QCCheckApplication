@@ -80,7 +80,6 @@ Partial Class Login
         Me.UsernameTextBox.Name = "UsernameTextBox"
         Me.UsernameTextBox.Size = New System.Drawing.Size(220, 29)
         Me.UsernameTextBox.TabIndex = 1
-        Me.UsernameTextBox.Text = "46501497"
         '
         'PasswordTextBox
         '
@@ -90,7 +89,6 @@ Partial Class Login
         Me.PasswordTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.PasswordTextBox.Size = New System.Drawing.Size(220, 29)
         Me.PasswordTextBox.TabIndex = 3
-        Me.PasswordTextBox.Text = "tml-211201"
         '
         'OK
         '
