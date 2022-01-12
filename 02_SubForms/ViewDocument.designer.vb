@@ -83,7 +83,6 @@ Partial Class ViewDocument
         '
         'Button_NG
         '
-        Me.Button_NG.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_NG.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button_NG.ForeColor = System.Drawing.Color.Red
         Me.Button_NG.Location = New System.Drawing.Point(121, 3)
@@ -95,7 +94,6 @@ Partial Class ViewDocument
         '
         'Button_GO
         '
-        Me.Button_GO.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_GO.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button_GO.ForeColor = System.Drawing.Color.Blue
         Me.Button_GO.Location = New System.Drawing.Point(23, 3)

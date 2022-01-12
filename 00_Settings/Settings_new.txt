@@ -1,4 +1,4 @@
-﻿Var_01_ServerIP			=	127.0.0.1
+﻿Var_01_ServerIP				=	127.0.0.1
 Var_02_ServerPort			=	6801
 Var_03_MySql_YGSP			=	Server=127.0.0.1;Port=6801;Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
 Var_04_MySql_QA			=	Server=127.0.0.1;Port=6801;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
@@ -6,10 +6,22 @@ Var_05_Factory			=	2
 Var_06_DocsStore			=	C:\MyFiles\Controlled_Apps\OTHERS\QCC\Test_QCC\TEST_OP\
 Var_07_Station			=	Build
 
-Var_08_StepsPrevous		=	21,31,32,33,34,41
-Var_08_StepsCurrent		=	51,61,62,71,72,81,91,101,111,112,121,122,123,124,125
-Var_08_AllSteps_01			=	21,31,32,33,34,41,42,51,61,62,71,72,81,91,101,111,112,121,122,123,124,125,131,141,151,161,171,172,181
-Var_08_AllSteps_02			=	191,192,193,194,195,196,1901,1902,1903,1904,1905,1906,1907,1908,1909,2001,2002,2003,2004,2005,2006,2007,2008
+Var_08_StepsPrevous		=	
+Var_08_StepsPrevous_01		=	21,31,32,33,34,41,42
+Var_08_StepsPrevous_02		=	21,31,32,33,34,41,42
+
+Var_08_StepsCurrent	=	
+Var_08_StepsCurrent_01		=	51,61,62,71,72,81,91,101,111,112,121,122,123,124,125
+Var_08_StepsCurrent_02		=	51,61,62,71,72,81,91,101,111,112,121,122,123,124,125
+
+Var_08_AllSteps			=	
+Var_08_AllSteps_01			=	20_01_00,30_01_00,30_02_00,30_03_00,30_04_00,40_01_00
+Var_08_AllSteps_02			=	50_01_00,60_01_00,60_02_00,70_01_00,70_02_00,80_01_00,90_01_00
+Var_08_AllSteps_03			=	100_01_00,110_01_00,110_02_00,120_01_00,120_02_00,120_03_00,120_04_00,120_05_00
+Var_08_AllSteps_04			=	130_01_00,140_01_00,150_01_00,160_01_00,170_01_00,170_02_00,180_01_00
+Var_08_AllSteps_05			=	190_01_00,190_02_00,190_03_00,190_04_00,190_05_00,190_06_00
+Var_08_AllSteps_06			=	190_07_00,190_08_00,190_09_00,190_10_00,190_11_00,190_12_00,190_13_00,190_14_00,190_15_00,190_16_00
+Var_08_AllSteps_07			=	200_01_00,200_02_00,200_03_00,200_04_00,200_05_00,200_06_00,200_07_00,200_08_00
 
 Var_51_ProStepView_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
 Var_52_SinglePntInst_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
@@ -55,8 +67,8 @@ Var_60_190_Position_Circle		=	191$Circle-13,51.2,58.7|192$Circle-13,51.2,60.2|19
 Var_60_190_Position_Tick		=	191$Tick-13,70,58.7|192$Tick-13,70,60.2|193$Tick-13,70,61.7|194$Tick-13,70,63.2|195$Tick-13,70,64.7|196$Tick-13,70,66.2
 
 Var_60_1900_Position_Initial		=	Initial-11,84,73
-Var_60_1900_Position_Circle		=	1901$Circle-13,51.2,67.8;Circle-11,61.7,67.8|1902$Circle-13,51.2,69.3;Circle-11,61.7,69.3|1903$Circle-13,51.2,70.8;Circle-11,61.7,70.8|1904$Circle-13,51.2,72.3;Circle-11,61.7,72.3|1906$Circle-13,51.2,73.9;Circle-11,61.7,73.9|1907$Circle-13,51.2,75.5;Circle-11,61.7,75.5|1908$Circle-13,51.2,77.0;Circle-11,61.7,77.0|1909$Circle-13,51.2,78.5;Circle-11,61.7,78.5
-Var_60_1900_Position_Tick		=	1901$Tick-13,70,67.8|1902$Tick-13,70,69.3|1903$Tick-13,70,70.8|1904$Tick-13,70,72.3|1906$Tick-13,70,73.9|1907$Tick-13,70,75.5|1908$Tick-13,70,77.0|1909$Tick-13,70,78.5
+Var_60_1900_Position_Circle		=	1901$Circle-13,51.2,67.8;Circle-11,61.7,67.8|1902$Circle-13,51.2,69.3;Circle-11,61.7,69.3|1903$Circle-13,51.2,70.8;Circle-11,61.7,70.8|1904$Circle-13,51.2,72.3;Circle-11,61.7,72.3|1905$Circle-13,51.2,73.9;Circle-11,61.7,73.9|1906$Circle-13,51.2,75.5;Circle-11,61.7,75.5|1907$Circle-13,51.2,77.0;Circle-11,61.7,77.0|1908$Circle-13,51.2,78.5;Circle-11,61.7,78.5
+Var_60_1900_Position_Tick		=	1901$Tick-13,70,67.8|1902$Tick-13,70,69.3|1903$Tick-13,70,70.8|1904$Tick-13,70,72.3|1905$Tick-13,70,73.9|1906$Tick-13,70,75.5|1907$Tick-13,70,77.0|1908$Tick-13,70,78.5
 
 Var_60_2000_Position_Initial		=	Initial-11,84,86
 Var_60_2000_Position_Circle		=	2001$Circle-11,51.5,80.2;Circle-11,62,80.2|2003$Circle-11,65,83.5|2004$Circle-11,56.3,85.0|2005$Circle-11,51.3,86.4;Circle-11,61.7,86.4|2006$Circle-11,51.3,88.0|2008$Circle-11,49,91.2

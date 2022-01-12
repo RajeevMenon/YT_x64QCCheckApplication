@@ -1,4 +1,4 @@
-﻿Public Class YTA_CheckSheet
+﻿Public Class YTA_CheckSheet_v1m2s
 
 #Region "Common"
 
@@ -88,31 +88,7 @@
 
 #Region "Version 1.2"
 
-    'Public Function ProcessStepNo11(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-    '    Try
-    '        Dim ProcessStepReturn As New CheckSheetStep
-    '        ProcessStepReturn.ProcessNo = "10"
-    '        ProcessStepReturn.ProcessStep = "Line Receiving Inspection "
-    '        ProcessStepReturn.Activity = ""
-    '        ProcessStepReturn.ToCheck = ""
-    '        ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
-    '        ProcessStepReturn.Initial = Initial
-
-    '        ProcessStepReturn.StepNo = "11"
-    '        ProcessStepReturn.StepNo_Group = "11"
-    '        ProcessStepReturn.ActivityToCheck = "Check QC Checksheet correctness."
-    '        ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "QCC Correct?."
-    '        'ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = MainForm.Setting.Var_06_DocsStore & "Production Release Documents\OrderTag\" &
-    '        '    "" & CustOrd.PROD_NO & "\" & "Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-OrderTag.pdf"
-    '        ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = MainForm.Setting.Var_06_DocsStore & "Production Release Documents\QC Check Sheets\" &
-    '            "" & CustOrd.PROD_NO & "\" & "Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
-    '        Return ProcessStepReturn
-
-    '    Catch ex As Exception
-    '        Return Nothing
-    '    End Try
-    'End Function
-    Public Function ProcessStepNo21(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo20_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim ProcessStepReturn As New CheckSheetStep
             Dim RL_Tag As New TML_Library.RandomArray
@@ -124,9 +100,8 @@
             ProcessStepReturn.ToCheck = "Part numbers and Quantity as per Bill of Material"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "21"
 
-            ProcessStepReturn.StepNo = "21"
+            ProcessStepReturn.StepNo = "20_01_00"
             ProcessStepReturn.ActivityToCheck = "Check Complete Unit Correctly Picked."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate Of before Modificaiton unit."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsSNO
@@ -140,7 +115,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo31(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo30_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -150,9 +125,8 @@
             ProcessStepReturn.ToCheck = "Country of Origin"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "31,32,33,34"
 
-            ProcessStepReturn.StepNo = "31"
+            ProcessStepReturn.StepNo = "30_01_00"
             ProcessStepReturn.ActivityToCheck = "Prepare Data Plates with correct COO."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the COO printed In the plate."
             ProcessStepReturn.UserInputAction.UserInputList = {"Made In China", "Made In Japan", "Made In KSA", "Made In Singapore"}
@@ -169,7 +143,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo32(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo30_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
             Dim SelPartsSNO = RL_Tag.RandomStringArraySERIAL(CustOrd.SERIAL_NO, 4)
@@ -181,9 +155,8 @@
             ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "31,32,33,34"
 
-            ProcessStepReturn.StepNo = "32"
+            ProcessStepReturn.StepNo = "30_02_00"
             ProcessStepReturn.ActivityToCheck = "Date Plates With correct contents."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsSNO
@@ -194,7 +167,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo33(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo30_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
             Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
@@ -206,9 +179,8 @@
             ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "31,32,33,34"
 
-            ProcessStepReturn.StepNo = "33"
+            ProcessStepReturn.StepNo = "30_03_00"
             ProcessStepReturn.ActivityToCheck = "Tag Plates With correct contents."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed In the plate."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
@@ -223,7 +195,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo34(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo30_04_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -233,9 +205,8 @@
             ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "31,32,33,34"
 
-            ProcessStepReturn.StepNo = "34"
+            ProcessStepReturn.StepNo = "30_04_00"
             ProcessStepReturn.ActivityToCheck = "RoHS Confirmatatory Marking"
             ProcessStepReturn.SinglePointAction.SPI_Message = "The Plate has which Of the following [with CE Or without CE]. This Is sample picture, so don't check other contents."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_with_CE.jpg"
@@ -253,7 +224,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo41(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo40_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -265,7 +236,7 @@
             ProcessStepReturn.Initial = Initial
             ProcessStepReturn.StepNo_Group = "41"
 
-            ProcessStepReturn.StepNo = "41"
+            ProcessStepReturn.StepNo = "40_01_00"
             ProcessStepReturn.ActivityToCheck = "Correctness of Dataplate"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Plate Part number from below list."
             ProcessStepReturn.UserInputAction.UserInputList = MainForm.DataPlateCheck 'SelParts
@@ -278,7 +249,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo51(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo50_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -288,9 +259,8 @@
             ProcessStepReturn.ToCheck = "No Thread damage"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "51"
 
-            ProcessStepReturn.StepNo = "51"
+            ProcessStepReturn.StepNo = "50_01_00"
             ProcessStepReturn.ActivityToCheck = "Display, Terminal Cover Open"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Cover open/Appearance] No Thread damage."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "DamagedCovers.jpg"
@@ -304,7 +274,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo61(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo60_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -314,8 +284,7 @@
             ProcessStepReturn.ToCheck = "/C1  /C2  /C3  NA / Plug Installed"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "61,62"
-            ProcessStepReturn.StepNo = "61"
+            ProcessStepReturn.StepNo = "60_01_00"
 
             If ((CustOrd.MS_CODE Like "YTA*/C[123]*") And (Not CustOrd.MS_CODE_BEFORE Like "YTA*/C[123]*")) _
                 Or ((Not CustOrd.MS_CODE Like "YTA*/C[123]*") And (CustOrd.MS_CODE_BEFORE Like "YTA*/C[123]*")) Then
@@ -365,7 +334,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo62(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo60_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -376,9 +345,8 @@
                 ProcessStepReturn.ToCheck = "/C1  /C2  /C3  NA / Plug Installed"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
-                ProcessStepReturn.StepNo_Group = "61,62"
 
-                ProcessStepReturn.StepNo = "62"
+                ProcessStepReturn.StepNo = "60_02_00"
                 ProcessStepReturn.ActivityToCheck = "Plug for Electrical connection"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Plug] Confirm Red Plug on Electrical Connection"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
@@ -393,7 +361,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo71(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo70_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -404,9 +372,8 @@
                 ProcessStepReturn.ToCheck = "ADDED   REMOVED    NO-CHANGE"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
-                ProcessStepReturn.StepNo_Group = "71,72"
 
-                ProcessStepReturn.StepNo = "71"
+                ProcessStepReturn.StepNo = "70_01_00"
                 ProcessStepReturn.ActivityToCheck = "Display Indicator"
                 If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
@@ -437,7 +404,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo72(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo70_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -448,9 +415,8 @@
                 ProcessStepReturn.ToCheck = "ADDED   REMOVED    NO-CHANGE"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
-                ProcessStepReturn.StepNo_Group = "71,72"
 
-                ProcessStepReturn.StepNo = "72"
+                ProcessStepReturn.StepNo = "70_02_00"
                 ProcessStepReturn.ActivityToCheck = "Display Indicator"
                 If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
@@ -478,7 +444,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo81(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo80_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -488,9 +454,8 @@
             ProcessStepReturn.ToCheck = "YES    NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "81"
 
-            ProcessStepReturn.StepNo = "81"
+            ProcessStepReturn.StepNo = "80_01_00"
             ProcessStepReturn.ActivityToCheck = "Lock Screw installation"
             If CustOrd.MS_CODE Like "YTA[67]10-?????D?*/[KSF][UF][12]*" Then
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
@@ -525,7 +490,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo91(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo90_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -536,9 +501,8 @@
                 ProcessStepReturn.ToCheck = "Clean & No galling"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
-                ProcessStepReturn.StepNo_Group = "91"
 
-                ProcessStepReturn.StepNo = "91"
+                ProcessStepReturn.StepNo = "90_01_00"
                 ProcessStepReturn.ActivityToCheck = "Display Cover Assembling"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Cover Quality after Assembling?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "No Galling.jpg"
@@ -553,7 +517,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo101(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo100_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -564,9 +528,8 @@
                 ProcessStepReturn.ToCheck = "ADDED    REMOVED    NO-CHANGE"
                 ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
                 ProcessStepReturn.Initial = Initial
-                ProcessStepReturn.StepNo_Group = "101"
 
-                ProcessStepReturn.StepNo = "101"
+                ProcessStepReturn.StepNo = "100_01_00"
                 ProcessStepReturn.ActivityToCheck = "[Screw Tighten/Appearance] Lightning Arrestor Check"
                 If Not CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Lightning Arrestor Installed?"
@@ -597,7 +560,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo111(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo110_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -607,9 +570,8 @@
             ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "111,112"
 
-            ProcessStepReturn.StepNo = "111"
+            ProcessStepReturn.StepNo = "110_01_00"
             ProcessStepReturn.ActivityToCheck = "External Ground Screw"
             If CustOrd.MS_CODE Like "YTA[67]10-???????*/[KS][UFS][12]*" Then
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Screw tighten/Appearance] Confirm Type of Ground Screw Installed ?"
@@ -630,7 +592,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo112(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo110_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -640,9 +602,8 @@
             ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "111,112"
 
-            ProcessStepReturn.StepNo = "112"
+            ProcessStepReturn.StepNo = "110_02_00"
             ProcessStepReturn.ActivityToCheck = "DLM QR Label Fixing"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Affix QR Label] Confirm QR Label Attached"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithOutQR_Label.jpg"
@@ -657,7 +618,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo121(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo120_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -667,9 +628,8 @@
             ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
 
-            ProcessStepReturn.StepNo = "121"
+            ProcessStepReturn.StepNo = "120_01_00"
             ProcessStepReturn.ActivityToCheck = "Output Singal of YTA Unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Output Singal] Confirm Communication Protocol"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "HART.jpg"
@@ -692,7 +652,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo122(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo120_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -702,9 +662,8 @@
             ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
 
-            ProcessStepReturn.StepNo = "122"
+            ProcessStepReturn.StepNo = "120_02_00"
             ProcessStepReturn.ActivityToCheck = "Number of Sensor Inputs of YTA Unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Inputs] Confirm the number of Sensor Inputs"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "SingleSensor.jpg"
@@ -725,7 +684,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo123(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo120_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -735,9 +694,8 @@
             ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
 
-            ProcessStepReturn.StepNo = "123"
+            ProcessStepReturn.StepNo = "120_03_00"
             ProcessStepReturn.ActivityToCheck = "Housing Material of YTA Unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[MOC] Confirm the Material of Housing and Covers"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "Aluminum.jpg"
@@ -758,7 +716,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo124(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo120_04_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -768,9 +726,8 @@
             ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
 
-            ProcessStepReturn.StepNo = "124"
+            ProcessStepReturn.StepNo = "120_04_00"
             ProcessStepReturn.ActivityToCheck = "Electrical Connection Type of YTA Unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm the Electrical Connection type of Housing/Case"
 
@@ -798,7 +755,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo125(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo120_05_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -808,9 +765,8 @@
             ProcessStepReturn.ToCheck = "J/F||1/2||A/C||0/2/4||D/N"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "121,122,123,124,125"
 
-            ProcessStepReturn.StepNo = "125"
+            ProcessStepReturn.StepNo = "120_05_00"
             ProcessStepReturn.ActivityToCheck = "Display Type of YTA Unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm the Display Type"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\120\" & "INDICATOR.jpg"
@@ -832,7 +788,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo131(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo130_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -842,9 +798,8 @@
             ProcessStepReturn.ToCheck = "Test result is GO or No-GO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "131"
 
-            ProcessStepReturn.StepNo = "131"
+            ProcessStepReturn.StepNo = "130_01_00"
             ProcessStepReturn.ActivityToCheck = "AC Withstand Voltage test. DB Result:" & MainForm.Hipot.acw_test_result
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the ACW Test completed successfully?"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -872,7 +827,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo141(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo140_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -882,9 +837,8 @@
             ProcessStepReturn.ToCheck = "Test result is GO or No-GO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "141"
 
-            ProcessStepReturn.StepNo = "141"
+            ProcessStepReturn.StepNo = "140_01_00"
             ProcessStepReturn.ActivityToCheck = "Insulation resistance test. DB Result:" & MainForm.Hipot.ir_test_result
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the IR Test completed successfully?"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -911,7 +865,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo151(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo150_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -921,9 +875,8 @@
             ProcessStepReturn.ToCheck = "Test result is GO or No-GO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "151"
 
-            ProcessStepReturn.StepNo = "151"
+            ProcessStepReturn.StepNo = "150_01_00"
             ProcessStepReturn.ActivityToCheck = "Calibration result Go or No-Go. DB Result:" & MainForm.YTA_Crc.RESULT
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Calibration completed successfully?"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -944,7 +897,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo161(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo160_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -954,9 +907,8 @@
             ProcessStepReturn.ToCheck = "Mounted Terminal cover YES || NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "161"
 
-            ProcessStepReturn.StepNo = "161"
+            ProcessStepReturn.StepNo = "160_01_00"
             ProcessStepReturn.ActivityToCheck = "Mount Terminal cover"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Cover Tighten and Loosen 1/2 turn, then tighten complete"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
@@ -971,7 +923,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo171(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo170_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -981,9 +933,8 @@
             ProcessStepReturn.ToCheck = "Remove or Attach Brackets YES || NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "171,172"
 
-            ProcessStepReturn.StepNo = "171"
+            ProcessStepReturn.StepNo = "170_01_00"
             If MainForm.CustOrd.MS_CODE_BEFORE Like "YTA???-??????N" Or (MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1)) Then
                 ProcessStepReturn.ActivityToCheck = "Bracket Assy"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket of Before modification unit?"
@@ -1008,7 +959,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo172(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo170_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -1018,9 +969,8 @@
             ProcessStepReturn.ToCheck = "Remove or Attach Brackets YES || NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "171,172"
 
-            ProcessStepReturn.StepNo = "172"
+            ProcessStepReturn.StepNo = "170_02_00"
             If CustOrd.MS_CODE_BEFORE.Substring(13, 1) = CustOrd.MS_CODE.Substring(13, 1) Then
                 ProcessStepReturn.ActivityToCheck = "Bracket Assy"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
@@ -1055,7 +1005,7 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo181(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo180_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -1065,9 +1015,8 @@
             ProcessStepReturn.ToCheck = "Printed YES || NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "181"
 
-            ProcessStepReturn.StepNo = "181"
+            ProcessStepReturn.StepNo = "180_01_00"
             ProcessStepReturn.ActivityToCheck = "Print QIC"
             ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
             ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_180_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
@@ -1105,19 +1054,18 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo191(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
             ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
-            ProcessStepReturn.StepNo = "191"
+            ProcessStepReturn.StepNo = "190_01_00"
             ProcessStepReturn.ActivityToCheck = "Correct MS-CODE"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Confirm MS-CODE in YTA, QIC and OrderTag/SAP Sheet"
             Dim Var1, Var2, Var3 As New String("")
@@ -1139,19 +1087,18 @@
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo192(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
             ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
-            ProcessStepReturn.StepNo = "192"
+            ProcessStepReturn.StepNo = "190_02_00"
             ProcessStepReturn.ActivityToCheck = "Correct SERIAL Number"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Confirm SERIAL NO. in YTA, QIC and OrderTag/SAP Sheet"
             Dim Var1, Var2, Var3 As New String("")
@@ -1187,19 +1134,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo193(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
             ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
-            ProcessStepReturn.StepNo = "193"
+            ProcessStepReturn.StepNo = "190_03_00"
             ProcessStepReturn.ActivityToCheck = "Correct Calibration Range"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Confirm Range Value. in YTA, QIC and OrderTag/SAP Sheet"
             Dim Var1, Var2, Var3 As New String("")
@@ -1239,21 +1185,20 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo194(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_04_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim RL_Tag As New TML_Library.RandomArray
             Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
             ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
-            ProcessStepReturn.StepNo = "194"
+            ProcessStepReturn.StepNo = "190_04_00"
             ProcessStepReturn.ActivityToCheck = "Tag Number correctness"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Tag number printed In the plate."
             ProcessStepReturn.UserInputAction.UserInputList = SelPartsTAG
@@ -1269,19 +1214,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo195(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_05_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
             ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
-            ProcessStepReturn.StepNo = "195"
+            ProcessStepReturn.StepNo = "190_05_00"
             ProcessStepReturn.ActivityToCheck = "Agency Approvals"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the correct Approval of the YTA Unit."
             ProcessStepReturn.UserInputAction.UserInputList = {"ATEX", "FM", "IECEx", "NONE"}
@@ -1301,19 +1245,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo196(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_06_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
             ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "31,32,33,34"
 
-            ProcessStepReturn.StepNo = "196"
+            ProcessStepReturn.StepNo = "190_06_00"
             ProcessStepReturn.ActivityToCheck = "RoHS Confirmatatory Marking"
             ProcessStepReturn.SinglePointAction.SPI_Message = "The Plate has which Of the following [with CE Or without CE]. This Is sample picture, so don't check other contents."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_with_CE.jpg"
@@ -1331,19 +1274,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo197(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_07_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.1"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Compare Production Order with Test Reports and Unit"
             ProcessStepReturn.Activity = "Model Code||Serial Number||Calibration Range||Tag Number||Agency ||pproval||Check data of QIC"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "191,192,193,194,195,196,197"
 
-            ProcessStepReturn.StepNo = "197"
+            ProcessStepReturn.StepNo = "190_07_00"
             ProcessStepReturn.ActivityToCheck = "Check QIC Data [1] Cal.Point/Error [2] Temp.Humidity [3] Overall"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Check QIC Overall data including Cal. Points and Temp./Humidity"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Correct.jpg"
@@ -1359,19 +1301,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1901(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_08_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1901"
+            ProcessStepReturn.StepNo = "190_08_00"
             ProcessStepReturn.ActivityToCheck = "Does the unit have a Display?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Check presence of Display  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1392,19 +1333,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1902(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_09_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1902"
+            ProcessStepReturn.StepNo = "190_09_00"
             If CustOrd.MS_CODE Like "YTA???-?????D?*" Then
                 ProcessStepReturn.ActivityToCheck = "Unit and Glass/Back Covers Clean?"
             Else
@@ -1423,19 +1363,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1903(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_10_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1903"
+            ProcessStepReturn.StepNo = "190_10_00"
             ProcessStepReturn.ActivityToCheck = "Lock Screw tightened?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Check the Lock Screw tigtened  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1456,18 +1395,17 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1904(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_11_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1904"
+            ProcessStepReturn.StepNo = "190_11_00"
             ProcessStepReturn.ActivityToCheck = "Approval Name plate Fixed?"
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Plate Part number from below list."
             ProcessStepReturn.UserInputAction.UserInputList = MainForm.DataPlateCheck
@@ -1480,7 +1418,7 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1905(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_12_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
@@ -1488,11 +1426,10 @@ FixVar3:
             ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
             ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
             ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
-
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo = "1905"
+            ProcessStepReturn.StepNo = "190_12_00"
             ProcessStepReturn.ActivityToCheck = "Mount the marked Data and Tag Plates to the unit"
             ProcessStepReturn.SinglePointAction.SPI_Message = "[Screw Tightness/Appearance]Is the Plate fixed correctly with No space or raised edges."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "Nameplate_with_gaps.jpg"
@@ -1506,19 +1443,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1906(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_13_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1906"
+            ProcessStepReturn.StepNo = "190_13_00"
             ProcessStepReturn.ActivityToCheck = "Tag Plate Fixed?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Check the Tag plate fixed correctly  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1533,19 +1469,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1907(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_14_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1907"
+            ProcessStepReturn.StepNo = "190_14_00"
             ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate Fixed?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag plate fixed correctly  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1566,19 +1501,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1908(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_15_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1908"
+            ProcessStepReturn.StepNo = "190_15_00"
             ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate has correct Tag number?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag number  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1599,19 +1533,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo1909(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo190_16_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190.2"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
             ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
             ProcessStepReturn.ToCheck = "Correct || Not Correct"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "1901,1902,1903,1904,1905,1906,1907,1908,1909"
 
-            ProcessStepReturn.StepNo = "1909"
+            ProcessStepReturn.StepNo = "190_16_00"
             ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket correct  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1633,19 +1566,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2001(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2001"
+            ProcessStepReturn.StepNo = "200_01_00"
             ProcessStepReturn.ActivityToCheck = "Unit Kept Inside Box?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the YTA unit properly packed and kept inside Box?  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1660,19 +1592,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2002(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.AddedDocs
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2002"
+            ProcessStepReturn.StepNo = "200_02_00"
             ProcessStepReturn.ActivityToCheck = "Scan QR-code of IM,SafetyIM,EU-Doc etc, if any."
             If Integer.Parse(CustOrd.QTY_NO) = 1 And CustOrd.MS_CODE Like "YTA*/K[UFS]*" Then
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
@@ -1699,19 +1630,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2003(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2003"
+            ProcessStepReturn.StepNo = "200_03_00"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
 
@@ -1746,19 +1676,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2004(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_04_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2004"
+            ProcessStepReturn.StepNo = "200_04_00"
             ProcessStepReturn.ActivityToCheck = "QIC Status?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "How the QIC requested by customer?  Attached with Unit  ||  Seperate"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Attached.jpg"
@@ -1773,19 +1702,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2005(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_05_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2005"
+            ProcessStepReturn.StepNo = "200_05_00"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If CustOrd.MS_CODE Like "YTA???-??????N*" Then
@@ -1808,19 +1736,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2006(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_06_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2006"
+            ProcessStepReturn.StepNo = "200_06_00"
             ProcessStepReturn.ActivityToCheck = "Visually Check the Packing Box?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is all items kept inside BOX and closed? Is it good to Ship?  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1835,19 +1762,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2007(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_07_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2007"
+            ProcessStepReturn.StepNo = "200_07_00"
             ProcessStepReturn.ActivityToCheck = "Marking visible outside the Packing Box?"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is Only KC + Moroccan mark visible and CPL Hidden?  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
@@ -1862,19 +1788,18 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo2008(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    Public Function ProcessStepNo200_08_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200.0"
+            ProcessStepReturn.ProcessNo = "200"
             ProcessStepReturn.ProcessStep = "Packing"
             ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
             ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "2001,2002,2003,2004,2005,2006,2007,2008"
 
-            ProcessStepReturn.StepNo = "2008"
+            ProcessStepReturn.StepNo = "200_08_00"
             ProcessStepReturn.ActivityToCheck = "Signed Order Tag"
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is Signed Order Tag Attached to the Packing Box??  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Attached.jpg"

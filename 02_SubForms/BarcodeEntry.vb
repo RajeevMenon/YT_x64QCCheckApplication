@@ -76,6 +76,7 @@
                     Next
                     If PreviousInspectionsDone = False Then
                         MsgBox("Some of the Previous Inspection steps are not completed. eg." & NotDoneStep, MsgBoxStyle.OkCancel)
+                        TextBox_Scan.Text = ""
                         Exit Sub
                     End If
                 End If

@@ -160,6 +160,7 @@
     <Compile Include="03_Model\ProcedureStep.vb" />
     <Compile Include="03_Model\SinglePointInstCheck.vb" />
     <Compile Include="03_Model\UserInput.vb" />
+    <Compile Include="04_QC_CheckSheet\YTA_CheckSheet_v1m2s.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -264,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="00_Settings\ChangeManagementPoints.txt" />
+    <Content Include="00_Settings\Settings_new.txt" />
     <Content Include="00_Settings\Settings.txt" />
     <Content Include="00_Settings\Version.txt" />
     <Content Include="QCC_Icon.ico" />

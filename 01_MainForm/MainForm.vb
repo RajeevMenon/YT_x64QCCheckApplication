@@ -800,6 +800,8 @@ Public Class MainForm
                     Next
                     P_Doc.Save(FinalDoc)
                     Process.Start(FinalDoc)
+                    'System.IO.File.Copy(FinalDoc, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), True)
+                    'Process.Start(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc)))
                 Else
                     MsgBox("QC Template Not created in TML System. Please create it first.")
                     Exit Sub
