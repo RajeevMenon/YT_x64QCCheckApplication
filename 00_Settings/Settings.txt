@@ -4,7 +4,7 @@ Var_03_MySql_YGSP			=	Server=127.0.0.1;Port=6801;Database=LIVE_YGSP;Uid=PRDSCH;P
 Var_04_MySql_QA			=	Server=127.0.0.1;Port=6801;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;
 Var_05_Factory			=	2
 Var_06_DocsStore			=	C:\MyFiles\Controlled_Apps\OTHERS\QCC\Test_QCC\TEST_OP\
-Var_07_Station			=	Build
+Var_07_Station			=	FinalInspection
 
 Var_08_StepsPrevous		=	21,31,32,33,34,41
 Var_08_StepsCurrent		=	51,61,62,71,72,81,91,101,111,112,121,122,123,124,125
@@ -51,8 +51,8 @@ Var_60_180_Position_QicTick		=	181$Tick-13,70,50.7
 Var_60_180_Position_QicInitial		=	Initial-11,84,50.7
 
 Var_60_190_Position_Initial		=	Initial-11,84,62
-Var_60_190_Position_Circle		=	191$Circle-13,51.2,58.7|192$Circle-13,51.2,60.2|193$Circle-13,51.2,61.7|194$Circle-13,51.2,63.2|195$Circle-13,51.2,64.7|196$Circle-13,51.2,66.2
-Var_60_190_Position_Tick		=	191$Tick-13,70,58.7|192$Tick-13,70,60.2|193$Tick-13,70,61.7|194$Tick-13,70,63.2|195$Tick-13,70,64.7|196$Tick-13,70,66.2
+Var_60_190_Position_Circle		=	191$Circle-13,51.2,58.7|192$Circle-13,51.2,60.2|193$Circle-13,51.2,61.7|194$Circle-13,51.2,63.2|195$Circle-13,51.2,64.7|197$Circle-13,51.2,66.2
+Var_60_190_Position_Tick		=	191$Tick-13,70,58.7|192$Tick-13,70,60.2|193$Tick-13,70,61.7|194$Tick-13,70,63.2|195$Tick-13,70,64.7|197$Tick-13,70,66.2
 
 Var_60_1900_Position_Initial		=	Initial-11,84,73
 Var_60_1900_Position_Circle		=	1901$Circle-13,51.2,67.8;Circle-11,61.7,67.8|1902$Circle-13,51.2,69.3;Circle-11,61.7,69.3|1903$Circle-13,51.2,70.8;Circle-11,61.7,70.8|1904$Circle-13,51.2,72.3;Circle-11,61.7,72.3|1906$Circle-13,51.2,73.9;Circle-11,61.7,73.9|1907$Circle-13,51.2,75.5;Circle-11,61.7,75.5|1908$Circle-13,51.2,77.0;Circle-11,61.7,77.0|1909$Circle-13,51.2,78.5;Circle-11,61.7,78.5

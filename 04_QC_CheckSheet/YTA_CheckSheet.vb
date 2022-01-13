@@ -854,14 +854,14 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_130_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_130_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-            ElseIf Not NeedsHiPot(CustOrd.MS_CODE, CustOrd.MS_CODE_BEFORE) Then
+            ElseIf NeedsHiPot(CustOrd.MS_CODE, CustOrd.MS_CODE_BEFORE) = False Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_130_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_130_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(2)
-            Else
+            ElseIf NeedsHiPot(CustOrd.MS_CODE, CustOrd.MS_CODE_BEFORE) = True Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_130_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_130_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             End If
@@ -893,14 +893,14 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_140_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_140_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-            ElseIf Not NeedsHiPot(CustOrd.MS_CODE, CustOrd.MS_CODE_BEFORE) Then
+            ElseIf NeedsHiPot(CustOrd.MS_CODE, CustOrd.MS_CODE_BEFORE) = False Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_140_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_140_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(2)
-            Else
+            ElseIf NeedsHiPot(CustOrd.MS_CODE, CustOrd.MS_CODE_BEFORE) = True Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_140_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_140_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             End If
@@ -984,7 +984,7 @@
             ProcessStepReturn.StepNo_Group = "171,172"
 
             ProcessStepReturn.StepNo = "171"
-            If MainForm.CustOrd.MS_CODE_BEFORE Like "YTA???-??????N" Or (MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1)) Then
+            If MainForm.CustOrd.MS_CODE_BEFORE Like "YTA???-??????N*" Or (MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1)) Then
                 ProcessStepReturn.ActivityToCheck = "Bracket Assy"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket of Before modification unit?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
@@ -1034,6 +1034,15 @@
                 Else
                     ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
                 End If
+            ElseIf CustOrd.MS_CODE.Substring(13, 1) = "N" Then
+                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Removed.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             Else
                 ProcessStepReturn.ActivityToCheck = "Bracket Assy"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
@@ -1042,11 +1051,7 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Added.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
-                If CustOrd.MS_CODE_BEFORE.Substring(13, 1) <> "N" Then
-                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-                Else
-                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
-                End If
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             End If
             Return ProcessStepReturn
 
@@ -1902,7 +1907,9 @@ FixVar3:
         ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "C2") <> Array.Find(OldModel.Split("/"), Function(x) x = "C2") Then
             Return True
         ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "C3") <> Array.Find(OldModel.Split("/"), Function(x) x = "C3") Then
-            Return True
+            Return False
+        ElseIf (Not OldModel Like "*/C[12]*") And Array.Find(OldModel.Split("/"), Function(x) x = "C3") Then
+            Return False
         ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "A") <> Array.Find(OldModel.Split("/"), Function(x) x = "A") Then
             Return True
         Else
