@@ -837,9 +837,9 @@ Public Class MainForm
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
         QcSteps = TmlEntityQA.GetDatabaseAsModel_List(Of POCO_QA.yta_qcc_steps)(New POCO_QA.yta_qcc_steps, "PRODUCT", "YTA", "QCC_VER", "1.2")
-        AllowedSteps = QcSteps.Select(Of String)(Function(x) x.STEP_NO).ToArray
+        'AllowedSteps = QcSteps.Select(Of String)(Function(x) x.STEP_NO).ToArray
         'AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
-        ReDim AllCheckResult(AllowedSteps.Length - 1)
+        'ReDim AllCheckResult(AllowedSteps.Length - 1)
         Dim BEY As New Login
         BEY.TopLevel = False
         PanelSubForm.Controls.Add(BEY)
@@ -865,6 +865,8 @@ Repeat:
             End If
 
             Setting.Var_08_StepsCurrent = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray)
+            AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
+            ReDim AllCheckResult(AllowedSteps.Length - 1)
             Dim IndexPos = Array.IndexOf(Setting.Var_08_StepsName.Split(","), My.Settings.Station)
             If IndexPos > 0 Then
                 Setting.Var_08_StepsPrevous = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = Setting.Var_08_StepsName.Split(",")(IndexPos - 1)).Select(Of String)(Function(x) x.STEP_NO).ToArray)
@@ -1058,6 +1060,10 @@ Repeat:
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
+            If Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 = AllowedSteps.Length Then
+                RichTextBox_ActivityToCheck.Text = "No more Inspection Point forward.."
+                Exit Sub
+            End If
             For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 To AllowedSteps.Length - 1 Step 1
                 LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."
@@ -1188,6 +1194,10 @@ Repeat:
                 StartIndex = AllowedSteps.Length
             Else
                 StartIndex = Array.IndexOf(AllowedSteps, TextBox_Step.Text)
+            End If
+            If Array.IndexOf(AllowedSteps, TextBox_Step.Text) = 0 Then
+                RichTextBox_ActivityToCheck.Text = "No more Inspection Point backward.."
+                Exit Sub
             End If
             For i As Integer = StartIndex - 1 To 0 Step -1
                 LoopStarted = True
@@ -1374,7 +1384,7 @@ Repeat:
             Else
                 If QcData.Count > 0 Then
                     For Each Item In QcData
-                        If Item.PROCESS_NO = Decimal.Parse(ProcessNo).ToString("N1") And Item.REMARK Like "*" & StepNo & "*" Then
+                        If Item.PROCESS_NO = ProcessNo And Item.REMARK Like "*" & StepNo & "*" Then
                             If Item.REMARK Like "*GO*" Then
                                 RichTextBox_Step.BackColor = Color.LightGreen
                             ElseIf Item.REMARK Like "*NG*" Then
@@ -1667,6 +1677,8 @@ Repeat:
             End If
 
             Setting.Var_08_StepsCurrent = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray)
+            AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
+            ReDim AllCheckResult(AllowedSteps.Length - 1)
             Dim IndexPos = Array.IndexOf(Setting.Var_08_StepsName.Split(","), My.Settings.Station)
             If IndexPos > 0 Then
                 Setting.Var_08_StepsPrevous = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = Setting.Var_08_StepsName.Split(",")(IndexPos - 1)).Select(Of String)(Function(x) x.STEP_NO).ToArray)

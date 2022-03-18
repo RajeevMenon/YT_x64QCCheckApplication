@@ -46,7 +46,7 @@ UpdateResult:
                 Tbl.CHECK_RESULT = ConsolidatedResultString 'ProcessSave.Result
                 Tbl.METHOD = ProcessSave.Method
                 Tbl.INITIAL = ProcessSave.Initial
-                Tbl.REMARK = ProcessSave.StepNo_Group & "-GO"
+                Tbl.REMARK = String.Join(",", GroupStep) & "-GO" 'ProcessSave.StepNo_Group & "-GO"
             Else
                 Tbl.INDEX_NO = MainForm.CustOrd.INDEX_NO
                 Tbl.PROCESS_NO = ProcessSave.ProcessNo
@@ -56,7 +56,7 @@ UpdateResult:
                 Tbl.CHECK_RESULT = ConsolidatedResultString 'ProcessSave.Result
                 Tbl.METHOD = ProcessSave.Method
                 Tbl.INITIAL = ProcessSave.Initial
-                Tbl.REMARK = ProcessSave.StepNo_Group & "-NG"
+                Tbl.REMARK = String.Join(",", GroupStep) & "-GO" 'ProcessSave.StepNo_Group & "-NG"
             End If
 
             Dim SavedLine = TmlEntityQA.GetDatabaseTableAs_Object(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", Decimal.Parse(ProcessSave.ProcessNo).ToString("N1"), ErrMsg)

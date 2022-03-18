@@ -232,7 +232,7 @@
             ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
-            ProcessStepReturn.StepNo_Group = "41"
+            ProcessStepReturn.StepNo_Group = "40"
 
             ProcessStepReturn.StepNo = "40_01_00"
             ProcessStepReturn.ActivityToCheck = "Correctness of Dataplate"
