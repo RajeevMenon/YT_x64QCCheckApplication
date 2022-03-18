@@ -72,6 +72,7 @@
                         If Array.Find(TotalStepsInspected, Function(x) x = ToDoStep) <> ToDoStep Then
                             PreviousInspectionsDone = False
                             NotDoneStep = ToDoStep
+                            Exit For
                         End If
                     Next
                     If PreviousInspectionsDone = False Then
@@ -89,9 +90,10 @@
                     Exit Sub
                 End If
 
-                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("131")) = "131" Or
-                        Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("141")) = "141" Or
-                        Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("181")) = "181" Then
+                'Get HIPOT Result
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("130_01_00")) = "130_01_00" Or
+                        Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("140_01_00")) = "140_01_00" Or
+                        Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("180_01_00")) = "180_01_00" Then
 
                     Dim Hipots = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.hipot_tb)("index_no", MainForm.CustOrd.INDEX_NO, "index_no", MainForm.CustOrd.INDEX_NO, ErrMsg)
                     If Hipots.Count > 0 Then
@@ -107,9 +109,9 @@
                     End If
                 End If
 
-
-                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("151")) = "151" Or
-                        Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("181")) = "181" Then
+                'Get CRC Result
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("150_01_00")) = "150_01_00" Or
+                        Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("180_01_00")) = "180_01_00" Then
                     Dim YTA_CrcList = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.yta710_inspection_tb)("SERIAL", MainForm.CustOrd.SERIAL_NO, "SERIAL", MainForm.CustOrd.SERIAL_NO, ErrMsg)
                     If ErrMsg.Length > 0 Then
                         Label_Message.Text = ErrMsg
@@ -124,8 +126,8 @@
                     End If
                 End If
 
-
-                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("41")) = "41" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("1904")) = "1904" Then
+                'Get PLATE PART NUMBER
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("40_01_00")) = "40_01_00" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("1904")) = "1904" Then
                     Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
                     If ErrMsg.Length > 0 Then
                         Label_Message.Text = ErrMsg
@@ -144,7 +146,6 @@
             Label_Message.Text = "Runtime Error:" & ex.Message.Substring(0, 50) & ".."
         End Try
     End Sub
-
     Private Sub SelectYtaPlates(ByVal CustOrd As POCO_YGSP.cust_ord, ByRef ErrMsg As String)
         Try
             ErrMsg = ""

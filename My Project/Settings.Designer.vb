@@ -65,6 +65,18 @@ Namespace My
                 Me("IniPath") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Not Set")>  _
+        Public Property Station() As String
+            Get
+                Return CType(Me("Station"),String)
+            End Get
+            Set
+                Me("Station") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -5,5 +5,8 @@
     <Setting Name="IniPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">StartupPath</Value>
     </Setting>
+    <Setting Name="Station" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Not Set</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

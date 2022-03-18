@@ -492,7 +492,7 @@
 
             ProcessStepReturn.StepNo = "81"
             ProcessStepReturn.ActivityToCheck = "Lock Screw installation"
-            If CustOrd.MS_CODE Like "YTA[67]10-?????D?*/[KSF][UF][12]*" Then
+            If CustOrd.MS_CODE Like "YTA[67]10-?????D?*/[KS][UF][12]*" Then
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_w_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_wo_F9900RP.jpg"
@@ -504,7 +504,7 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_wo_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_wo_F9900RP.jpg"
                 ProcessStepReturn.Result = "Circle-16,61.5,31.8"
-            ElseIf CustOrd.MS_CODE Like "YTA[67]10-?????N?*/[KSF][UF][12]*" Then
+            ElseIf CustOrd.MS_CODE Like "YTA[67]10-?????N?*/[KS][UF][12]*" Then
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_w_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_wo_F9900RP.jpg"
@@ -1908,7 +1908,7 @@ FixVar3:
             Return True
         ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "C3") <> Array.Find(OldModel.Split("/"), Function(x) x = "C3") Then
             Return False
-        ElseIf (Not OldModel Like "*/C[12]*") And Array.Find(OldModel.Split("/"), Function(x) x = "C3") Then
+        ElseIf Not (OldModel Like "*/C[12]*") And Array.Find(OldModel.Split("/"), Function(x) x = "C3") = "C3" Then
             Return False
         ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "A") <> Array.Find(OldModel.Split("/"), Function(x) x = "A") Then
             Return True

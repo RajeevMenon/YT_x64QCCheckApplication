@@ -22,6 +22,7 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
@@ -31,9 +32,12 @@ Partial Class MainForm
         Me.Button2 = New System.Windows.Forms.Button()
         Me.PanelSubForm = New System.Windows.Forms.Panel()
         Me.TextBox_Step = New System.Windows.Forms.TextBox()
+        Me.ContextMenuStation = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SelectStationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.PanelSubForm.SuspendLayout()
+        Me.ContextMenuStation.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -136,11 +140,24 @@ Partial Class MainForm
         Me.TextBox_Step.Size = New System.Drawing.Size(32, 20)
         Me.TextBox_Step.TabIndex = 0
         '
+        'ContextMenuStation
+        '
+        Me.ContextMenuStation.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectStationToolStripMenuItem})
+        Me.ContextMenuStation.Name = "ContextMenuStation"
+        Me.ContextMenuStation.Size = New System.Drawing.Size(146, 26)
+        '
+        'SelectStationToolStripMenuItem
+        '
+        Me.SelectStationToolStripMenuItem.Name = "SelectStationToolStripMenuItem"
+        Me.SelectStationToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.SelectStationToolStripMenuItem.Text = "Select Station"
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ContextMenuStrip = Me.ContextMenuStation
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -151,6 +168,7 @@ Partial Class MainForm
         Me.TableLayoutPanel2.ResumeLayout(False)
         Me.PanelSubForm.ResumeLayout(False)
         Me.PanelSubForm.PerformLayout()
+        Me.ContextMenuStation.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -163,4 +181,6 @@ Partial Class MainForm
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents TextBox_Step As TextBox
+    Friend WithEvents ContextMenuStation As ContextMenuStrip
+    Friend WithEvents SelectStationToolStripMenuItem As ToolStripMenuItem
 End Class

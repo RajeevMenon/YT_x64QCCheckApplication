@@ -79,9 +79,8 @@ Partial Class CompleteInspection
         Me.Button_ViewQCC.Name = "Button_ViewQCC"
         Me.Button_ViewQCC.Size = New System.Drawing.Size(171, 59)
         Me.Button_ViewQCC.TabIndex = 0
-        Me.Button_ViewQCC.Text = "Button_ViewQCC"
+        Me.Button_ViewQCC.Text = "View-QCC"
         Me.Button_ViewQCC.UseVisualStyleBackColor = True
-        Me.Button_ViewQCC.Visible = False
         '
         'CompleteInspection
         '
