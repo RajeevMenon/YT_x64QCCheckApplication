@@ -1060,10 +1060,10 @@ Repeat:
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            If Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 = AllowedSteps.Length Then
-                RichTextBox_ActivityToCheck.Text = "No more Inspection Point forward.."
-                Exit Sub
-            End If
+            'If Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 = AllowedSteps.Length Then
+            '    RichTextBox_ActivityToCheck.Text = "No more Inspection Point forward.."
+            '    Exit Sub
+            'End If
             For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 To AllowedSteps.Length - 1 Step 1
                 LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."
@@ -1195,10 +1195,10 @@ Repeat:
             Else
                 StartIndex = Array.IndexOf(AllowedSteps, TextBox_Step.Text)
             End If
-            If Array.IndexOf(AllowedSteps, TextBox_Step.Text) = 0 Then
-                RichTextBox_ActivityToCheck.Text = "No more Inspection Point backward.."
-                Exit Sub
-            End If
+            'If Array.IndexOf(AllowedSteps, TextBox_Step.Text) = 0 Then
+            '    RichTextBox_ActivityToCheck.Text = "No more Inspection Point backward.."
+            '    Exit Sub
+            'End If
             For i As Integer = StartIndex - 1 To 0 Step -1
                 LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."

@@ -1261,10 +1261,10 @@ FixVar3:
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_without_CE.jpg"
             If CustOrd.SERIAL_NO_BEFORE Like "S5WC*" Or CustOrd.SERIAL_NO_BEFORE Like "S5X1*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_without_CE.jpg"
-                'ProcessStepReturn.Result = "Yes without CE-8,57,20.6"
+                ProcessStepReturn.Result = "" ' "Yes without CE-8,57,20.6"
             Else
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_with_CE.jpg"
-                'ProcessStepReturn.Result = "Yes with CE-8,57,20.6"
+                ProcessStepReturn.Result = "" '"Yes with CE-8,57,20.6"
             End If
 
             Return ProcessStepReturn
@@ -1420,7 +1420,7 @@ FixVar3:
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "40"
+            ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
             ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
             ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
@@ -1433,7 +1433,7 @@ FixVar3:
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "Nameplate_with_gaps.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "NamePlate_Edge_Correct.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_Edge_Correct.jpg"
-            ProcessStepReturn.Result = "OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
+            ProcessStepReturn.Result = "" '"OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
             Return ProcessStepReturn
 
 

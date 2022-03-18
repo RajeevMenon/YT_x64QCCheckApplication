@@ -127,7 +127,7 @@
                 End If
 
                 'Get PLATE PART NUMBER
-                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("40_01_00")) = "40_01_00" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("1904")) = "1904" Then
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("40_01_00")) = "40_01_00" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("190_11_00")) = "190_11_00" Then
                     Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
                     If ErrMsg.Length > 0 Then
                         Label_Message.Text = ErrMsg
