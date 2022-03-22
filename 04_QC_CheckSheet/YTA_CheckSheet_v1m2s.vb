@@ -1717,7 +1717,7 @@ FixVar3:
             If CustOrd.MS_CODE Like "YTA???-??????N*" Then
                 ProcessStepReturn.ActivityToCheck = "Mounting Brackets Kept Inside Box?"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "Is there any Mounting Brackets kept inside Box?  YES  ||  NO"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             Else
