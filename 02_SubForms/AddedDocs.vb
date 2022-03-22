@@ -18,6 +18,7 @@
                 AddedDocErrorMessage = ""
             End If
             If INST_IM_OK = True And SFTY_IM_OK = True And EUDOC_OK = True Then
+                'IM & SafetyIM always has "-", this needed to be changed to "."
                 Dim IM = TextBox_IM.Text.ToUpper.Trim & " + " & TextBox_SIM.Text.ToUpper.Trim
                 IM = IM.Replace(" ", "").Replace("-", ".")
                 For Each Item In MainForm.AllCheckResult
@@ -30,7 +31,8 @@
                 Next
                 MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", IM & "-")
                 If TextBox_EUDoC.Text.ToUpper.Length > 0 Then
-                    MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper & "-")
+                    'EU document QR code alway begin with "EUDOC-", this is not needed in the final result
+                    MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper.Split("-")(1) & "-")
                 End If
                 MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
                 MainForm.wait(1)

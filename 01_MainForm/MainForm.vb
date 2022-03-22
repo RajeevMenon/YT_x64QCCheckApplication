@@ -819,10 +819,11 @@ Public Class MainForm
 #End Region
 #Region "NEW VERSION"
     Public Initial As String
+    Public VersionText As String
     Public Shared CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
     Public CustOrd As POCO_YGSP.cust_ord
-    Public Hipot As POCO_YGSP.hipot_tb
+    Public Shared Hipot As POCO_YGSP.hipot_tb
     Public YTA_Crc As POCO_YGSP.yta710_inspection_tb
     Public QcData As List(Of POCO_QA.yta_qcc_v1p2)
     Public QcSteps As List(Of POCO_QA.yta_qcc_steps)
@@ -832,8 +833,8 @@ Public Class MainForm
     Public Shared AllCheckResult As CheckSheetStep()
     Dim TmlEntityQA As MFG_ENTITY.Op
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
-        Me.Text = "QC Check" & " [ Ver:" & Version & "]"
+        VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
+        Me.Text = "QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
         QcSteps = TmlEntityQA.GetDatabaseAsModel_List(Of POCO_QA.yta_qcc_steps)(New POCO_QA.yta_qcc_steps, "PRODUCT", "YTA", "QCC_VER", "1.2")
@@ -858,7 +859,7 @@ Repeat:
                 If Setting.Var_08_StepsName Like "*" & StationName & "*" Then
                     My.Settings.Station = StationName
                     My.Settings.Save()
-                    Me.Text = Me.Text & " [ Station:" & StationName & "]"
+                    Me.Text = "QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & StationName & "]"
                 Else
                     GoTo Repeat
                 End If
@@ -1060,10 +1061,10 @@ Repeat:
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
-            'If Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 = AllowedSteps.Length Then
-            '    RichTextBox_ActivityToCheck.Text = "No more Inspection Point forward.."
-            '    Exit Sub
-            'End If
+            If AllowedSteps(AllowedSteps.Length - 1) = TextBox_Step.Text Then
+                RichTextBox_ActivityToCheck.Text = "No more Inspection Point forward.."
+                GoTo LoopFinished
+            End If
             For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 To AllowedSteps.Length - 1 Step 1
                 LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."
@@ -1144,6 +1145,7 @@ Repeat:
                 End If
             Next
 
+LoopFinished:
             If LoopStarted = False And Not (RichTextBox_Step.BackColor = Color.Yellow Or RichTextBox_Step.BackColor = Color.OrangeRed) Then
                 Dim AllPass As Boolean = True
                 For Each item In AllCheckResult
@@ -1608,47 +1610,68 @@ Repeat:
                 If System.IO.File.Exists(BlankDoc) Then
                     Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
                     For Each QcWrite In QcData
-                        Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
-                        For Each WriteParam In WriteParams
-                            Dim WriteInput = WriteParam.Split("-")(0)
-                            Dim WriteSXY = WriteParam.Split("-")(1)
-                            Dim WriteS = WriteSXY.Split(",")(0)
-                            Dim WriteX = WriteSXY.Split(",")(1)
-                            Dim WriteY = WriteSXY.Split(",")(2)
-                            Dim TextToWrite As String = WriteInput
-                            Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
-                            If WriteInput = "Tick" Then
-                                TextToWrite = "ü"
-                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
-                            ElseIf WriteInput = "Circle" Then
-                                TextToWrite = "¡"
-                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
-                            ElseIf WriteInput = "Cross" Then
-                                TextToWrite = "û"
-                                FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
-                            End If
-                            Dim WP As New OpenPdfOperation.WriteTextParameters With {
-                                        .Name = FontToWrite,
-                                        .Colour = OpenPdfOperation.FileOp.FontColor.Blue,
-                                        .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
-                                        .TextSize = Integer.Parse(WriteS),
-                                        .TextValue = TextToWrite,
-                                        .X_Position = CDbl(WriteX / 100),
-                                        .Y_Position = CDbl(WriteY / 100)}
-                            Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
-                            WPS.Add(WP)
-                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
-                            OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
-                            If ErrMsg.Length > 0 Then
-                                MsgBox(ErrMsg)
-                                Exit Sub
-                            End If
-                        Next
+                        If QcWrite.INDEX_NO.ToString.Length > 0 Then
+                            Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
+                            For Each WriteParam In WriteParams
+                                Dim WriteInput = WriteParam.Split("-")(0)
+                                Dim WriteSXY = WriteParam.Split("-")(1)
+                                Dim WriteS = WriteSXY.Split(",")(0)
+                                Dim WriteX = WriteSXY.Split(",")(1)
+                                Dim WriteY = WriteSXY.Split(",")(2)
+                                Dim TextToWrite As String = WriteInput
+                                Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
+                                If WriteInput = "Tick" Then
+                                    TextToWrite = "ü"
+                                    FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                                ElseIf WriteInput = "Circle" Then
+                                    TextToWrite = "¡"
+                                    FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                                ElseIf WriteInput = "Cross" Then
+                                    TextToWrite = "û"
+                                    FontToWrite = OpenPdfOperation.FileOp.FontName.Wingdings
+                                End If
+                                Dim WP As New OpenPdfOperation.WriteTextParameters With {
+                                            .Name = FontToWrite,
+                                            .Colour = OpenPdfOperation.FileOp.FontColor.Blue,
+                                            .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                            .TextSize = Integer.Parse(WriteS),
+                                            .TextValue = TextToWrite,
+                                            .X_Position = CDbl(WriteX / 100),
+                                            .Y_Position = CDbl(WriteY / 100)}
+                                Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
+                                WPS.Add(WP)
+                                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                                OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+                                If ErrMsg.Length > 0 Then
+                                    MsgBox(ErrMsg)
+                                    Exit Sub
+                                End If
+                            Next
+                        Else
+                            MsgBox("Hi")
+                        End If
                     Next
                     P_Doc.Save(FinalDoc)
-                    Process.Start(FinalDoc)
-                    'System.IO.File.Copy(FinalDoc, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), True)
-                    'Process.Start(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc)))
+                    'Process.Start(FinalDoc)
+                    '"QCS-Signed"
+                    For Each fname In System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
+                        If fname Like "*QCS-Signed*" Then
+                            Try
+                                System.IO.File.Delete(fname)
+                            Catch ex As Exception
+                                Continue For
+                            End Try
+                        End If
+                    Next
+                    Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+                    For i As Integer = 1 To 1
+                        Try
+                            System.IO.File.Copy(FinalDoc, FinalFileName, True)
+                        Catch ex As Exception
+                            Continue For
+                        End Try
+                    Next
+                    Process.Start(FinalFileName)
                 Else
                     MsgBox("QC Template Not created in TML System. Please create it first.")
                     Exit Sub

@@ -161,7 +161,7 @@
                 ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             Else
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
-                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-15,69,21$" & Initial & "-11,84,20"
+                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             End If
             ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_030_Position_SerialBefore.Replace("SERIAL_NO_BEFORE", MainForm.CustOrd.SERIAL_NO_BEFORE)
             Return ProcessStepReturn

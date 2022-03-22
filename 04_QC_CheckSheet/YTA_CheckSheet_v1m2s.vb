@@ -133,7 +133,7 @@
                 ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             Else
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
-                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-15,69,21$" & Initial & "-11,84,20"
+                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             End If
             ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_030_Position_SerialBefore.Replace("SERIAL_NO_BEFORE", MainForm.CustOrd.SERIAL_NO_BEFORE)
             Return ProcessStepReturn
@@ -802,7 +802,7 @@
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the ACW Test completed successfully?"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
 
-            If MainForm.Hipot.acw_test_result = "PASS" Then
+            If MainForm.Hipot.acw_test_result Like "*PASS*PASS*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_130_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
@@ -840,7 +840,7 @@
             ProcessStepReturn.ActivityToCheck = "Insulation resistance test. DB Result:" & MainForm.Hipot.ir_test_result
             ProcessStepReturn.SinglePointAction.SPI_Message = "Is the IR Test completed successfully?"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
-            If MainForm.Hipot.ir_test_result = "PASS" Then
+            If MainForm.Hipot.ir_test_result Like "*PASS*PASS*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_140_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
@@ -1433,7 +1433,7 @@ FixVar3:
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "Nameplate_with_gaps.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "NamePlate_Edge_Correct.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_Edge_Correct.jpg"
-            ProcessStepReturn.Result = "" '"OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
+            ProcessStepReturn.Result = "OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
             Return ProcessStepReturn
 
 

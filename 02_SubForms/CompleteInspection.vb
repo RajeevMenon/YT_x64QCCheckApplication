@@ -59,13 +59,15 @@ UpdateResult:
                 Tbl.REMARK = String.Join(",", GroupStep) & "-GO" 'ProcessSave.StepNo_Group & "-NG"
             End If
 
-            Dim SavedLine = TmlEntityQA.GetDatabaseTableAs_Object(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", Decimal.Parse(ProcessSave.ProcessNo).ToString("N1"), ErrMsg)
+            'Dim SavedLine = TmlEntityQA.GetDatabaseTableAs_Object(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", Decimal.Parse(ProcessSave.ProcessNo).ToString("N1"), ErrMsg)
+            Dim SavedLine = TmlEntityQA.GetDatabaseTableAs_Object(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", ProcessSave.ProcessNo, ErrMsg)
             If ErrMsg.Length > 0 Then
                 MsgBox(ErrMsg, MsgBoxStyle.Critical, "Error")
                 Exit Sub
             End If
             If Not IsNothing(SavedLine.INDEX_NO) Then
-                Sql(Count) = TmlEntityQA.SetDatabaseModel_Sql(Tbl, "INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", Decimal.Parse(ProcessSave.ProcessNo).ToString("N1"), ErrMsg)
+                'Sql(Count) = TmlEntityQA.SetDatabaseModel_Sql(Tbl, "INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", Decimal.Parse(ProcessSave.ProcessNo).ToString("N1"), ErrMsg)
+                Sql(Count) = TmlEntityQA.SetDatabaseModel_Sql(Tbl, "INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", ProcessSave.ProcessNo, ErrMsg)
                 Count += 1
             Else
                 Sql(Count) = TmlEntityQA.SaveDatabaseModel_Sql(Tbl, ErrMsg)
@@ -77,6 +79,7 @@ UpdateResult:
         If ErrMsg.Length > 0 Then
             MsgBox(ErrMsg, MsgBoxStyle.Critical, "Error")
         Else
+            MainForm.PrintQcc_Rev1()
             MainForm.LoadIndexScan()
         End If
     End Sub
