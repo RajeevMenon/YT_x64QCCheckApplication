@@ -506,6 +506,20 @@
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "No Galling.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Galling.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Galling.jpg"
+            ElseIf CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
+                ProcessStepReturn.ProcessNo = "90"
+                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+                ProcessStepReturn.Activity = "Blind Cover Assembly"
+                ProcessStepReturn.ToCheck = "Clean & No galling"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+
+                ProcessStepReturn.StepNo = "90_01_00"
+                ProcessStepReturn.ActivityToCheck = "Blind Cover Assembling"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator Side] Confirm Blind Cover Quality after Assembling?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "No Galling.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Galling.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Galling.jpg"
             End If
             ProcessStepReturn.Result = "Tick-13,70,30.6"
             Return ProcessStepReturn
