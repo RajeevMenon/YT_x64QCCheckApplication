@@ -27,8 +27,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\192.168.151.12\AppStore\TML_App\TML_YTA_QC_CheckApp\</UpdateUrl>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>10</ApplicationRevision>
-    <ApplicationVersion>1.0.0.10</ApplicationVersion>
+    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationVersion>1.0.0.11</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -83,6 +83,11 @@
   <ItemGroup>
     <Reference Include="MFG_ENTITY">
       <HintPath>..\..\OTHERS\MVC_MODEL\MFG_ENTITY\bin\Debug\MFG_ENTITY.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
     </Reference>
     <Reference Include="OpenPdfOperation">
       <HintPath>..\..\OTHERS\LIBRARY\OpenPdfOperation\bin\Debug\OpenPdfOperation.dll</HintPath>
@@ -156,6 +161,7 @@
     <Compile Include="03_Model\CheckSheetStep.vb" />
     <Compile Include="03_Model\AddedDocsCheck.vb" />
     <Compile Include="03_Model\DocumentCheck.vb" />
+    <Compile Include="03_Model\ExportExcel.vb" />
     <Compile Include="03_Model\Settings.vb" />
     <Compile Include="03_Model\ProcedureStep.vb" />
     <Compile Include="03_Model\SinglePointInstCheck.vb" />

@@ -1056,6 +1056,12 @@
                 If Not System.IO.File.Exists(TargetFile & ".pdf") Then
                     System.IO.File.Copy(QicFile & ".pdf", TargetFile & ".pdf", True)
                 End If
+            Else
+                Dim ExpExl As New ExportExcel
+                ExpExl.ExcelSheet1_SaveAsPdf(QicFile & ".xls", TargetFile, ErrMsg)
+                If Len(ErrMsg) > 0 Then
+                    Exit Function
+                End If
             End If
 
             ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = TargetFile & ".pdf"
