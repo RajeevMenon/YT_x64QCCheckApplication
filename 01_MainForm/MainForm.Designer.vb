@@ -34,6 +34,7 @@ Partial Class MainForm
         Me.TextBox_Step = New System.Windows.Forms.TextBox()
         Me.ContextMenuStation = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SelectStationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.PanelSubForm.SuspendLayout()
@@ -142,15 +143,20 @@ Partial Class MainForm
         '
         'ContextMenuStation
         '
-        Me.ContextMenuStation.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectStationToolStripMenuItem})
+        Me.ContextMenuStation.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectStationToolStripMenuItem, Me.ToolStripMenuItem1})
         Me.ContextMenuStation.Name = "ContextMenuStation"
-        Me.ContextMenuStation.Size = New System.Drawing.Size(146, 26)
+        Me.ContextMenuStation.Size = New System.Drawing.Size(181, 70)
         '
         'SelectStationToolStripMenuItem
         '
         Me.SelectStationToolStripMenuItem.Name = "SelectStationToolStripMenuItem"
-        Me.SelectStationToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.SelectStationToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectStationToolStripMenuItem.Text = "Select Station"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         '
         'MainForm
         '
@@ -183,4 +189,5 @@ Partial Class MainForm
     Friend WithEvents TextBox_Step As TextBox
     Friend WithEvents ContextMenuStation As ContextMenuStrip
     Friend WithEvents SelectStationToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
 End Class

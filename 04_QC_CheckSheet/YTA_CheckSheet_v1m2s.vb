@@ -1531,14 +1531,20 @@ FixVar3:
             ProcessStepReturn.Initial = Initial
 
             ProcessStepReturn.StepNo = "190_15_00"
-            ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate has correct Tag number?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag number  YES  ||  NO"
+            ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate has Tag number? If Yes, is it correct?"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag number. Printed and Correct?  YES  ||  NO"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If CustOrd.MS_CODE Like "YTA???-???????*/N4*" Then
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
-                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+                If CustOrd.TAG_NO_525 = "" Or CustOrd.TAG_NO_525.ToUpper = "BLANK" Then
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
+                    ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+                Else
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                    ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+                End If
             Else
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
@@ -1840,13 +1846,10 @@ FixVar3:
     Private Function NeedsHiPot(ByVal NewModel As String, ByVal OldModel As String) As Boolean
         If NewModel.Substring(12, 1) <> OldModel.Substring(12, 1) Then
             Return True
-        ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "C1") <> Array.Find(OldModel.Split("/"), Function(x) x = "C1") Then
-            Return True
-        ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "C2") <> Array.Find(OldModel.Split("/"), Function(x) x = "C2") Then
-            Return True
-        ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "C3") <> Array.Find(OldModel.Split("/"), Function(x) x = "C3") Then
-            Return True
-        ElseIf Array.Find(NewModel.Split("/"), Function(x) x = "A") <> Array.Find(OldModel.Split("/"), Function(x) x = "A") Then
+        ElseIf (NewModel Like "*/C1*" <> OldModel Like "*/C[13]*") Or
+               (NewModel Like "*/C2*" <> OldModel Like "*/C2*") Or
+               (NewModel Like "*/C3*" <> OldModel Like "*/C[13]*") Or
+               (NewModel Like "*/A*" <> OldModel Like "*/A*") Then
             Return True
         Else
             Return False

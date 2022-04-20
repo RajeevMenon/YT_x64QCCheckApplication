@@ -832,15 +832,13 @@ Public Class MainForm
     Public Shared AllowedSteps As String()
     Public Shared AllCheckResult As CheckSheetStep()
     Dim TmlEntityQA As MFG_ENTITY.Op
+
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = "QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
         Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
         QcSteps = TmlEntityQA.GetDatabaseAsModel_List(Of POCO_QA.yta_qcc_steps)(New POCO_QA.yta_qcc_steps, "PRODUCT", "YTA", "QCC_VER", "1.2")
-        'AllowedSteps = QcSteps.Select(Of String)(Function(x) x.STEP_NO).ToArray
-        'AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
-        'ReDim AllCheckResult(AllowedSteps.Length - 1)
         Dim BEY As New Login
         BEY.TopLevel = False
         PanelSubForm.Controls.Add(BEY)
@@ -850,6 +848,10 @@ Public Class MainForm
         BEY.UsernameTextBox.Select()
         BEY.Show()
         Me.Refresh()
+        'AllowedSteps = QcSteps.Select(Of String)(Function(x) x.STEP_NO).ToArray
+        'AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
+        'ReDim AllCheckResult(AllowedSteps.Length - 1)
+
     End Sub
     Public Sub LoadIndexScan()
         Try
