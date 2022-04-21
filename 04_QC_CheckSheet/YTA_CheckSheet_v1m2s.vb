@@ -947,9 +947,17 @@
             ProcessStepReturn.Initial = Initial
 
             ProcessStepReturn.StepNo = "170_01_00"
-            If MainForm.CustOrd.MS_CODE_BEFORE Like "YTA???-??????N" Or (MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1)) Then
+            If MainForm.CustOrd.MS_CODE_BEFORE Like "YTA???-??????N*" Then
                 ProcessStepReturn.ActivityToCheck = "Bracket Assy"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket of Before modification unit?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is Mounting Bracket [Removed] or [Not-changed] in Before modification unit?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+            ElseIf (MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = MainForm.CustOrd.MS_CODE.Substring(13, 1)) Then
+                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is Mounting Bracket [Removed] or [Not-changed] in Before modification unit?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
@@ -957,7 +965,7 @@
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             Else
                 ProcessStepReturn.ActivityToCheck = "Bracket Assy"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket of Before modification unit?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is Mounting Bracket [Removed] or [Not-changed] in Before modification unit?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Removed.jpg"
@@ -965,7 +973,6 @@
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             End If
             Return ProcessStepReturn
-
 
         Catch ex As Exception
             Return Nothing
@@ -984,30 +991,43 @@
 
             ProcessStepReturn.StepNo = "170_02_00"
             If CustOrd.MS_CODE_BEFORE.Substring(13, 1) = CustOrd.MS_CODE.Substring(13, 1) Then
-                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
-                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
-                If MainForm.CustOrd.MS_CODE_BEFORE.Substring(13, 1) = "N" Then
-                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
-                Else
+                If CustOrd.MS_CODE.Substring(13, 1) <> "N" Then
+                    ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm Mounting Bracket added to Final Unit?"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg" 'Answer No change but tickmark on added as per QCC
+                    ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                     ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+                    ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
+                ElseIf CustOrd.MS_CODE.Substring(13, 1) = "N" Then
+                    ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm Mounting Bracket added to Final Unit?"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                    ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+                    ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+                    ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
                 End If
             Else
-                ProcessStepReturn.ActivityToCheck = "Bracket Assy"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm status of Mounting Bracket on Final Unit?"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Added.jpg"
-                ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
-                If CustOrd.MS_CODE_BEFORE.Substring(13, 1) <> "N" Then
+                If CustOrd.MS_CODE.Substring(13, 1) <> "N" Then
+                    ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm Mounting Bracket added to Final Unit?"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Added.jpg"
+                    ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                     ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-                Else
+                    ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
+                ElseIf CustOrd.MS_CODE.Substring(13, 1) = "N" Then
+                    ProcessStepReturn.ActivityToCheck = "Bracket Assy"
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm Mounting Bracket added to Final Unit?"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                    ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_170_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                     ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_170_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+                    ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_170_Position_Initial.Replace("Initial", MainForm.Initial)
                 End If
             End If
             Return ProcessStepReturn
@@ -1846,10 +1866,11 @@ FixVar3:
     Private Function NeedsHiPot(ByVal NewModel As String, ByVal OldModel As String) As Boolean
         If NewModel.Substring(12, 1) <> OldModel.Substring(12, 1) Then
             Return True
-        ElseIf (NewModel Like "*/C1*" <> OldModel Like "*/C[13]*") Or
-               (NewModel Like "*/C2*" <> OldModel Like "*/C2*") Or
-               (NewModel Like "*/C3*" <> OldModel Like "*/C[13]*") Or
-               (NewModel Like "*/A*" <> OldModel Like "*/A*") Then
+        ElseIf (NewModel Like "*/C1*") And (Not OldModel Like "*/C[13]*") Or
+               (NewModel Like "*/C2*") And (Not OldModel Like "*/C2*") Or
+               (NewModel Like "*/C3*") And (Not OldModel Like "*/C[13]*") Or
+               (NewModel Like "*/A*") And (Not OldModel Like "*/A*") Or
+               (Not NewModel Like "*/A*") And (OldModel Like "*/A*") Then
             Return True
         Else
             Return False
