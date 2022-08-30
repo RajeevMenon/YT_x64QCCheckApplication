@@ -27,8 +27,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\192.168.151.12\AppStore\TML_App\TML_YTA_QC_CheckApp\</UpdateUrl>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>19</ApplicationRevision>
-    <ApplicationVersion>1.0.0.19</ApplicationVersion>
+    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationVersion>1.0.0.23</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -271,8 +271,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="00_Settings\ChangeManagementPoints.txt" />
-    <Content Include="00_Settings\Settings_new.txt" />
     <Content Include="00_Settings\Settings.txt" />
+    <Content Include="00_Settings\Settings_Old.txt" />
     <Content Include="00_Settings\Version.txt" />
     <Content Include="QCC_Icon.ico" />
   </ItemGroup>
