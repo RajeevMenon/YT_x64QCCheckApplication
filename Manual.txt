@@ -21,7 +21,7 @@
 		If TotalStepsInspected.Length = MainForm.QcSteps.Count asks user permission to re-do inspection. [POKAYOKE]
 		If TotalStepsInspected.Length is not complete, it will check successfull completion of previous inspections
 		If previous inspection not completed, it force use to complete those before proceeding [POKAYOKE]
-		If all pass, then it populate below before starting inspection request to use
+		If all previous inspection is passed, then it update below details, which might be needed during insepction step checks.
 			1. HiPOT Result, if any
 			2. CRC Result, if any
 			3. Nameplate PartNumber
@@ -34,9 +34,9 @@
 	Otherwise user can click next button and do other stpes.
 	This operation does following.
 	It initialize a checkpoint as object model of CheckSheetStep class.
-	CheckSheetStep class has properties specific for one full inspection check point as below.
+	CheckSheetStep class has properties specific for one full inspection check point as below. [IMPORTANT VARIABLE CONTROLS THE APP]
 		1. ProcessStepNo,ProcessStep,Activity,ToCheck etc. Refer the class for details.
-	The new object is assigned with value for a specific step by calling YTA_CheckSheet_v1m2s.ProcessStepNo() methong [CRITICAL OPERATION]
+	The new object is assigned with values for a specific step by calling YTA_CheckSheet_v1m2s.ProcessStepNo() methong [CRITICAL OPERATION]
 	The result of this operation has important property CheckSheetStep.MethodOption [CRITICAL PROPERTY]
 	This propoerty is checked and matching form is loaded and shown to operator as below.
 		1. ProcedureStep
