@@ -1,0 +1,53 @@
+﻿This application works as below.
+-------------------------------
+
+1. Open the MainForm.vb and allocate following variables
+	a. Settings
+	b. Version
+	c. QCsteps - All the QC steps as per QC Checksheet version
+	d. Login Page - Once successfull, it will direct back to MainForm.LoadIndexScan() [POKAYOKE]
+
+2. MainForm.LoadIndexScan()
+	This operation, first check if a station name is allocated for the application else force use to do it [POKAYOKE]
+	Then popule below
+	1. Var_08_StepsCurrent - QC Steps for the current selected station name
+	2. Var_08_StepsPrevous - QC Steps of the previous station name w.r.t current selected station name
+	3. Open BarcodeEntry.vb
+
+3. BarcodeEntry.vb TextBox_Scan_KeyDown()
+	1. Acceps either 9-digit S/N, 10-digit BAR or 12-digit INDEX_NO. S/N from QR code is also accepted
+	2. Read CustOrd for selected BAR
+	3. Read yta_qcc_v1p2 for selected BAR
+		If TotalStepsInspected.Length = MainForm.QcSteps.Count asks user permission to re-do inspection. [POKAYOKE]
+		If TotalStepsInspected.Length is not complete, it will check successfull completion of previous inspections
+		If previous inspection not completed, it force use to complete those before proceeding [POKAYOKE]
+		If all pass, then it populate below before starting inspection request to use
+			1. HiPOT Result, if any
+			2. CRC Result, if any
+			3. Nameplate PartNumber
+	4. Once reaches this position the application does below
+		1. Var_08_StepsCurrent is split and first of the split item is set as the first inspection step
+		2. Call MainForm.FirstCheckPoint()
+
+4. MainForm.FirstCheckPoint()
+	This is called to automatically load first step from Var_08_StepsCurrent
+	Otherwise user can click next button and do other stpes.
+	This operation does following.
+	It initialize a checkpoint as object model of CheckSheetStep class.
+	CheckSheetStep class has properties specific for one full inspection check point as below.
+		1. ProcessStepNo,ProcessStep,Activity,ToCheck etc. Refer the class for details.
+	The new object is assigned with value for a specific step by calling YTA_CheckSheet_v1m2s.ProcessStepNo() methong [CRITICAL OPERATION]
+	The result of this operation has important property CheckSheetStep.MethodOption [CRITICAL PROPERTY]
+	This propoerty is checked and matching form is loaded and shown to operator as below.
+		1. ProcedureStep
+		2. UserIput
+		3. SinglePntInst
+		4. DocumentCheck
+		5. AddedDocs
+	Each of the above forms are capable of reading other properties of CheckSheetStep class and do GO or NG to proceed [CRITICAL OPERATION]
+	Incase the checkresult is GO it calls -- MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True) [CRITICAL OPERATION]
+	Incase the checkresult is NG it calls -- MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False) [CRITICAL OPERATION]
+5. User can now click Next Button or Previous Button to proceed
+		If user keeps on clicking and reaches the last step, then one more click will call MainForm.FirstCheckPoint()
+		If user keeps on clicking previous steps and reaches first step, then one more click will call MainForm.LastCheckPoint()
+6. If all inspection steps are GO then during Next or Previous button click, the application will call MainForm.ShowCompleteInspection()

@@ -11,7 +11,7 @@
                 'TextBox_Scan.Text = "100003771640"
 
 #Region "Scan Code Read"
-                If TextBox_Scan.Text Like "*MFR:*S/N:*" Then
+                If TextBox_Scan.Text.ToUpper Like "*MFR:*S/N:*" Then
                     IndexNo = TextBox_Scan.Text.Substring(TextBox_Scan.Text.Length - 9, 9)
                 Else
                     IndexNo = TextBox_Scan.Text
@@ -53,7 +53,7 @@
                     Next
                     ReDim Preserve TotalStepsInspected(TotalStepsInspected.Length - 2)
                 End If
-                If TotalStepsInspected.Length = 51 Then 'If all Inspection Done
+                If TotalStepsInspected.Length = MainForm.QcSteps.Count Then '52 Then 'If all Inspection Done
                     If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
                         MainForm.PrintQcc_Rev1()
                         Exit Sub
@@ -89,6 +89,10 @@
                     Label_Message.Text = ErrMsg
                     Exit Sub
                 End If
+
+                'Once reaches upto here, then the application is allowing user to do remaining inspections.
+                'So before proceeding, it will fill HiPOT, CRC & Plate status for further use.
+                'So get that and allocate to variable.
 
                 'Get HIPOT Result
                 If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("130_01_00")) = "130_01_00" Or

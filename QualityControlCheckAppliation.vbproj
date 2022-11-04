@@ -274,6 +274,7 @@
     <Content Include="00_Settings\Settings.txt" />
     <Content Include="00_Settings\Settings_Old.txt" />
     <Content Include="00_Settings\Version.txt" />
+    <Content Include="Manual.txt" />
     <Content Include="QCC_Icon.ico" />
   </ItemGroup>
   <ItemGroup>

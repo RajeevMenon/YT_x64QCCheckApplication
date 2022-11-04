@@ -2,7 +2,7 @@
 ------------------------------------
 1. To improve speed, we are initializing cust_ord, hipot data, crc data and nameplate part numbres in barcode entry form.
 	This will only initiate those objects for appropriate allowedsteps in the setting file.
-	incase the QCC version changed and steps are remodified, remember to correct the initliation call of these in BarcodeEntry.vb file
+	incase the QCC version changed and steps are remodified, remember to correct the initialization call of these in BarcodeEntry.vb file
 	
 	Eg. Name plate parts are initialized only for steps 41 and 1904
 	Eg. Hipot only initialized for steps 130,140 and 180
