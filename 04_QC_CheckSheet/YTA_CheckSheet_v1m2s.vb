@@ -47,6 +47,8 @@
             If StepNo = "170_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo170_02_00(Initial, CustOrd, ErrMsg)
 
             If StepNo = "180_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo180_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "180_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo180_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "180_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo180_03_00(Initial, CustOrd, ErrMsg)
 
             If StepNo = "190_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_01_00(Initial, CustOrd, ErrMsg)
             If StepNo = "190_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_02_00(Initial, CustOrd, ErrMsg)
@@ -131,6 +133,9 @@
             If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
                 ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
+            ElseIf CustOrd.MS_CODE Like "*/JP*" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In Japan"
+                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             Else
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
                 ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
@@ -1092,6 +1097,138 @@
             End If
 
             ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = TargetFile & ".pdf"
+
+            Return ProcessStepReturn
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo180_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "180"
+            ProcessStepReturn.ProcessStep = "Print Device Information Sheet"
+            ProcessStepReturn.Activity = "Print Certificates"
+            ProcessStepReturn.ToCheck = "Printed YES || NO"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
+            ProcessStepReturn.Initial = Initial
+
+            ProcessStepReturn.StepNo = "180_02_00"
+            ProcessStepReturn.ActivityToCheck = "Print Device Information"
+            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
+            'ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_180_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+            'ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_180_Position_Initial.Replace("Initial", MainForm.Initial)
+            'ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_180_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+
+            Dim TargetFile As String = ""
+            If CustOrd.MS_CODE Like "YTA[67]10-F*" Then
+                Dim DeviceIDFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\Device ID\"
+                If Not (System.IO.Directory.Exists(DeviceIDFolerPath & CustOrd.PROD_NO)) Then
+                    System.IO.Directory.CreateDirectory(DeviceIDFolerPath & CustOrd.PROD_NO)
+                End If
+                DeviceIDFolerPath = DeviceIDFolerPath & CustOrd.PROD_NO & "\"
+                Dim lotNo As String = CustOrd.SHIP_LOT
+                If Not (System.IO.Directory.Exists(DeviceIDFolerPath & lotNo)) Then
+                    System.IO.Directory.CreateDirectory(DeviceIDFolerPath & lotNo)
+                End If
+                DeviceIDFolerPath = DeviceIDFolerPath & lotNo & "\"
+                TargetFile = DeviceIDFolerPath & CustOrd.INDEX_NO & "-DeviceID-Lot" & lotNo
+                Dim QicPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_QIC\"
+                If System.IO.File.Exists(QicPath & CustOrd.SERIAL_NO & "_DEV.pdf") Then
+                    Dim TargetFilePDF As String = TargetFile & ".pdf"
+                    If Not System.IO.File.Exists(TargetFilePDF) Then
+                        System.IO.File.Copy(QicPath & CustOrd.SERIAL_NO & "_DEV.pdf", TargetFilePDF, True)
+                    End If
+                Else
+                    Dim QicFile As String = QicPath & CustOrd.SERIAL_NO & "_DEV.xls"
+                    Dim ExpExl As New ExportExcel
+                    ExpExl.ExcelSheet1_SaveAsPdf(QicFile, TargetFile, ErrMsg)
+                    If Len(ErrMsg) > 0 Then
+                        Exit Function
+                    End If
+                    System.IO.File.Copy(TargetFile & ".pdf", QicPath & CustOrd.SERIAL_NO & "_DEV.pdf", True)
+                End If
+            Else
+                Dim DeviceIDFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\Device ID\"
+                TargetFile = DeviceIDFolerPath & "Template\No_DeviceID"
+            End If
+
+            ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = TargetFile & ".pdf"
+
+            Return ProcessStepReturn
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo180_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "180"
+            ProcessStepReturn.ProcessStep = "Print Label"
+            ProcessStepReturn.Activity = "Print Label"
+            ProcessStepReturn.ToCheck = "Printed YES || NO"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
+            ProcessStepReturn.Initial = Initial
+
+            ProcessStepReturn.StepNo = "180_03_00"
+            ProcessStepReturn.ActivityToCheck = "Print LABEL"
+            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
+
+            Dim BlankDoc As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_Label\Template\YMA_YtaLabel.pdf"
+            Dim FinalDoc As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_Label\" & CustOrd.INDEX_NO & ".pdf"
+            If System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(FinalDoc)) Then
+                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+            End If
+
+            Dim COO As String = ""
+            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
+                COO = "Made In KSA"
+            ElseIf CustOrd.MS_CODE Like "*/JP*" Then
+                COO = "Made In Japan"
+            Else
+                COO = "Made In China"
+            End If
+            If System.IO.File.Exists(BlankDoc) Then
+                Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
+                Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
+
+                Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
+
+                Dim WriteS As Integer = 10
+                Dim WriteX As Double = 54
+                Dim WriteY As Double = 23.2
+                Dim WP1 As New OpenPdfOperation.WriteTextParameters With {
+                                            .Name = FontToWrite,
+                                            .Colour = OpenPdfOperation.FileOp.FontColor.Black,
+                                            .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                            .TextSize = Integer.Parse(WriteS),
+                                            .TextValue = CustOrd.KCC_DATE,
+                                            .X_Position = CDbl(WriteX / 100),
+                                            .Y_Position = CDbl(WriteY / 100)}
+
+                WriteS = 10
+                WriteX = 51
+                WriteY = 37.5
+                Dim WP2 As New OpenPdfOperation.WriteTextParameters With {
+                                            .Name = FontToWrite,
+                                            .Colour = OpenPdfOperation.FileOp.FontColor.Black,
+                                            .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                            .TextSize = Integer.Parse(WriteS),
+                                            .TextValue = COO,
+                                            .X_Position = CDbl(WriteX / 100),
+                                            .Y_Position = CDbl(WriteY / 100)}
+
+                WPS.Add(WP1)
+                WPS.Add(WP2)
+                OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+
+                P_Doc.Save(FinalDoc)
+            End If
+            ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = FinalDoc
 
             Return ProcessStepReturn
 
