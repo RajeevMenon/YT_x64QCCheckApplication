@@ -1114,7 +1114,7 @@
             ProcessStepReturn.ToCheck = "Printed YES || NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
             ProcessStepReturn.Initial = Initial
-
+            ProcessStepReturn.Result = ""
             ProcessStepReturn.StepNo = "180_02_00"
             ProcessStepReturn.ActivityToCheck = "Print Device Information"
             ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
@@ -1173,7 +1173,7 @@
             ProcessStepReturn.ToCheck = "Printed YES || NO"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
             ProcessStepReturn.Initial = Initial
-
+            ProcessStepReturn.Result = ""
             ProcessStepReturn.StepNo = "180_03_00"
             ProcessStepReturn.ActivityToCheck = "Print LABEL"
             ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
