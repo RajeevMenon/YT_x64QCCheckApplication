@@ -2010,11 +2010,20 @@ FixVar3:
     Private Function NeedsHiPot(ByVal NewModel As String, ByVal OldModel As String) As Boolean
         If NewModel.Substring(12, 1) <> OldModel.Substring(12, 1) Then
             Return True
-        ElseIf (NewModel Like "*/C1*") And (Not OldModel Like "*/C[13]*") Or
-               (NewModel Like "*/C2*") And (Not OldModel Like "*/C2*") Or
-               (NewModel Like "*/C3*") And (Not OldModel Like "*/C[13]*") Or
-               (NewModel Like "*/A*") And (Not OldModel Like "*/A*") Or
-               (Not NewModel Like "*/A*") And (OldModel Like "*/A*") Then
+        ElseIf (NewModel Like "*/C3*") And (OldModel Like "*/C1*") Then
+            Return False
+        ElseIf (NewModel Like "*/C1*") And (OldModel Like "*/C3*") Then
+            Return False
+        ElseIf (NewModel Like "*/C[13]*") And (Not OldModel Like "*/C[123]*") Then
+            Return False
+        ElseIf (NewModel Like "*/C[13]*") And (OldModel Like "*/C2*") Then
+            Return True
+        ElseIf (NewModel Like "*/C2*") And (OldModel Like "*/C[13]*") Then
+            Return True
+        ElseIf (NewModel Like "*/C2*") And (Not OldModel Like "*/C[123]*") Then
+            Return True
+        ElseIf ((NewModel Like "*/A*") And (Not OldModel Like "*/A*")) Or
+               ((Not NewModel Like "*/A*") And (OldModel Like "*/A*")) Then
             Return True
         Else
             Return False
