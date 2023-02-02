@@ -72,12 +72,12 @@
                 Else
                     AddedDocErrorMessage = ""
                     If CustOrd.MS_CODE Like "EJ[AX]???[EA]-?????-?????*/K[UFS]*" Then
-                        Dim EuDoc = DocTbl.Where(Function(x) x.DOC_NAME Like CustOrd.MODEL & "*").FirstOrDefault
+                        Dim EuDoc = DocTbl.Where(Function(x) x.DOC_NAME Like "*" & CustOrd.MODEL & "*EU-DOC").FirstOrDefault
                         If TextBox_EUDoC.Text.ToUpper Like EuDoc.CAT_DOC & "/" & Math.Round(Decimal.Parse(EuDoc.DOC_VERSION), 0) Then
                             EUDOC_OK = True
                         End If
                     ElseIf CustOrd.MS_CODE Like "YTA[67]??-???????*/K[UFS]*" Then
-                        Dim EuDoc = DocTbl.Where(Function(x) x.DOC_NAME Like CustOrd.MODEL & "*").FirstOrDefault
+                        Dim EuDoc = DocTbl.Where(Function(x) x.DOC_NAME Like "*" & CustOrd.MODEL & "*EU-DOC").FirstOrDefault
                         If TextBox_EUDoC.Text.ToUpper Like EuDoc.CAT_DOC & "/" & Math.Round(Decimal.Parse(EuDoc.DOC_VERSION), 0) Then
                             EUDOC_OK = True
                         End If

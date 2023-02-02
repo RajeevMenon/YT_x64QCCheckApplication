@@ -1,3 +1,4 @@
 ﻿Version	-	Date		-	Remarks
 ----------------------------------------------------------------------------
 1.0		-	2022-01-10	-	First Version released
+2.0		-	2023-02-01	-	EU Doc version updated as per FZ2-YTA-01092
