@@ -155,9 +155,15 @@
             ErrMsg = ""
             Dim PlatePartNo As String = ""
             Dim Inst_Lib As New TML_Library.Instrument
+            Dim Factory = TML_Library.Instrument.FACTORY._YKSA_F_NET
+            If MainForm.Setting.Var_05_Factory = "1" Then Factory = TML_Library.Instrument.FACTORY._YUAE_M_NET
+            If MainForm.Setting.Var_05_Factory = "2" Then Factory = TML_Library.Instrument.FACTORY._YKSA_F_NET
+            If MainForm.Setting.Var_05_Factory Like "[35]" Then Factory = TML_Library.Instrument.FACTORY._YUAE_F_NET
+            If MainForm.Setting.Var_05_Factory = "4" Then Factory = TML_Library.Instrument.FACTORY._YKSA_F_NET
+
             PlatePartNo = Inst_Lib.GetNamePlatePartNumber(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, CustOrd.INDEX_NO)
             Dim allParts() As String
-            allParts = Inst_Lib.GetYTA_AllPlatePartNumberList(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, ErrMsg)
+            allParts = Inst_Lib.GetYTA_AllPlatePartNumberList(CustOrd.MS_CODE, Factory, ErrMsg)
             If Len(ErrMsg) > 0 Then
                 ErrMsg = "Error in reading all plate part numbers:" & ErrMsg
                 Exit Sub
