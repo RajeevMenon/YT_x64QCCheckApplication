@@ -1077,6 +1077,10 @@
             End If
             QicFolerPath = QicFolerPath & MainForm.CustOrd.PROD_NO & "\"
             Dim lotNo As String = MainForm.CustOrd.SHIP_LOT
+            If Not IsNumeric(lotNo) Then
+                ErrMsg = "Lot No. is not readable from database."
+                Exit Function
+            End If
             If Not (System.IO.Directory.Exists(QicFolerPath & lotNo)) Then
                 System.IO.Directory.CreateDirectory(QicFolerPath & lotNo)
             End If

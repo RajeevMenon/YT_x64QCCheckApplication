@@ -158,8 +158,9 @@
             Dim Factory = TML_Library.Instrument.FACTORY._YKSA_F_NET
             If MainForm.Setting.Var_05_Factory = "1" Then Factory = TML_Library.Instrument.FACTORY._YUAE_M_NET
             If MainForm.Setting.Var_05_Factory = "2" Then Factory = TML_Library.Instrument.FACTORY._YKSA_F_NET
-            If MainForm.Setting.Var_05_Factory Like "[35]" Then Factory = TML_Library.Instrument.FACTORY._YUAE_F_NET
+            If MainForm.Setting.Var_05_Factory = "3" Then Factory = TML_Library.Instrument.FACTORY._YUAE_F_NET
             If MainForm.Setting.Var_05_Factory = "4" Then Factory = TML_Library.Instrument.FACTORY._YKSA_F_NET
+            If MainForm.Setting.Var_05_Factory = "5" Then Factory = TML_Library.Instrument.FACTORY._YUAE_F_NET
 
             PlatePartNo = Inst_Lib.GetNamePlatePartNumber(CustOrd.MS_CODE, MainForm.Setting.Var_05_Factory, CustOrd.INDEX_NO)
             Dim allParts() As String
