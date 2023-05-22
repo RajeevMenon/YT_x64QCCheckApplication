@@ -77,6 +77,16 @@ Namespace My
                 Me("Station") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("http://cpc475-tmlpc02.bh.me.ykgw.net/TML_SERVICE/Service1.asmx")>  _
+        Public ReadOnly Property QualityControlCheckAppliation_TML_Service_Service1() As String
+            Get
+                Return CType(Me("QualityControlCheckAppliation_TML_Service_Service1"),String)
+            End Get
+        End Property
     End Class
 End Namespace
 

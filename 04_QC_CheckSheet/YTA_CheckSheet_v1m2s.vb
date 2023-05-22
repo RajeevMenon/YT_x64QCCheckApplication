@@ -133,9 +133,9 @@
             If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
                 ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
-            ElseIf CustOrd.MS_CODE Like "*/JP*" Then
+            ElseIf CustOrd.MS_CODE Like "*/JP*" Or CustOrd.SERIAL_NO Like "Y4*" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In Japan"
-                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
+                ProcessStepReturn.Result = "Made In Japan-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             Else
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
                 ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
@@ -920,6 +920,7 @@
             Return Nothing
         End Try
     End Function
+
     Public Function ProcessStepNo160_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1093,11 +1094,16 @@
                     System.IO.File.Copy(QicFile & ".pdf", TargetFile & ".pdf", True)
                 End If
             Else
-                Dim ExpExl As New ExportExcel
-                ExpExl.ExcelSheet1_SaveAsPdf(QicFile & ".xls", TargetFile, ErrMsg)
-                If Len(ErrMsg) > 0 Then
-                    Exit Function
-                End If
+                'Dim ExpExl As New ExportExcel
+                'ExpExl.ExcelSheet1_SaveAsPdf(QicFile & ".xls", TargetFile, ErrMsg)
+                'If Len(ErrMsg) > 0 Then
+                '    Exit Function
+                'End If
+
+                Dim ExcelWorkBook As Spire.Xls.Workbook = New Spire.Xls.Workbook()
+                ExcelWorkBook.LoadFromFile(QicFile & ".xls")
+                ExcelWorkBook.Worksheets(0).PageSetup.IsFitToPage = True
+                ExcelWorkBook.Worksheets(0).SaveToPdf(TargetFile & ".pdf")
             End If
 
             ProcessStepReturn.ViewDocAction.PdfPath_DocumentCheck = TargetFile & ".pdf"
@@ -1240,7 +1246,6 @@
             Return Nothing
         End Try
     End Function
-
     Public Function ProcessStepNo190_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 

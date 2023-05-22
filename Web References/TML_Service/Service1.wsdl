@@ -1,0 +1,1455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://yokogawa.com.bh/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://yokogawa.com.bh/AbstractTypes" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://yokogawa.com.bh/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://yokogawa.com.bh/">
+      <s:element name="getIndexModelCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IndexNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexModelCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getIndexModelCodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ModelCodeFull" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getModelResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getProductDescription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getProductDescriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getProductDescriptionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getProductStyle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getProductStyleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getProductStyleResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexItemDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IndexNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexItemDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getIndexItemDetailsResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getIndexItemDetailsString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IndexNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexItemDetailsStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getIndexItemDetailsStringResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexItemDetailsString_PlateMarkingOnly">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IndexNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Server" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexItemDetailsString_PlateMarkingOnlyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getIndexItemDetailsString_PlateMarkingOnlyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexItemDet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IndexNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getIndexItemDetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getIndexItemDetResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CYBERPS_SP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MsCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TF" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CYBERPS_SPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CYBERPS_SPResult" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getPlatePartNumbers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MsCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getPlatePartNumbersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getPlatePartNumbersResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadDBasString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="table" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fieldName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fieldValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadDBasStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReadDBasStringResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecureSqlQry">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SqlQry" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DataBase" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecureSqlQryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecureSqlQryResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateYGSPSoLine">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SoNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LineNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OnlyItemNos" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateYGSPSoLineResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateYGSPSoLineResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadYGSPSoLine">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SoLinkage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ErrMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadYGSPSoLineResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReadYGSPSoLineResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="ErrMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadFile_ScanDeliveryNote">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FileData" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="FileName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubDir" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadFile_ScanDeliveryNoteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadFile_ScanDeliveryNoteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadFile_FinalQCC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FileData" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="DateValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadFile_FinalQCCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadFile_FinalQCCResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getCrmDatatable">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CrmNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getCrmDatatableResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getCrmDatatableResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="errMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConvertExcelToPDF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExcelFileFullPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SaveAsFileFullPath" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SheetNo" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="errMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConvertExcelToPDFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConvertExcelToPDFResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="errMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+      <s:element name="DataTable" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+            <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="decimal" type="s:decimal" />
+    </s:schema>
+    <s:schema targetNamespace="http://yokogawa.com.bh/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getIndexModelCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:getIndexModelCode" />
+  </wsdl:message>
+  <wsdl:message name="getIndexModelCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:getIndexModelCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getModelSoapIn">
+    <wsdl:part name="parameters" element="tns:getModel" />
+  </wsdl:message>
+  <wsdl:message name="getModelSoapOut">
+    <wsdl:part name="parameters" element="tns:getModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="getProductDescriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:getProductDescription" />
+  </wsdl:message>
+  <wsdl:message name="getProductDescriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:getProductDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="getProductStyleSoapIn">
+    <wsdl:part name="parameters" element="tns:getProductStyle" />
+  </wsdl:message>
+  <wsdl:message name="getProductStyleSoapOut">
+    <wsdl:part name="parameters" element="tns:getProductStyleResponse" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:getIndexItemDetails" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:getIndexItemDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsStringSoapIn">
+    <wsdl:part name="parameters" element="tns:getIndexItemDetailsString" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsStringSoapOut">
+    <wsdl:part name="parameters" element="tns:getIndexItemDetailsStringResponse" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsString_PlateMarkingOnlySoapIn">
+    <wsdl:part name="parameters" element="tns:getIndexItemDetailsString_PlateMarkingOnly" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsString_PlateMarkingOnlySoapOut">
+    <wsdl:part name="parameters" element="tns:getIndexItemDetailsString_PlateMarkingOnlyResponse" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetSoapIn">
+    <wsdl:part name="parameters" element="tns:getIndexItemDet" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetSoapOut">
+    <wsdl:part name="parameters" element="tns:getIndexItemDetResponse" />
+  </wsdl:message>
+  <wsdl:message name="CYBERPS_SPSoapIn">
+    <wsdl:part name="parameters" element="tns:CYBERPS_SP" />
+  </wsdl:message>
+  <wsdl:message name="CYBERPS_SPSoapOut">
+    <wsdl:part name="parameters" element="tns:CYBERPS_SPResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPlatePartNumbersSoapIn">
+    <wsdl:part name="parameters" element="tns:getPlatePartNumbers" />
+  </wsdl:message>
+  <wsdl:message name="getPlatePartNumbersSoapOut">
+    <wsdl:part name="parameters" element="tns:getPlatePartNumbersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadDBasStringSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadDBasString" />
+  </wsdl:message>
+  <wsdl:message name="ReadDBasStringSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadDBasStringResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecureSqlQrySoapIn">
+    <wsdl:part name="parameters" element="tns:ExecureSqlQry" />
+  </wsdl:message>
+  <wsdl:message name="ExecureSqlQrySoapOut">
+    <wsdl:part name="parameters" element="tns:ExecureSqlQryResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateYGSPSoLineSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateYGSPSoLine" />
+  </wsdl:message>
+  <wsdl:message name="UpdateYGSPSoLineSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateYGSPSoLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadYGSPSoLineSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadYGSPSoLine" />
+  </wsdl:message>
+  <wsdl:message name="ReadYGSPSoLineSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadYGSPSoLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_ScanDeliveryNoteSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadFile_ScanDeliveryNote" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_ScanDeliveryNoteSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadFile_ScanDeliveryNoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_FinalQCCSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadFile_FinalQCC" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_FinalQCCSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadFile_FinalQCCResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCrmDatatableSoapIn">
+    <wsdl:part name="parameters" element="tns:getCrmDatatable" />
+  </wsdl:message>
+  <wsdl:message name="getCrmDatatableSoapOut">
+    <wsdl:part name="parameters" element="tns:getCrmDatatableResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConvertExcelToPDFSoapIn">
+    <wsdl:part name="parameters" element="tns:ConvertExcelToPDF" />
+  </wsdl:message>
+  <wsdl:message name="ConvertExcelToPDFSoapOut">
+    <wsdl:part name="parameters" element="tns:ConvertExcelToPDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="getIndexModelCodeHttpGetIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexModelCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getModelHttpGetIn">
+    <wsdl:part name="ModelCodeFull" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getModelHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductDescriptionHttpGetIn">
+    <wsdl:part name="model" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductDescriptionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductStyleHttpGetIn">
+    <wsdl:part name="model" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductStyleHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsHttpGetIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsStringHttpGetIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+    <wsdl:part name="Server" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsStringHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsString_PlateMarkingOnlyHttpGetIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+    <wsdl:part name="Server" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsString_PlateMarkingOnlyHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetHttpGetIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="CYBERPS_SPHttpGetIn">
+    <wsdl:part name="MsCode" type="s:string" />
+    <wsdl:part name="TF" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CYBERPS_SPHttpGetOut">
+    <wsdl:part name="Body" element="tns:decimal" />
+  </wsdl:message>
+  <wsdl:message name="getPlatePartNumbersHttpGetIn">
+    <wsdl:part name="MsCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getPlatePartNumbersHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ReadDBasStringHttpGetIn">
+    <wsdl:part name="table" type="s:string" />
+    <wsdl:part name="fieldName" type="s:string" />
+    <wsdl:part name="fieldValue" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ReadDBasStringHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecureSqlQryHttpGetIn">
+    <wsdl:part name="SqlQry" type="s:string" />
+    <wsdl:part name="DataBase" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecureSqlQryHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateYGSPSoLineHttpGetIn">
+    <wsdl:part name="SoNo" type="s:string" />
+    <wsdl:part name="LineNo" type="s:string" />
+    <wsdl:part name="OnlyItemNos" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateYGSPSoLineHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_ScanDeliveryNoteHttpGetIn">
+    <wsdl:part name="FileData" type="s1:StringArray" />
+    <wsdl:part name="FileName" type="s:string" />
+    <wsdl:part name="SubDir" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_ScanDeliveryNoteHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_FinalQCCHttpGetIn">
+    <wsdl:part name="FileData" type="s1:StringArray" />
+    <wsdl:part name="DateValue" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_FinalQCCHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexModelCodeHttpPostIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexModelCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getModelHttpPostIn">
+    <wsdl:part name="ModelCodeFull" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getModelHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductDescriptionHttpPostIn">
+    <wsdl:part name="model" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductDescriptionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductStyleHttpPostIn">
+    <wsdl:part name="model" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getProductStyleHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsHttpPostIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsStringHttpPostIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+    <wsdl:part name="Server" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsStringHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsString_PlateMarkingOnlyHttpPostIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+    <wsdl:part name="Server" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetailsString_PlateMarkingOnlyHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetHttpPostIn">
+    <wsdl:part name="IndexNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getIndexItemDetHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="CYBERPS_SPHttpPostIn">
+    <wsdl:part name="MsCode" type="s:string" />
+    <wsdl:part name="TF" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CYBERPS_SPHttpPostOut">
+    <wsdl:part name="Body" element="tns:decimal" />
+  </wsdl:message>
+  <wsdl:message name="getPlatePartNumbersHttpPostIn">
+    <wsdl:part name="MsCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getPlatePartNumbersHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ReadDBasStringHttpPostIn">
+    <wsdl:part name="table" type="s:string" />
+    <wsdl:part name="fieldName" type="s:string" />
+    <wsdl:part name="fieldValue" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ReadDBasStringHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecureSqlQryHttpPostIn">
+    <wsdl:part name="SqlQry" type="s:string" />
+    <wsdl:part name="DataBase" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExecureSqlQryHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateYGSPSoLineHttpPostIn">
+    <wsdl:part name="SoNo" type="s:string" />
+    <wsdl:part name="LineNo" type="s:string" />
+    <wsdl:part name="OnlyItemNos" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateYGSPSoLineHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_ScanDeliveryNoteHttpPostIn">
+    <wsdl:part name="FileData" type="s1:StringArray" />
+    <wsdl:part name="FileName" type="s:string" />
+    <wsdl:part name="SubDir" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_ScanDeliveryNoteHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_FinalQCCHttpPostIn">
+    <wsdl:part name="FileData" type="s1:StringArray" />
+    <wsdl:part name="DateValue" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadFile_FinalQCCHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="getIndexModelCode">
+      <wsdl:input message="tns:getIndexModelCodeSoapIn" />
+      <wsdl:output message="tns:getIndexModelCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <wsdl:input message="tns:getModelSoapIn" />
+      <wsdl:output message="tns:getModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductDescription">
+      <wsdl:input message="tns:getProductDescriptionSoapIn" />
+      <wsdl:output message="tns:getProductDescriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductStyle">
+      <wsdl:input message="tns:getProductStyleSoapIn" />
+      <wsdl:output message="tns:getProductStyleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetails">
+      <wsdl:input message="tns:getIndexItemDetailsSoapIn" />
+      <wsdl:output message="tns:getIndexItemDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString">
+      <wsdl:input message="tns:getIndexItemDetailsStringSoapIn" />
+      <wsdl:output message="tns:getIndexItemDetailsStringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString_PlateMarkingOnly">
+      <wsdl:input message="tns:getIndexItemDetailsString_PlateMarkingOnlySoapIn" />
+      <wsdl:output message="tns:getIndexItemDetailsString_PlateMarkingOnlySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDet">
+      <wsdl:input message="tns:getIndexItemDetSoapIn" />
+      <wsdl:output message="tns:getIndexItemDetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CYBERPS_SP">
+      <wsdl:input message="tns:CYBERPS_SPSoapIn" />
+      <wsdl:output message="tns:CYBERPS_SPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPlatePartNumbers">
+      <wsdl:input message="tns:getPlatePartNumbersSoapIn" />
+      <wsdl:output message="tns:getPlatePartNumbersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadDBasString">
+      <wsdl:input message="tns:ReadDBasStringSoapIn" />
+      <wsdl:output message="tns:ReadDBasStringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecureSqlQry">
+      <wsdl:input message="tns:ExecureSqlQrySoapIn" />
+      <wsdl:output message="tns:ExecureSqlQrySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateYGSPSoLine">
+      <wsdl:input message="tns:UpdateYGSPSoLineSoapIn" />
+      <wsdl:output message="tns:UpdateYGSPSoLineSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadYGSPSoLine">
+      <wsdl:input message="tns:ReadYGSPSoLineSoapIn" />
+      <wsdl:output message="tns:ReadYGSPSoLineSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_ScanDeliveryNote">
+      <wsdl:input message="tns:UploadFile_ScanDeliveryNoteSoapIn" />
+      <wsdl:output message="tns:UploadFile_ScanDeliveryNoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_FinalQCC">
+      <wsdl:input message="tns:UploadFile_FinalQCCSoapIn" />
+      <wsdl:output message="tns:UploadFile_FinalQCCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getCrmDatatable">
+      <wsdl:input message="tns:getCrmDatatableSoapIn" />
+      <wsdl:output message="tns:getCrmDatatableSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConvertExcelToPDF">
+      <wsdl:input message="tns:ConvertExcelToPDFSoapIn" />
+      <wsdl:output message="tns:ConvertExcelToPDFSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpGet">
+    <wsdl:operation name="getIndexModelCode">
+      <wsdl:input message="tns:getIndexModelCodeHttpGetIn" />
+      <wsdl:output message="tns:getIndexModelCodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <wsdl:input message="tns:getModelHttpGetIn" />
+      <wsdl:output message="tns:getModelHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductDescription">
+      <wsdl:input message="tns:getProductDescriptionHttpGetIn" />
+      <wsdl:output message="tns:getProductDescriptionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductStyle">
+      <wsdl:input message="tns:getProductStyleHttpGetIn" />
+      <wsdl:output message="tns:getProductStyleHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetails">
+      <wsdl:input message="tns:getIndexItemDetailsHttpGetIn" />
+      <wsdl:output message="tns:getIndexItemDetailsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString">
+      <wsdl:input message="tns:getIndexItemDetailsStringHttpGetIn" />
+      <wsdl:output message="tns:getIndexItemDetailsStringHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString_PlateMarkingOnly">
+      <wsdl:input message="tns:getIndexItemDetailsString_PlateMarkingOnlyHttpGetIn" />
+      <wsdl:output message="tns:getIndexItemDetailsString_PlateMarkingOnlyHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDet">
+      <wsdl:input message="tns:getIndexItemDetHttpGetIn" />
+      <wsdl:output message="tns:getIndexItemDetHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CYBERPS_SP">
+      <wsdl:input message="tns:CYBERPS_SPHttpGetIn" />
+      <wsdl:output message="tns:CYBERPS_SPHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPlatePartNumbers">
+      <wsdl:input message="tns:getPlatePartNumbersHttpGetIn" />
+      <wsdl:output message="tns:getPlatePartNumbersHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadDBasString">
+      <wsdl:input message="tns:ReadDBasStringHttpGetIn" />
+      <wsdl:output message="tns:ReadDBasStringHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecureSqlQry">
+      <wsdl:input message="tns:ExecureSqlQryHttpGetIn" />
+      <wsdl:output message="tns:ExecureSqlQryHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateYGSPSoLine">
+      <wsdl:input message="tns:UpdateYGSPSoLineHttpGetIn" />
+      <wsdl:output message="tns:UpdateYGSPSoLineHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_ScanDeliveryNote">
+      <wsdl:input message="tns:UploadFile_ScanDeliveryNoteHttpGetIn" />
+      <wsdl:output message="tns:UploadFile_ScanDeliveryNoteHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_FinalQCC">
+      <wsdl:input message="tns:UploadFile_FinalQCCHttpGetIn" />
+      <wsdl:output message="tns:UploadFile_FinalQCCHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpPost">
+    <wsdl:operation name="getIndexModelCode">
+      <wsdl:input message="tns:getIndexModelCodeHttpPostIn" />
+      <wsdl:output message="tns:getIndexModelCodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <wsdl:input message="tns:getModelHttpPostIn" />
+      <wsdl:output message="tns:getModelHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductDescription">
+      <wsdl:input message="tns:getProductDescriptionHttpPostIn" />
+      <wsdl:output message="tns:getProductDescriptionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getProductStyle">
+      <wsdl:input message="tns:getProductStyleHttpPostIn" />
+      <wsdl:output message="tns:getProductStyleHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetails">
+      <wsdl:input message="tns:getIndexItemDetailsHttpPostIn" />
+      <wsdl:output message="tns:getIndexItemDetailsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString">
+      <wsdl:input message="tns:getIndexItemDetailsStringHttpPostIn" />
+      <wsdl:output message="tns:getIndexItemDetailsStringHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString_PlateMarkingOnly">
+      <wsdl:input message="tns:getIndexItemDetailsString_PlateMarkingOnlyHttpPostIn" />
+      <wsdl:output message="tns:getIndexItemDetailsString_PlateMarkingOnlyHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDet">
+      <wsdl:input message="tns:getIndexItemDetHttpPostIn" />
+      <wsdl:output message="tns:getIndexItemDetHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CYBERPS_SP">
+      <wsdl:input message="tns:CYBERPS_SPHttpPostIn" />
+      <wsdl:output message="tns:CYBERPS_SPHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPlatePartNumbers">
+      <wsdl:input message="tns:getPlatePartNumbersHttpPostIn" />
+      <wsdl:output message="tns:getPlatePartNumbersHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadDBasString">
+      <wsdl:input message="tns:ReadDBasStringHttpPostIn" />
+      <wsdl:output message="tns:ReadDBasStringHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecureSqlQry">
+      <wsdl:input message="tns:ExecureSqlQryHttpPostIn" />
+      <wsdl:output message="tns:ExecureSqlQryHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateYGSPSoLine">
+      <wsdl:input message="tns:UpdateYGSPSoLineHttpPostIn" />
+      <wsdl:output message="tns:UpdateYGSPSoLineHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_ScanDeliveryNote">
+      <wsdl:input message="tns:UploadFile_ScanDeliveryNoteHttpPostIn" />
+      <wsdl:output message="tns:UploadFile_ScanDeliveryNoteHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_FinalQCC">
+      <wsdl:input message="tns:UploadFile_FinalQCCHttpPostIn" />
+      <wsdl:output message="tns:UploadFile_FinalQCCHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getIndexModelCode">
+      <soap:operation soapAction="http://yokogawa.com.bh/getIndexModelCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <soap:operation soapAction="http://yokogawa.com.bh/getModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductDescription">
+      <soap:operation soapAction="http://yokogawa.com.bh/getProductDescription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductStyle">
+      <soap:operation soapAction="http://yokogawa.com.bh/getProductStyle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetails">
+      <soap:operation soapAction="http://yokogawa.com.bh/getIndexItemDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString">
+      <soap:operation soapAction="http://yokogawa.com.bh/getIndexItemDetailsString" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString_PlateMarkingOnly">
+      <soap:operation soapAction="http://yokogawa.com.bh/getIndexItemDetailsString_PlateMarkingOnly" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDet">
+      <soap:operation soapAction="http://yokogawa.com.bh/getIndexItemDet" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CYBERPS_SP">
+      <soap:operation soapAction="http://yokogawa.com.bh/CYBERPS_SP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlatePartNumbers">
+      <soap:operation soapAction="http://yokogawa.com.bh/getPlatePartNumbers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadDBasString">
+      <soap:operation soapAction="http://yokogawa.com.bh/ReadDBasString" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecureSqlQry">
+      <soap:operation soapAction="http://yokogawa.com.bh/ExecureSqlQry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateYGSPSoLine">
+      <soap:operation soapAction="http://yokogawa.com.bh/UpdateYGSPSoLine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadYGSPSoLine">
+      <soap:operation soapAction="http://yokogawa.com.bh/ReadYGSPSoLine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_ScanDeliveryNote">
+      <soap:operation soapAction="http://yokogawa.com.bh/UploadFile_ScanDeliveryNote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_FinalQCC">
+      <soap:operation soapAction="http://yokogawa.com.bh/UploadFile_FinalQCC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCrmDatatable">
+      <soap:operation soapAction="http://yokogawa.com.bh/getCrmDatatable" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConvertExcelToPDF">
+      <soap:operation soapAction="http://yokogawa.com.bh/ConvertExcelToPDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getIndexModelCode">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getIndexModelCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductDescription">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getProductDescription" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductStyle">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getProductStyle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetails">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getIndexItemDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getIndexItemDetailsString" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString_PlateMarkingOnly">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getIndexItemDetailsString_PlateMarkingOnly" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDet">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getIndexItemDet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CYBERPS_SP">
+      <soap12:operation soapAction="http://yokogawa.com.bh/CYBERPS_SP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlatePartNumbers">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getPlatePartNumbers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadDBasString">
+      <soap12:operation soapAction="http://yokogawa.com.bh/ReadDBasString" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecureSqlQry">
+      <soap12:operation soapAction="http://yokogawa.com.bh/ExecureSqlQry" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateYGSPSoLine">
+      <soap12:operation soapAction="http://yokogawa.com.bh/UpdateYGSPSoLine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadYGSPSoLine">
+      <soap12:operation soapAction="http://yokogawa.com.bh/ReadYGSPSoLine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_ScanDeliveryNote">
+      <soap12:operation soapAction="http://yokogawa.com.bh/UploadFile_ScanDeliveryNote" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_FinalQCC">
+      <soap12:operation soapAction="http://yokogawa.com.bh/UploadFile_FinalQCC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCrmDatatable">
+      <soap12:operation soapAction="http://yokogawa.com.bh/getCrmDatatable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConvertExcelToPDF">
+      <soap12:operation soapAction="http://yokogawa.com.bh/ConvertExcelToPDF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpGet" type="tns:Service1HttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="getIndexModelCode">
+      <http:operation location="/getIndexModelCode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <http:operation location="/getModel" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductDescription">
+      <http:operation location="/getProductDescription" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductStyle">
+      <http:operation location="/getProductStyle" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetails">
+      <http:operation location="/getIndexItemDetails" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString">
+      <http:operation location="/getIndexItemDetailsString" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString_PlateMarkingOnly">
+      <http:operation location="/getIndexItemDetailsString_PlateMarkingOnly" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDet">
+      <http:operation location="/getIndexItemDet" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CYBERPS_SP">
+      <http:operation location="/CYBERPS_SP" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlatePartNumbers">
+      <http:operation location="/getPlatePartNumbers" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadDBasString">
+      <http:operation location="/ReadDBasString" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecureSqlQry">
+      <http:operation location="/ExecureSqlQry" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateYGSPSoLine">
+      <http:operation location="/UpdateYGSPSoLine" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_ScanDeliveryNote">
+      <http:operation location="/UploadFile_ScanDeliveryNote" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_FinalQCC">
+      <http:operation location="/UploadFile_FinalQCC" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpPost" type="tns:Service1HttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="getIndexModelCode">
+      <http:operation location="/getIndexModelCode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModel">
+      <http:operation location="/getModel" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductDescription">
+      <http:operation location="/getProductDescription" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProductStyle">
+      <http:operation location="/getProductStyle" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetails">
+      <http:operation location="/getIndexItemDetails" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString">
+      <http:operation location="/getIndexItemDetailsString" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDetailsString_PlateMarkingOnly">
+      <http:operation location="/getIndexItemDetailsString_PlateMarkingOnly" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIndexItemDet">
+      <http:operation location="/getIndexItemDet" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CYBERPS_SP">
+      <http:operation location="/CYBERPS_SP" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlatePartNumbers">
+      <http:operation location="/getPlatePartNumbers" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadDBasString">
+      <http:operation location="/ReadDBasString" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecureSqlQry">
+      <http:operation location="/ExecureSqlQry" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateYGSPSoLine">
+      <http:operation location="/UpdateYGSPSoLine" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_ScanDeliveryNote">
+      <http:operation location="/UploadFile_ScanDeliveryNote" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile_FinalQCC">
+      <http:operation location="/UploadFile_FinalQCC" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://cpc475-tmlpc02.bh.me.ykgw.net/TML_SERVICE/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://cpc475-tmlpc02.bh.me.ykgw.net/TML_SERVICE/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpGet" binding="tns:Service1HttpGet">
+      <http:address location="http://cpc475-tmlpc02.bh.me.ykgw.net/TML_SERVICE/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpPost" binding="tns:Service1HttpPost">
+      <http:address location="http://cpc475-tmlpc02.bh.me.ykgw.net/TML_SERVICE/Service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

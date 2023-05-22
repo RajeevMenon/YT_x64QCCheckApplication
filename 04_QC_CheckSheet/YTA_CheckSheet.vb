@@ -159,6 +159,9 @@
             If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
                 ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
+            ElseIf CustOrd.SERIAL_NO Like "Y4*" Or CustOrd.SERIAL_NO Like "9[01]*" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In Japan"
+                ProcessStepReturn.Result = "Made In Japan-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             Else
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
                 ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
