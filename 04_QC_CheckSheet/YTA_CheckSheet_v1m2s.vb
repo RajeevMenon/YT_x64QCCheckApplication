@@ -1180,7 +1180,7 @@
             ProcessStepReturn.Result = ""
             ProcessStepReturn.StepNo = "180_03_00"
             ProcessStepReturn.ActivityToCheck = "Print LABEL"
-            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Printed correctly YES || NO ?"
+            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Box Label Printed correctly?"
 
             Dim BlankDoc As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_Label\Template\YMA_YtaLabel.pdf"
             Dim FinalDoc As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_Label\" & CustOrd.INDEX_NO & ".pdf"
@@ -1240,6 +1240,7 @@
             Return Nothing
         End Try
     End Function
+
     Public Function ProcessStepNo190_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1738,7 +1739,7 @@ FixVar3:
 
             ProcessStepReturn.StepNo = "190_16_00"
             ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket correct  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket Parts correct?"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If Not (CustOrd.MS_CODE Like "YTA???-??????N*") Then
@@ -1758,6 +1759,7 @@ FixVar3:
             Return Nothing
         End Try
     End Function
+
     Public Function ProcessStepNo200_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
