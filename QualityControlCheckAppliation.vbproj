@@ -173,10 +173,17 @@
     <Compile Include="02_SubForms\Login.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="02_SubForms\MakeUserInput.Designer.vb">
+      <DependentUpon>MakeUserInput.vb</DependentUpon>
+    </Compile>
+    <Compile Include="02_SubForms\MakeUserInput.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="03_Model\CheckSheetStep.vb" />
     <Compile Include="03_Model\AddedDocsCheck.vb" />
     <Compile Include="03_Model\DocumentCheck.vb" />
     <Compile Include="03_Model\ExportExcel.vb" />
+    <Compile Include="03_Model\MakeUserInputCheck.vb" />
     <Compile Include="03_Model\Settings.vb" />
     <Compile Include="03_Model\ProcedureStep.vb" />
     <Compile Include="03_Model\SinglePointInstCheck.vb" />

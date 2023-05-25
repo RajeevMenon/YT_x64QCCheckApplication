@@ -819,6 +819,8 @@ Public Class MainForm
 #End Region
 #Region "NEW VERSION"
     Public Initial As String
+    Public WorkerName As String
+    Public WorkerID As String
     Public VersionText As String
     Public Shared CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
@@ -934,6 +936,21 @@ Repeat:
                             SUI.ListView1.Select()
                             SUI.Show()
                             Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.MakeUsrInpt Then
+                            Dim SUI As MakeUserInput = New MakeUserInput
+                            SUI.TopLevel = False
+                            SUI.Message = CurrentCheckPoint.MakeUserInputAction.UserActionMessage
+                            SUI.InputValueOld = CurrentCheckPoint.MakeUserInputAction.UserInputOld
+                            SUI.InputValueNew = ""
+                            PanelSubForm.Controls.Add(SUI)
+                            'SUI.BringToFront()
+                            SUI.AutoScroll = True
+                            SUI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SUI.InputTextBox.Select()
+                            SUI.Show()
+                            Me.Refresh()
+                            Exit For
                         ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
                             Dim SPI As SinglePointInstruction = New SinglePointInstruction
                             SPI.TopLevel = False
@@ -1109,6 +1126,21 @@ Repeat:
                                 SUI.Show()
                                 Me.Refresh()
                                 Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.MakeUsrInpt Then
+                                Dim SUI As MakeUserInput = New MakeUserInput
+                                SUI.TopLevel = False
+                                SUI.Message = CurrentCheckPoint.MakeUserInputAction.UserActionMessage
+                                SUI.InputValueOld = CurrentCheckPoint.MakeUserInputAction.UserInputOld
+                                SUI.InputValueNew = ""
+                                PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
+                                SUI.AutoScroll = True
+                                SUI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SUI.InputTextBox.Select()
+                                SUI.Show()
+                                Me.Refresh()
+                                Exit For
                             ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
                                 Dim SPI As SinglePointInstruction = New SinglePointInstruction
                                 SPI.TopLevel = False
@@ -1242,6 +1274,21 @@ LoopFinished:
                                 SUI.Dock = DockStyle.Fill
                                 PanelSubForm.AutoScroll = True
                                 SUI.ListView1.Select()
+                                SUI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.MakeUsrInpt Then
+                                Dim SUI As MakeUserInput = New MakeUserInput
+                                SUI.TopLevel = False
+                                SUI.Message = CurrentCheckPoint.MakeUserInputAction.UserActionMessage
+                                SUI.InputValueOld = CurrentCheckPoint.MakeUserInputAction.UserInputOld
+                                SUI.InputValueNew = ""
+                                PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
+                                SUI.AutoScroll = True
+                                SUI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SUI.InputTextBox.Select()
                                 SUI.Show()
                                 Me.Refresh()
                                 Exit For

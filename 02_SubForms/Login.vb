@@ -22,6 +22,8 @@ Public Class Login
             If GetMD5(psswd) = LoginTbl.PASSWORD Then
                 Me.Close()
                 MainForm.Initial = LoginTbl.INITIAL & "(" & Date.Today.ToString("MMM/dd") & ")"
+                MainForm.WorkerName = LoginTbl.PERSON
+                MainForm.WorkerID = LoginTbl.INITIAL
                 MainForm.LoadIndexScan()
             Else
                 PasswordTextBox.BackColor = Color.Red

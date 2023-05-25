@@ -7,6 +7,7 @@
         DocumentCheck = 5
         AddedDocs = 6
         NoCheck = 7
+        MakeUsrInpt = 8
     End Enum
     Public Property ProcessNo As String 'As in EJA/YTA QC Checksheet
     Public Property ProcessStep As String 'As in YTA QC Checksheet
@@ -24,4 +25,5 @@
     Public Property ViewDocAction As New DocumentCheck 'Load a document to check and confirm result
     Public Property AddedDocsAction As New AddedDocsCheck 'Load IM/DuDoc form to check and confirm result
     Public Property CheckResult As New Boolean 'Final check result for the StepNo selected. This is set from subform
+    Public Property MakeUserInputAction As New MakeUserInputCheck 'Input User value and save to DB
 End Class
