@@ -834,11 +834,12 @@ Public Class MainForm
     Public Shared AllowedSteps As String()
     Public Shared AllCheckResult As CheckSheetStep()
     Dim TmlEntityQA As MFG_ENTITY.Op
+    Dim WMsg As New WarningForm
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
-        Me.Text = "QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
-        Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+        Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
+        RefreshSettings()
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
         QcSteps = TmlEntityQA.GetDatabaseAsModel_List(Of POCO_QA.yta_qcc_steps)(New POCO_QA.yta_qcc_steps, "PRODUCT", "YTA", "QCC_VER", "1.2")
         Dim BEY As New Login
@@ -853,7 +854,6 @@ Public Class MainForm
         'AllowedSteps = QcSteps.Select(Of String)(Function(x) x.STEP_NO).ToArray
         'AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
         'ReDim AllCheckResult(AllowedSteps.Length - 1)
-
     End Sub
     Public Sub LoadIndexScan()
         Try
@@ -950,7 +950,6 @@ Repeat:
                             SUI.InputTextBox.Select()
                             SUI.Show()
                             Me.Refresh()
-                            Exit For
                         ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
                             Dim SPI As SinglePointInstruction = New SinglePointInstruction
                             SPI.TopLevel = False
@@ -1748,6 +1747,8 @@ Repeat:
                 GoTo Repeat
             End If
 
+            RefreshSettings()
+
             Setting.Var_08_StepsCurrent = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray)
             AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
             ReDim AllCheckResult(AllowedSteps.Length - 1)
@@ -1757,8 +1758,25 @@ Repeat:
             Else
                 Setting.Var_08_StepsPrevous = "" 'Setting.Var_08_StepsCurrent
             End If
+
+            LoadIndexScan()
+
         Catch ex As Exception
-            MsgBox("Station Set Error:" & ex.Message, MsgBoxStyle.Critical, "Error")
+            'MsgBox("Station Set Error:" & ex.Message, MsgBoxStyle.Critical, "Error")
+            WMsg.Message = "Station Set Error:" & ex.Message
+            WMsg.ShowDialog()
+        End Try
+    End Sub
+    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
+        RefreshSettings()
+    End Sub
+    Private Sub RefreshSettings()
+        Try
+            Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+        Catch ex As Exception
+            'MsgBox("Settings files read error. Error: " & ex.Message)
+            WMsg.Message = "Settings files read error. Error: " & ex.Message
+            WMsg.ShowDialog()
         End Try
     End Sub
 

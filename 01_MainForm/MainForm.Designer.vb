@@ -145,18 +145,19 @@ Partial Class MainForm
         '
         Me.ContextMenuStation.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectStationToolStripMenuItem, Me.ToolStripMenuItem1})
         Me.ContextMenuStation.Name = "ContextMenuStation"
-        Me.ContextMenuStation.Size = New System.Drawing.Size(181, 70)
+        Me.ContextMenuStation.Size = New System.Drawing.Size(188, 70)
         '
         'SelectStationToolStripMenuItem
         '
         Me.SelectStationToolStripMenuItem.Name = "SelectStationToolStripMenuItem"
-        Me.SelectStationToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectStationToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
         Me.SelectStationToolStripMenuItem.Text = "Select Station"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(187, 22)
+        Me.ToolStripMenuItem1.Text = "Refresh Settings Read"
         '
         'MainForm
         '
