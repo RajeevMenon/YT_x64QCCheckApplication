@@ -81,6 +81,8 @@
 #End Region
 
 #Region "Version 1.2"
+
+    'BUILD
     Public Function ProcessStepNo20_00_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -854,6 +856,8 @@
             Return Nothing
         End Try
     End Function
+
+    'HIPOT
     Public Function ProcessStepNo130_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -931,6 +935,8 @@
             Return Nothing
         End Try
     End Function
+
+    'CRC
     Public Function ProcessStepNo150_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -964,6 +970,7 @@
         End Try
     End Function
 
+    'FINAL ASSY & CHECK
     Public Function ProcessStepNo160_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1833,6 +1840,7 @@ FixVar3:
         End Try
     End Function
 
+    'PACKING
     Public Function ProcessStepNo200_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
