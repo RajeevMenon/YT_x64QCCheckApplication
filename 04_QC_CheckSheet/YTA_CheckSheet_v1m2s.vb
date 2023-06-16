@@ -9,6 +9,7 @@
 
             'BUILD
             If StepNo = "20_00_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo20_00_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "20_00_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo20_00_01(Initial, CustOrd, ErrMsg)
             If StepNo = "20_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo20_01_00(Initial, CustOrd, ErrMsg)
             If StepNo = "30_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo30_01_00(Initial, CustOrd, ErrMsg)
             If StepNo = "30_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo30_02_00(Initial, CustOrd, ErrMsg)
@@ -54,6 +55,7 @@
             If StepNo = "190_10_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_10_00(Initial, CustOrd, ErrMsg)
             If StepNo = "190_11_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_11_00(Initial, CustOrd, ErrMsg)
             If StepNo = "190_12_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_12_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_12_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_12_01(Initial, CustOrd, ErrMsg)
             If StepNo = "190_13_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_13_00(Initial, CustOrd, ErrMsg)
             If StepNo = "190_14_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_14_00(Initial, CustOrd, ErrMsg)
             If StepNo = "190_15_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_15_00(Initial, CustOrd, ErrMsg)
@@ -97,6 +99,31 @@
             ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
             ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "cust_ord"
             ProcessStepReturn.MakeUserInputAction.UserInputSaveTableField = "SERIAL_NO_BEFORE"
+
+            ProcessStepReturn.Result = "" 'This is blank as 'MakeUserInputAction' is for saving user input to DB only
+            Return ProcessStepReturn
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo20_00_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+
+            ProcessStepReturn.ProcessNo = "20"
+            ProcessStepReturn.ProcessStep = "QR Label"
+            ProcessStepReturn.Activity = "Scan QR Label to ensure correct Printing?"
+            ProcessStepReturn.ToCheck = "Correct QR Label Prepared"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.MakeUsrInpt
+
+            ProcessStepReturn.StepNo = "20_00_01"
+            ProcessStepReturn.ActivityToCheck = "QR Label print correctness"
+            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR Label prepared for this job?"
+            ProcessStepReturn.MakeUserInputAction.UserInputOld = ""
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK"
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableField = ""
 
             ProcessStepReturn.Result = "" 'This is blank as 'MakeUserInputAction' is for saving user input to DB only
             Return ProcessStepReturn
@@ -1647,6 +1674,31 @@ FixVar3:
             Return ProcessStepReturn
 
 
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo190_12_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+
+            ProcessStepReturn.ProcessNo = "190"
+            ProcessStepReturn.ProcessStep = "QR Label"
+            ProcessStepReturn.Activity = "Scan QR Label to ensure correct Printing?"
+            ProcessStepReturn.ToCheck = "Correct QR Label Prepared"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.MakeUsrInpt
+
+            ProcessStepReturn.StepNo = "190_12_01"
+            ProcessStepReturn.ActivityToCheck = "QR Label print correctness"
+            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR Label prepared for this job?"
+            ProcessStepReturn.MakeUserInputAction.UserInputOld = ""
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK"
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableField = ""
+
+            ProcessStepReturn.Result = "" 'This is blank as 'MakeUserInputAction' is for saving user input to DB only
+            Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
         End Try

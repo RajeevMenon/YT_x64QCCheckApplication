@@ -130,7 +130,8 @@
                 Else
 
                     If MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK" Then 'DLM QR Label. Here connectionstring is empty
-                        If InputTextBox.Text.Trim.ToUpper Like "*" & MainForm.CustOrd.SERIAL_NO & "*" Then
+                        Dim CheckString = "MFR:YOKOGAWA;CAT:EXT S/N;S/N:"
+                        If InputTextBox.Text.Trim.ToUpper Like CheckString & MainForm.CustOrd.SERIAL_NO Then
                             InputTextBox.BackColor = Color.Green
                             MainForm.wait(1)
                             MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
