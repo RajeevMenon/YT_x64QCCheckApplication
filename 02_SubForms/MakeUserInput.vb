@@ -98,37 +98,6 @@
             If e.KeyCode = Keys.Enter Then
                 If MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString.Length > 0 Then
 
-                    Dim ErrMsg As String = ""
-                    Dim TmlEty As New MFG_ENTITY.Op(MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString)
-                    Dim Sql(0) As String
-                    Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
-                    Sql(0) &= " SET " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField & " = "
-                    Sql(0) &= "'" & InputTextBox.Text.Trim.ToUpper & "';"
-                    If Sql(0).Length = 0 Then
-                        WMsg.Message = "Error: No Data to Save to DB!"
-                        WMsg.ShowDialog()
-                        Exit Sub
-                    End If
-                    TmlEty.ExecuteTransactionQuery(Sql, ErrMsg:=ErrMsg)
-                    If ErrMsg.Length = 0 Then
-                        InputTextBox.BackColor = Color.Green
-                        MainForm.wait(1)
-                        MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveUserValue = InputTextBox.Text.Trim.ToUpper
-                        MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
-                        MainForm.Button2.PerformClick()
-                        Me.Close()
-                    Else
-                        InputTextBox.BackColor = Color.Red
-                        MainForm.wait(1)
-                        InputTextBox.BackColor = Color.White
-                        MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
-                        WMsg.Message = "Error: " & ErrMsg
-                        WMsg.ShowDialog()
-                        Exit Sub
-                    End If
-
-                Else
-
                     If MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK" Then 'DLM QR Label. Here connectionstring is empty
                         Dim CheckString = "MFR:YOKOGAWA;CAT:EXT S/N;S/N:"
                         If InputTextBox.Text.Trim.ToUpper Like CheckString & MainForm.CustOrd.SERIAL_NO Then
@@ -138,7 +107,41 @@
                             MainForm.Button2.PerformClick()
                             Me.Close()
                         End If
+                    Else
+
+                        Dim ErrMsg As String = ""
+                        Dim TmlEty As New MFG_ENTITY.Op(MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString)
+                        Dim Sql(0) As String
+                        Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
+                        Sql(0) &= " SET " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField & " = "
+                        Sql(0) &= "'" & InputTextBox.Text.Trim.ToUpper & "';"
+                        If Sql(0).Length = 0 Then
+                            WMsg.Message = "Error: No Data to Save to DB!"
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        End If
+                        TmlEty.ExecuteTransactionQuery(Sql, ErrMsg:=ErrMsg)
+                        If ErrMsg.Length = 0 Then
+                            InputTextBox.BackColor = Color.Green
+                            MainForm.wait(1)
+                            MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveUserValue = InputTextBox.Text.Trim.ToUpper
+                            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
+                            MainForm.Button2.PerformClick()
+                            Me.Close()
+                        Else
+                            InputTextBox.BackColor = Color.Red
+                            MainForm.wait(1)
+                            InputTextBox.BackColor = Color.White
+                            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+                            WMsg.Message = "Error: " & ErrMsg
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        End If
+
                     End If
+
+
+
 
                 End If
             End If

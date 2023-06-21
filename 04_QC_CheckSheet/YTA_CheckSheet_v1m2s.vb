@@ -1161,7 +1161,18 @@
             Return ProcessStepReturn
 
         Catch ex As Exception
-            Return Nothing
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "180"
+            ProcessStepReturn.ProcessStep = "Print QIC"
+            ProcessStepReturn.Activity = "Print Certificates"
+            ProcessStepReturn.ToCheck = "Printed YES || NO"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
+            ProcessStepReturn.Initial = Initial
+
+            ProcessStepReturn.StepNo = "180_01_00"
+            ProcessStepReturn.ActivityToCheck = "Print QIC"
+            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Runtime Error:" & ex.Message
+            Return ProcessStepReturn
         End Try
     End Function
     Public Function ProcessStepNo180_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
