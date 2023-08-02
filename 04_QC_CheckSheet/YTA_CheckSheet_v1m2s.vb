@@ -441,6 +441,12 @@
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
                     ProcessStepReturn.Result = "Circle-16,47.5,28.8"
+                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
+                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                    ProcessStepReturn.Result = "Circle-16,62,28.8"
                 End If
 
             End If
