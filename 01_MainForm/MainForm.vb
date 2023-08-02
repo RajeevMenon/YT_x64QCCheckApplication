@@ -839,9 +839,13 @@ Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
+
         RefreshSettings()
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
-        QcSteps = TmlEntityQA.GetDatabaseAsModel_List(Of POCO_QA.yta_qcc_steps)(New POCO_QA.yta_qcc_steps, "PRODUCT", "YTA", "QCC_VER", "1.2")
+        QcSteps = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_steps)("PRODUCT", "YTA", "QCC_VER", "1.2")
+
+        ContextMenuStation.Enabled = False
+
         Dim BEY As New Login
         BEY.TopLevel = False
         PanelSubForm.Controls.Add(BEY)
@@ -851,9 +855,7 @@ Public Class MainForm
         BEY.UsernameTextBox.Select()
         BEY.Show()
         Me.Refresh()
-        'AllowedSteps = QcSteps.Select(Of String)(Function(x) x.STEP_NO).ToArray
-        'AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
-        'ReDim AllCheckResult(AllowedSteps.Length - 1)
+
     End Sub
     Public Sub LoadIndexScan()
         Try
