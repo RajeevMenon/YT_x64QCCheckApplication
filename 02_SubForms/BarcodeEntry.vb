@@ -36,6 +36,16 @@
                     Label_Message.Text = ErrMsg
                     Exit Sub
                 End If
+                If IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
+                    If MsgBox("Production already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
+                        MainForm.PrintQcc_Rev1()
+                        Exit Sub
+                    Else
+                        WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranter Portal."
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    End If
+                End If
                 If Not (MainForm.CustOrd.MS_CODE Like "YTA[67]10-???????*") Then
                     WMsg.Message = "Selected Index_No does not belongs to YTA Model. Model:" & MainForm.CustOrd.MS_CODE
                     WMsg.ShowDialog()
@@ -44,56 +54,101 @@
 #End Region
 
 #Region "Validate if All Inspection or Previous Step Inspections Already Done"
+
+                Dim TotalInspectionSteps = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_steps)("STEP_NO", "%", ErrMsg).OrderBy(Function(y) y.SLNO).ToList
+                If ErrMsg.Length > 0 Then
+                    Label_Message.Text = ErrMsg
+                    Exit Sub
+                End If
+                MainForm.QcSteps = TotalInspectionSteps
+                MainForm.AllowedSteps = MainForm.QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray
+                ReDim MainForm.AllCheckResult(MainForm.AllowedSteps.Length - 1)
+
                 Dim InspRes = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
-                    If ErrMsg.Length > 0 Then
-                        Label_Message.Text = ErrMsg
-                        Exit Sub
-                    End If
-                    Dim TotalStepsInspected(0) As String
-                    If InspRes.Count > 0 Then
-                        For Each process In InspRes
-                            Dim StepNo = process.REMARK.Split("-")(0).Split(",")
-                            For Each Steps In StepNo
-                                TotalStepsInspected(TotalStepsInspected.Length - 1) = Steps
-                                ReDim Preserve TotalStepsInspected(TotalStepsInspected.Length)
-                            Next
+                If ErrMsg.Length > 0 Then
+                    Label_Message.Text = ErrMsg
+                    Exit Sub
+                End If
+                Dim TotalStepsInspected(0) As String
+                If InspRes.Count > 0 Then
+                    For Each process In InspRes
+                        Dim StepNo = process.REMARK.Split("-")(0).Split(",")
+                        For Each Steps In StepNo
+                            TotalStepsInspected(TotalStepsInspected.Length - 1) = Steps
+                            ReDim Preserve TotalStepsInspected(TotalStepsInspected.Length)
                         Next
-                        ReDim Preserve TotalStepsInspected(TotalStepsInspected.Length - 2)
+                    Next
+                    ReDim Preserve TotalStepsInspected(TotalStepsInspected.Length - 2)
+                End If
+
+                'Check if all Previous Inspections done, else stop new inspections
+                Dim PreviousInspectionsDone As Boolean = True
+                Dim NotDoneStep As String = ""
+                Dim CurrentSteps = TotalInspectionSteps.Where(Function(x) x.STATION = My.Settings.Station).ToList.OrderBy(Function(y) y.SLNO).ToList
+                Dim CurrentMin = CurrentSteps.Min(Function(x) x.SLNO)
+                Dim PreviousSteps = TotalInspectionSteps.Where(Function(x) x.SLNO < CurrentMin).OrderBy(Function(y) y.SLNO).ToList
+                For Each ToDoStep In PreviousSteps 'MainForm.Setting.Var_08_StepsPrevous.Split(",")
+                    If Array.Find(TotalStepsInspected, Function(x) x = ToDoStep.STEP_NO) <> ToDoStep.STEP_NO Then
+                        PreviousInspectionsDone = False
+                        NotDoneStep = ToDoStep.STEP_NO
+                        Exit For
                     End If
-                    If TotalStepsInspected.Length = MainForm.QcSteps.Count Then '52 Then 'If all Inspection Done
-                        If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
-                            MainForm.PrintQcc_Rev1()
+                Next
+                If PreviousInspectionsDone = False Then
+                    MsgBox("Some of the Previous Inspection steps are not completed. eg." & NotDoneStep, MsgBoxStyle.OkCancel)
+                    TextBox_Scan.Text = ""
+                    Exit Sub
+                End If
+
+                If TotalStepsInspected.Length = TotalInspectionSteps.Count Then 'If all Inspection Done
+                    If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
+                        MainForm.PrintQcc_Rev1()
+                        Exit Sub
+                    Else
+                        If MsgBox("Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                             Exit Sub
                         Else
-                            If MsgBox("Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
-                                Exit Sub
-                            Else
-                                MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
-                                MainForm.Refresh()
-                            End If
-                        End If
-                    Else 'Check if all Previous Inspections done, else stop new inspections
-                        Dim PreviousInspectionsDone As Boolean = True
-                        Dim NotDoneStep As String = ""
-                        For Each ToDoStep In MainForm.Setting.Var_08_StepsPrevous.Split(",")
-                            If Array.Find(TotalStepsInspected, Function(x) x = ToDoStep) <> ToDoStep Then
-                                PreviousInspectionsDone = False
-                                NotDoneStep = ToDoStep
-                                Exit For
-                            End If
-                        Next
-                        If PreviousInspectionsDone = False Then
-                            WMsg.Message = "Some of the Previous Inspection steps are not completed. eg." & NotDoneStep
-                            WMsg.ShowDialog()
-                            'MsgBox("Some of the Previous Inspection steps are not completed. eg." & NotDoneStep, MsgBoxStyle.OkCancel)
-                            TextBox_Scan.Text = ""
-                            Exit Sub
+                            MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
+                            MainForm.Refresh()
                         End If
                     End If
+                End If
+
+
+                'If TotalStepsInspected.Length = MainForm.QcSteps.Count Then '52 Then 'If all Inspection Done
+                '    If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
+                '        MainForm.PrintQcc_Rev1()
+                '        Exit Sub
+                '    Else
+                '        If MsgBox("Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                '            Exit Sub
+                '        Else
+                '            MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
+                '            MainForm.Refresh()
+                '        End If
+                '    End If
+                'Else Check If all Previous Inspections done, else stop new inspections
+                'Dim PreviousInspectionsDone As Boolean = True
+                'Dim NotDoneStep As String = ""
+                'For Each ToDoStep In MainForm.Setting.Var_08_StepsPrevous.Split(",")
+                '    If Array.Find(TotalStepsInspected, Function(x) x = ToDoStep) <> ToDoStep Then
+                '        PreviousInspectionsDone = False
+                '        NotDoneStep = ToDoStep
+                '        Exit For
+                '    End If
+                'Next
+                'If PreviousInspectionsDone = False Then
+                '    WMsg.Message = "Some of the Previous Inspection steps are not completed. eg." & NotDoneStep
+                '    WMsg.ShowDialog()
+                '    'MsgBox("Some of the Previous Inspection steps are not completed. eg." & NotDoneStep, MsgBoxStyle.OkCancel)
+                '    TextBox_Scan.Text = ""
+                '    Exit Sub
+                'End If
+                'End If
 #End Region
 
 
-                    MainForm.QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                MainForm.QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
                     If ErrMsg.Length > 0 Then
                         Label_Message.Text = ErrMsg
                         Exit Sub
