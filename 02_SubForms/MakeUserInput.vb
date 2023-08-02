@@ -107,8 +107,7 @@
                             MainForm.Button2.PerformClick()
                             Me.Close()
                         End If
-                    Else
-
+                    ElseIf MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField.Length > 0 Then
                         Dim ErrMsg As String = ""
                         Dim TmlEty As New MFG_ENTITY.Op(MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString)
                         Dim Sql(0) As String
@@ -137,7 +136,10 @@
                             WMsg.ShowDialog()
                             Exit Sub
                         End If
-
+                    Else
+                        WMsg.Message = "Error: Unknown DB Table Field!"
+                        WMsg.ShowDialog()
+                        Exit Sub
                     End If
 
 
