@@ -344,9 +344,12 @@
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C1_C2.jpg"
                     If CustOrd.MS_CODE Like "YTA*/C1*" Then ProcessStepReturn.Result = "Circle-16,50,25.8"
                     If CustOrd.MS_CODE Like "YTA*/C2*" Then ProcessStepReturn.Result = "Circle-16,54.1,25.8"
-                Else
+                ElseIf CustOrd.MS_CODE Like "YTA*/C3*" Then
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C3_NORMAL.jpg"
                     ProcessStepReturn.Result = "Circle-16,58.5,25.8"
+                Else
+                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C3_NORMAL.jpg"
+                    ProcessStepReturn.Result = "Circle-16,62.5,25.8"
                 End If
             Else
                 If CustOrd.MS_CODE Like "YTA*/C[12]*" Then

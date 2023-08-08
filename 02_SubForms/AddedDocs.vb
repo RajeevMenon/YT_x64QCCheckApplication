@@ -112,12 +112,12 @@
                     AddedDocErrorMessage = ""
                     If CustOrd.MS_CODE Like "EJ[AX]???[EA]-?????-?????*" Then
                         Dim Version = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C25A01-01EN").Select(Function(y) y.DOC_VERSION).FirstOrDefault
-                        If TextBox_IM.Text.ToUpper Like "IM 01C25A01-01E/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
+                        If TextBox_IM.Text.ToUpper Like "IM*01C25A01-01E/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
                             INST_IM_OK = True
                         End If
                     ElseIf CustOrd.MS_CODE Like "YTA[67]??-???????*" Then
                         Dim Version = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C50G01-01EN").Select(Function(y) y.DOC_VERSION).FirstOrDefault
-                        If TextBox_IM.Text.ToUpper Like "IM 01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
+                        If TextBox_IM.Text.ToUpper Like "IM*01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
                             Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
                             Dim ErrMsg As String = ""
                             Dim Non_RoHS = TmlEntity.GetDatabaseTableAs_List(Of POCO_YGSP.non_rohs)("MS_CODE", "%", "MS_CODE", "%", ErrMsg)
@@ -129,12 +129,12 @@
                                 Dim SL_Check = Non_RoHS.Where(Function(x) x.SERIAL_NO = CustOrd.SERIAL_NO_BEFORE).ToList
                                 If SL_Check.Count > 0 Then
                                     If CustOrd.SERIAL_NO_BEFORE = SL_Check.Select(Function(y) y.SERIAL_NO).FirstOrDefault.ToString Then
-                                        If TextBox_IM.Text.ToUpper Like "IM 01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "/21-YKSA" Then
+                                        If TextBox_IM.Text.ToUpper Like "IM*01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "/21.YKSA" Then
                                             INST_IM_OK = True
                                         End If
                                     End If
                                 Else
-                                    If TextBox_IM.Text.ToUpper Like "IM 01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "/21-0006-E" Then
+                                    If TextBox_IM.Text.ToUpper Like "IM*01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "/22.23.E" Then
                                         INST_IM_OK = True
                                     End If
                                 End If
@@ -169,12 +169,12 @@
                     AddedDocErrorMessage = ""
                     If CustOrd.MS_CODE Like "EJ[AX]???[EA]-?????-?????*" Then
                         Dim Version = DocTbl.Where(Function(x) x.CAT_DOC = "IM00C01C01-01Z1").Select(Function(y) y.DOC_VERSION).FirstOrDefault
-                        If TextBox_SIM.Text.ToUpper Like "IM 00C01C01-01Z1/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
+                        If TextBox_SIM.Text.ToUpper Like "IM*00C01C01-01Z1/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
                             SFTY_IM_OK = True
                         End If
                     ElseIf CustOrd.MS_CODE Like "YTA[67]??-???????*" Then
                         Dim Version = DocTbl.Where(Function(x) x.CAT_DOC = "IM00C01C01-01Z1").Select(Function(y) y.DOC_VERSION).FirstOrDefault
-                        If TextBox_SIM.Text.ToUpper Like "IM 00C01C01-01Z1/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
+                        If TextBox_SIM.Text.ToUpper Like "IM*00C01C01-01Z1/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
                             SFTY_IM_OK = True
                         End If
                     End If

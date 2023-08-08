@@ -840,7 +840,7 @@ Public Class MainForm
         VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
 
-        RefreshSettings()
+        RefreshSettings(Link.Network)
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
         QcSteps = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_steps)("PRODUCT", "YTA", "QCC_VER", "1.2")
 
@@ -1077,7 +1077,8 @@ Repeat:
     'Next (Rightside) Button
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Try
-            Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+            'Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+            RefreshSettings(Link.Network)
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
@@ -1222,7 +1223,8 @@ LoopFinished:
     'Previous (Leftside) Button
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
-            Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+            'Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+            RefreshSettings(Link.Network)
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
@@ -1654,8 +1656,8 @@ LoopFinished:
             Dim ErrMsg As String = ""
             QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
             If QcData.Count > 0 Then
-                Dim BlankDoc As String = Setting.Var_06_DocsStore & "Production Release Documents\QC Check Sheets\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
-                Dim FinalDoc As String = Setting.Var_06_DocsStore & "Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+                Dim BlankDoc As String = Setting.Var_06_DocsStore & "\Production Release Documents\QC Check Sheets\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
+                Dim FinalDoc As String = Setting.Var_06_DocsStore & "\Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
                 Dim UseDoc As New PdfSharp.Pdf.PdfDocument
                 If System.IO.File.Exists(BlankDoc) Then
                     Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
@@ -1735,13 +1737,54 @@ LoopFinished:
 
         End Try
     End Sub
+
+    'Private Sub RefreshSettings()
+    '    Try
+    '        Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+    '    Catch ex As Exception
+    '        'MsgBox("Settings files read error. Error: " & ex.Message)
+    '        WMsg.Message = "Settings files read error. Error: " & ex.Message
+    '        WMsg.ShowDialog()
+    '    End Try
+    'End Sub
+    Private Sub RefreshSettings(ByVal Network As String)
+        Try
+            'Setting = AppControl.GetSettingsLive("C:\TML_INI\QualityControlCheckAppliation_EJA\")
+            If Network = "FACTORY" Then
+                Setting = AppControl.GetSettingsLive(Application.StartupPath & "\00_Settings")
+            ElseIf Network = "DOMAIN" Then
+                Setting = AppControl.GetSettingsDomain(Application.StartupPath & "\00_Settings")
+            ElseIf Network = "LOCAL" Then
+                Setting = AppControl.GetSettingsLocal(Application.StartupPath & "\00_Settings")
+            Else
+                WMsg.Message = "Settings files read error. Error: " & " Please select a Suitable NETWORK Type!"
+                WMsg.ShowDialog()
+            End If
+            Setting.Var_01_ServerIP = Link.ServerAddress 'This is necessary for the application to work at YUAE and YKS
+            Setting.Var_02_ServerPort = Link.PortNo 'This is necessary for the application to work at YUAE and YKS
+            Setting.Var_03_MySql_YGSP = Link.Mysql_YGSP_ConStr 'This is necessary for the application to work at YUAE and YKS
+            Setting.Var_04_MySql_QA = Link.Mysql_QA_ConStr 'This is necessary for the application to work at YUAE and YKS
+            Setting.Var_05_Factory = Link.Factory 'This is necessary for the application to work at YUAE and YKS
+            Setting.Var_06_DocsStore = Link.DocsStore 'This is necessary for the application to work at YUAE and YKS
+
+        Catch ex As Exception
+            'MsgBox("Settings files read error. Error: " & ex.Message)
+            WMsg.Message = "Settings files read error. Error: " & ex.Message
+            WMsg.ShowDialog()
+        End Try
+    End Sub
+
+
+#End Region
+
+#Region "Menu Strip"
     Private Sub SelectStationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelectStationToolStripMenuItem.Click
         Try
             Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
             Me.Text = "QC Check" & " [ Ver:" & Version & "]"
 Repeat:
             Dim StationName = InputBox("Please select Station Name", "STATION", Setting.Var_08_StepsName)
-            If Setting.Var_08_StepsName Like "*" & StationName & "*" Then
+            If Setting.Var_08_StepsName Like "*" & StationName & "*" And Not StationName.Contains(",") And StationName.Length > 0 Then
                 My.Settings.Station = StationName
                 My.Settings.Save()
                 Me.Text = Me.Text & " [ Station:" & StationName & "]"
@@ -1749,7 +1792,7 @@ Repeat:
                 GoTo Repeat
             End If
 
-            RefreshSettings()
+            RefreshSettings(Link.Network)
 
             Setting.Var_08_StepsCurrent = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray)
             AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
@@ -1770,17 +1813,32 @@ Repeat:
         End Try
     End Sub
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
-        RefreshSettings()
+        RefreshSettings(Link.Network)
     End Sub
-    Private Sub RefreshSettings()
+    Private Sub RestartToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestartToolStripMenuItem.Click
         Try
-            Setting = AppControl.GetSettings("C:\TML_INI\QualityControlCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
+            VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
+            Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
+
+            RefreshSettings(Link.Network)
+
+            Setting.Var_08_StepsCurrent = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray)
+            AllowedSteps = Setting.Var_08_StepsCurrent.Split(",")
+            ReDim AllCheckResult(AllowedSteps.Length - 1)
+            Dim IndexPos = Array.IndexOf(Setting.Var_08_StepsName.Split(","), My.Settings.Station)
+            If IndexPos > 0 Then
+                Setting.Var_08_StepsPrevous = String.Join(",", QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = Setting.Var_08_StepsName.Split(",")(IndexPos - 1)).Select(Of String)(Function(x) x.STEP_NO).ToArray)
+            Else
+                Setting.Var_08_StepsPrevous = "" 'Setting.Var_08_StepsCurrent
+            End If
+
+            LoadIndexScan()
+
         Catch ex As Exception
-            'MsgBox("Settings files read error. Error: " & ex.Message)
-            WMsg.Message = "Settings files read error. Error: " & ex.Message
+            'MsgBox("Station Set Error:" & ex.Message, MsgBoxStyle.Critical, "Error")
+            WMsg.Message = "Station Set Error:" & ex.Message
             WMsg.ShowDialog()
         End Try
     End Sub
-
 #End Region
 End Class

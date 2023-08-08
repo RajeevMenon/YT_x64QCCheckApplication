@@ -64,6 +64,7 @@
                 MainForm.AllowedSteps = MainForm.QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray
                 ReDim MainForm.AllCheckResult(MainForm.AllowedSteps.Length - 1)
 
+                'Inspection Results till now in DB
                 Dim InspRes = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
                 If ErrMsg.Length > 0 Then
                     Label_Message.Text = ErrMsg
@@ -100,6 +101,8 @@
                     Exit Sub
                 End If
 
+
+                'All Station Inspection Step Check
                 If TotalStepsInspected.Length = TotalInspectionSteps.Count Then 'If all Inspection Done
                     If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
                         MainForm.PrintQcc_Rev1()
@@ -114,37 +117,25 @@
                     End If
                 End If
 
+                'Current Station Inspection Step Check
+                Dim CurrentInspComplete As Boolean = True
+                For Each InspStep In CurrentSteps
+                    If Array.Find(TotalStepsInspected, Function(x) x = InspStep.STEP_NO) <> InspStep.STEP_NO Then
+                        PreviousInspectionsDone = False
+                        NotDoneStep = InspStep.STEP_NO
+                        CurrentInspComplete = False
+                        Exit For
+                    End If
+                Next
+                If CurrentInspComplete = True Then
+                    If MsgBox("Current Station Inspections are complete. Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                        Exit Sub
+                    Else
+                        MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
+                        MainForm.Refresh()
+                    End If
+                End If
 
-                'If TotalStepsInspected.Length = MainForm.QcSteps.Count Then '52 Then 'If all Inspection Done
-                '    If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
-                '        MainForm.PrintQcc_Rev1()
-                '        Exit Sub
-                '    Else
-                '        If MsgBox("Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
-                '            Exit Sub
-                '        Else
-                '            MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
-                '            MainForm.Refresh()
-                '        End If
-                '    End If
-                'Else Check If all Previous Inspections done, else stop new inspections
-                'Dim PreviousInspectionsDone As Boolean = True
-                'Dim NotDoneStep As String = ""
-                'For Each ToDoStep In MainForm.Setting.Var_08_StepsPrevous.Split(",")
-                '    If Array.Find(TotalStepsInspected, Function(x) x = ToDoStep) <> ToDoStep Then
-                '        PreviousInspectionsDone = False
-                '        NotDoneStep = ToDoStep
-                '        Exit For
-                '    End If
-                'Next
-                'If PreviousInspectionsDone = False Then
-                '    WMsg.Message = "Some of the Previous Inspection steps are not completed. eg." & NotDoneStep
-                '    WMsg.ShowDialog()
-                '    'MsgBox("Some of the Previous Inspection steps are not completed. eg." & NotDoneStep, MsgBoxStyle.OkCancel)
-                '    TextBox_Scan.Text = ""
-                '    Exit Sub
-                'End If
-                'End If
 #End Region
 
 
