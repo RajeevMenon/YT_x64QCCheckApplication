@@ -1153,7 +1153,8 @@
 
             Dim QicFile As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_QIC\" & MainForm.CustOrd.SERIAL_NO
             Dim TargetFile As String = QicFolerPath & "LINE-" & MainForm.CustOrd.LINE_NO & "-" & MainForm.CustOrd.INDEX_NO & "(1)-CQIC"
-            If System.IO.File.Exists(QicFile & ".pdf") Then
+
+            If System.IO.File.Exists(QicFile & ".pdf") And CustOrd.MTC = "GO" Then
                 If Not System.IO.File.Exists(TargetFile & ".pdf") Then
                     System.IO.File.Copy(QicFile & ".pdf", TargetFile & ".pdf", True)
                 End If
@@ -1163,7 +1164,6 @@
                 'If Len(ErrMsg) > 0 Then
                 '    Exit Function
                 'End If
-
                 Dim ExcelWorkBook As Spire.Xls.Workbook = New Spire.Xls.Workbook()
                 ExcelWorkBook.LoadFromFile(QicFile & ".xls")
                 ExcelWorkBook.Worksheets(0).PageSetup.IsFitToPage = True
