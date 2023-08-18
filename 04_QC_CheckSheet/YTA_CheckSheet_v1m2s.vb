@@ -1,5 +1,8 @@
 ﻿Public Class YTA_CheckSheet_v1m2s
 
+    Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
+    Dim WMsg As New WarningForm
+
 #Region "Common"
 
     Public Shared Function ProcessStepNo(ByVal StepNo As String, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
@@ -101,6 +104,8 @@
             ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
             ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "cust_ord"
             ProcessStepReturn.MakeUserInputAction.UserInputSaveTableField = "SERIAL_NO_BEFORE"
+            ProcessStepReturn.MakeUserInputAction.UserInputWhereFieldName = "INDEX_NO"
+            ProcessStepReturn.MakeUserInputAction.UserInputWhereFieldValue = CustOrd.INDEX_NO
 
             ProcessStepReturn.Result = "" 'This is blank as 'MakeUserInputAction' is for saving user input to DB only
             Return ProcessStepReturn
@@ -135,6 +140,39 @@
     End Function
     Public Function ProcessStepNo20_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
+
+#Region "CustOrd Read"
+
+            If Not IsDate(MainForm.CustOrd.ACTUAL_START_DATE) Then
+                Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
+                Dim SqlU(0) As String
+                Dim Sdate = Date.Today.ToString("yyyy-MM-dd")
+                Dim Stime = Now.ToString("hh:mm:ss tt")
+                SqlU(0) = "UPDATE cust_ord SET ACTUAL_START_DATE='" & Sdate & "',ACTUAL_START_TIME='" & Stime & "' WHERE INDEX_NO='" & MainForm.CustOrd.INDEX_NO & "';"
+                TmlEntityYGS.ExecuteTransactionQuery(SqlU, ErrMsg:=ErrMsg)
+                If ErrMsg.Length > 0 Then
+                    WMsg.Message = "Cannot Update ACTUAL START DATE for the job!"
+                    WMsg.ShowDialog()
+                    Return Nothing
+                End If
+            End If
+
+            MainForm.CustOrd = TmlEntityYGS.GetDatabaseTableAs_Object(Of POCO_YGSP.cust_ord)("INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg:=ErrMsg)
+            CustOrd = MainForm.CustOrd
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = "Cannot Read INDEX NO. Data"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+
+            If Not IsNumeric(CustOrd.SHIP_LOT.ToString) Then
+                WMsg.Message = "SHIP_LOT is Blank in Cust_Ord Table!"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+
+#End Region
+
             Dim ProcessStepReturn As New CheckSheetStep
             Dim RL_Tag As New TML_Library.RandomArray
             Dim SelPartsSNO = RL_Tag.RandomStringArraySERIAL(CustOrd.SERIAL_NO_BEFORE, 4)
@@ -1209,7 +1247,7 @@
 
             Dim TargetFile As String = ""
             If CustOrd.MS_CODE Like "YTA[67]10-F*" Then
-                Dim DeviceIDFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\Device ID\"
+                Dim DeviceIDFolerPath As String = MainForm.Setting.Var_06_DocsStore & "\Production Complete Documents\Device ID\"
                 If Not (System.IO.Directory.Exists(DeviceIDFolerPath & CustOrd.PROD_NO)) Then
                     System.IO.Directory.CreateDirectory(DeviceIDFolerPath & CustOrd.PROD_NO)
                 End If
@@ -1220,7 +1258,7 @@
                 End If
                 DeviceIDFolerPath = DeviceIDFolerPath & lotNo & "\"
                 TargetFile = DeviceIDFolerPath & CustOrd.INDEX_NO & "-DeviceID-Lot" & lotNo
-                Dim QicPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_QIC\"
+                Dim QicPath As String = MainForm.Setting.Var_06_DocsStore & "\Production Complete Documents\YTA_QIC\"
                 If System.IO.File.Exists(QicPath & CustOrd.SERIAL_NO & "_DEV.pdf") Then
                     Dim TargetFilePDF As String = TargetFile & ".pdf"
                     If Not System.IO.File.Exists(TargetFilePDF) Then
@@ -1236,7 +1274,7 @@
                     System.IO.File.Copy(TargetFile & ".pdf", QicPath & CustOrd.SERIAL_NO & "_DEV.pdf", True)
                 End If
             Else
-                Dim DeviceIDFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\Device ID\"
+                Dim DeviceIDFolerPath As String = MainForm.Setting.Var_06_DocsStore & "\Production Complete Documents\Device ID\"
                 TargetFile = DeviceIDFolerPath & "Template\No_DeviceID"
             End If
 
@@ -1263,8 +1301,8 @@
             ProcessStepReturn.ActivityToCheck = "Print LABEL"
             ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Box Label Printed correctly?"
 
-            Dim BlankDoc As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_Label\Template\YMA_YtaLabel.pdf"
-            Dim FinalDoc As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_Label\" & CustOrd.INDEX_NO & ".pdf"
+            Dim BlankDoc As String = MainForm.Setting.Var_06_DocsStore & "\Production Complete Documents\YTA_Label\Template\YMA_YtaLabel.pdf"
+            Dim FinalDoc As String = MainForm.Setting.Var_06_DocsStore & "\Production Complete Documents\YTA_Label\" & CustOrd.INDEX_NO & ".pdf"
             If System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(FinalDoc)) Then
                 System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
             End If
@@ -2124,9 +2162,15 @@ FixVar3:
             Return True
         ElseIf (NewModel Like "*/C3*") And (OldModel Like "*/C1*") Then
             Return False
+        ElseIf (NewModel Like "*/C3*") And (OldModel Like "*/C3*") Then
+            Return False
         ElseIf (NewModel Like "*/C1*") And (OldModel Like "*/C3*") Then
             Return False
+        ElseIf (NewModel Like "*/C1*") And (OldModel Like "*/C1*") Then
+            Return False
         ElseIf (NewModel Like "*/C[13]*") And (Not OldModel Like "*/C[123]*") Then
+            Return False
+        ElseIf (Not NewModel Like "*/C[123]*") And (OldModel Like "*/C[13]*") Then
             Return False
         ElseIf (NewModel Like "*/C[13]*") And (OldModel Like "*/C2*") Then
             Return True

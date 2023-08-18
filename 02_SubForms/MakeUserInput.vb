@@ -113,7 +113,9 @@
                         Dim Sql(0) As String
                         Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
                         Sql(0) &= " SET " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField & " = "
-                        Sql(0) &= "'" & InputTextBox.Text.Trim.ToUpper & "';"
+                        Sql(0) &= "'" & InputTextBox.Text.Trim.ToUpper & "' "
+                        Sql(0) &= "WHERE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputWhereFieldName & " = "
+                        Sql(0) &= "'" & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputWhereFieldValue & "';"
                         If Sql(0).Length = 0 Then
                             WMsg.Message = "Error: No Data to Save to DB!"
                             WMsg.ShowDialog()
