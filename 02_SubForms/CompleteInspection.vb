@@ -1,6 +1,8 @@
 ﻿Public Class CompleteInspection
 
     Dim TmlEntityQA As New MFG_ENTITY.Op(MainForm.Setting.Var_04_MySql_QA)
+    Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
+    Dim WMsg As New WarningForm
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
         Dim Tbl As New POCO_QA.yta_qcc_v1p2
@@ -78,7 +80,13 @@ UpdateResult:
                 If Not IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
                     Dim FinishDate As String = Date.Today.ToString("yyyy-MM-dd")
                     Dim FinishTime As String = DateAndTime.Now.ToString("hh:mm:ss tt")
-                    Sql(Count) = "UPDATE cust_ord SET ACTUAL_FINISH_DATE='" & FinishDate & "', ACTUAL_FINISH_TIME='" & FinishTime & "' WHERE INDEX_NO='" & MainForm.CustOrd.INDEX_NO & "" ';"
+                    Dim SqlQry(0) As String
+                    SqlQry(0) = "UPDATE cust_ord SET ACTUAL_FINISH_DATE='" & FinishDate & "', ACTUAL_FINISH_TIME='" & FinishTime & "' WHERE INDEX_NO='" & MainForm.CustOrd.INDEX_NO & "';"
+                    TmlEntityYGS.ExecuteTransactionQuery(SqlQry, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        WMsg.Message = "Actual Finish Date Update Error:" & ErrMsg
+                        WMsg.ShowDialog()
+                    End If
                 End If
             End If
 
