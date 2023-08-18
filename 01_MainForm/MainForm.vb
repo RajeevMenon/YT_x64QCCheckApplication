@@ -837,7 +837,8 @@ Public Class MainForm
     Dim WMsg As New WarningForm
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
-        VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
+        'VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
+        VersionText = AppControl.GetVersion(Application.StartupPath & "\00_Settings")
         Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
 
         RefreshSettings(Link.Network)
@@ -1780,14 +1781,15 @@ LoopFinished:
 #Region "Menu Strip"
     Private Sub SelectStationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelectStationToolStripMenuItem.Click
         Try
-            Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
-            Me.Text = "QC Check" & " [ Ver:" & Version & "]"
+            'Dim Version = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
+            VersionText = AppControl.GetVersion(Application.StartupPath & "\00_Settings")
+            Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
 Repeat:
             Dim StationName = InputBox("Please select Station Name", "STATION", Setting.Var_08_StepsName)
             If Setting.Var_08_StepsName Like "*" & StationName & "*" And Not StationName.Contains(",") And StationName.Length > 0 Then
                 My.Settings.Station = StationName
                 My.Settings.Save()
-                Me.Text = Me.Text & " [ Station:" & StationName & "]"
+                Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
             Else
                 GoTo Repeat
             End If
@@ -1817,7 +1819,8 @@ Repeat:
     End Sub
     Private Sub RestartToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestartToolStripMenuItem.Click
         Try
-            VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
+            'VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
+            VersionText = AppControl.GetVersion(Application.StartupPath & "\00_Settings")
             Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
 
             RefreshSettings(Link.Network)

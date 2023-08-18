@@ -73,6 +73,15 @@ UpdateResult:
                 Sql(Count) = TmlEntityQA.SaveDatabaseModel_Sql(Tbl, ErrMsg)
                 Count += 1
             End If
+
+            If My.Settings.Station = "PACKING" Then
+                If Not IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
+                    Dim FinishDate As String = Date.Today.ToString("yyyy-MM-dd")
+                    Dim FinishTime As String = DateAndTime.Now.ToString("hh:mm:ss tt")
+                    Sql(Count) = "UPDATE cust_ord SET ACTUAL_FINISH_DATE='" & FinishDate & "', ACTUAL_FINISH_TIME='" & FinishTime & "' WHERE INDEX_NO='" & MainForm.CustOrd.INDEX_NO & "" ';"
+                End If
+            End If
+
         Next
         ReDim Preserve Sql(Count - 1)
         TmlEntityQA.ExecuteTransactionQuery(Sql, ErrMsg)
