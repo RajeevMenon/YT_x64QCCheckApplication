@@ -1136,7 +1136,7 @@
             'ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_180_Position_QicInitial.Replace("Initial", MainForm.Initial)
 
 
-            Dim QicFolerPath As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\QICDOC\"
+            Dim QicFolerPath As String = System.IO.Path.Combine(MainForm.Setting.Var_06_DocsStore, "Production Complete Documents\QICDOC\")
             If Not (System.IO.Directory.Exists(QicFolerPath & CustOrd.PROD_NO)) Then
                 System.IO.Directory.CreateDirectory(QicFolerPath & CustOrd.PROD_NO)
             End If
@@ -1151,7 +1151,7 @@
             End If
             QicFolerPath = QicFolerPath & lotNo & "\"
 
-            Dim QicFile As String = MainForm.Setting.Var_06_DocsStore & "Production Complete Documents\YTA_QIC\" & MainForm.CustOrd.SERIAL_NO
+            Dim QicFile As String = System.IO.Path.Combine(MainForm.Setting.Var_06_DocsStore, "Production Complete Documents\YTA_QIC\") & MainForm.CustOrd.SERIAL_NO
             Dim TargetFile As String = QicFolerPath & "LINE-" & MainForm.CustOrd.LINE_NO & "-" & MainForm.CustOrd.INDEX_NO & "(1)-CQIC"
 
             If System.IO.File.Exists(QicFile & ".pdf") And CustOrd.MTC = "GO" Then
