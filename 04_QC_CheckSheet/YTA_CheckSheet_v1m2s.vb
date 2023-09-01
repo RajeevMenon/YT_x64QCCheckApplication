@@ -191,7 +191,7 @@
             ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.SERIAL_NO_BEFORE
             ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_020_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_020_Position_Initial.Replace("Initial", MainForm.Initial)
-            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_020_Position_DateManufacture.Replace("DATE", Date.Today.ToString("dd"))
+            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_020_Position_DateManufacture.Replace("DATE", Date.Today.ToString("yyyy-MM-dd").Replace("-", "|"))
             Return ProcessStepReturn
 
         Catch ex As Exception

@@ -1566,6 +1566,7 @@ LoopFinished:
                         Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
                         For Each WriteParam In WriteParams
                             Dim WriteInput = WriteParam.Split("-")(0)
+                            WriteInput = WriteInput.Replace("|", "-")
                             Dim WriteSXY = WriteParam.Split("-")(1)
                             Dim WriteS = WriteSXY.Split(",")(0)
                             Dim WriteX = WriteSXY.Split(",")(1)
@@ -1667,6 +1668,7 @@ LoopFinished:
                             Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
                             For Each WriteParam In WriteParams
                                 Dim WriteInput = WriteParam.Split("-")(0)
+                                WriteInput = WriteInput.Replace("|", "-")
                                 Dim WriteSXY = WriteParam.Split("-")(1)
                                 Dim WriteS = WriteSXY.Split(",")(0)
                                 Dim WriteX = WriteSXY.Split(",")(1)

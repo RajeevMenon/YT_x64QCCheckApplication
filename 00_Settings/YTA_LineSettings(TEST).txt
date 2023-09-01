@@ -17,7 +17,7 @@ Var_52_SinglePntInst_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\SPI_Im
 
 Var_60_020_Position_Initial			=	Initial-11,84,17.8
 Var_60_020_Position_Tick			=	20_01_00$Tick-13,70,18
-Var_60_020_Position_DateManufacture	=	DATE-10,89.7,7.7
+Var_60_020_Position_DateManufacture	=	DATE-10,83,7.7
 
 Var_60_030_Position_Initial			=	Initial-11,84,20
 Var_60_030_Position_Tick			=	30_01_00$Tick-13,70,20|32$Tick-13,70,20|33$Tick-13,70,20|34$Tick-13,70,20
