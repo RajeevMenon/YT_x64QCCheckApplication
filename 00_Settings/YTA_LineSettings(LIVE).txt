@@ -7,7 +7,7 @@ Var_06_DocsStore		=	From Link Class
 Var_07_Station			=	HIPOT
 
 Var_08_Product			=	YTA
-Var_08_StepsName		=	MARKING,BUILD,HIPOT,YTACRC,FINALASSY,PACKING
+Var_08_StepsName		=	BUILD,HIPOT,YTACRC,FINALASSY,PACKING
 Var_08_StepsPrevous		=	From MySql Settigs Table
 Var_08_StepsCurrent		=	From MySql Settigs Table
 Var_08_AllSteps			=	From MySql Settigs Table

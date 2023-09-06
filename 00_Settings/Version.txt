@@ -4,4 +4,4 @@
 2.0		-	2023-02-01	-	EU Doc version updated as per FZ2-YTA-01092
 3.0		-	2023-06-07	-	YUAE facility added
 3.1		-	2023-06-15	-	Before Modification S/N record incorporated to BUILD
-3.2		-	2023-08-18	-	Fixed minor PP Job Improvements and released for MASS PRODUCTION
+3.2		-	2023-08-18	-	Added some PP Job Improvements and released for MASS PRODUCTION
