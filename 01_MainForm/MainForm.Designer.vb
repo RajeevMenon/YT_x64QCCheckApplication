@@ -36,6 +36,7 @@ Partial Class MainForm
         Me.SelectStationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.RestartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReportPTRFailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.PanelSubForm.SuspendLayout()
@@ -144,9 +145,9 @@ Partial Class MainForm
         '
         'ContextMenuStation
         '
-        Me.ContextMenuStation.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectStationToolStripMenuItem, Me.ToolStripMenuItem1, Me.RestartToolStripMenuItem})
+        Me.ContextMenuStation.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectStationToolStripMenuItem, Me.ToolStripMenuItem1, Me.RestartToolStripMenuItem, Me.ReportPTRFailToolStripMenuItem})
         Me.ContextMenuStation.Name = "ContextMenuStation"
-        Me.ContextMenuStation.Size = New System.Drawing.Size(188, 92)
+        Me.ContextMenuStation.Size = New System.Drawing.Size(188, 114)
         '
         'SelectStationToolStripMenuItem
         '
@@ -165,6 +166,12 @@ Partial Class MainForm
         Me.RestartToolStripMenuItem.Name = "RestartToolStripMenuItem"
         Me.RestartToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
         Me.RestartToolStripMenuItem.Text = "Restart"
+        '
+        'ReportPTRFailToolStripMenuItem
+        '
+        Me.ReportPTRFailToolStripMenuItem.Name = "ReportPTRFailToolStripMenuItem"
+        Me.ReportPTRFailToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
+        Me.ReportPTRFailToolStripMenuItem.Text = "Report PTR Fail"
         '
         'MainForm
         '
@@ -199,4 +206,5 @@ Partial Class MainForm
     Friend WithEvents SelectStationToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents RestartToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ReportPTRFailToolStripMenuItem As ToolStripMenuItem
 End Class

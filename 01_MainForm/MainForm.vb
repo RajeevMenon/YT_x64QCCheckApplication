@@ -1845,5 +1845,31 @@ Repeat:
             WMsg.ShowDialog()
         End Try
     End Sub
+
+
 #End Region
+
+#Region "PTR Reporting"
+    Private Sub ReportPTRFailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportPTRFailToolStripMenuItem.Click
+        Try
+            Try
+                Form_PTR.PtR_NC_Control1.CONNECTION_STRING_MAIN = Link.Mysql_YGSP_ConStr
+                Form_PTR.PtR_NC_Control1.CONNECTION_STRING_PTR = Link.Mysql_QA_ConStr
+                Form_PTR.PtR_NC_Control1.ASSEMBLY_LINE_ID = "YTA"
+                Form_PTR.PtR_NC_Control1.STATION_ID = My.Settings.Station
+                Form_PTR.PtR_NC_Control1.WAIT_WINDOW_PTR = 3
+                With Form_PTR.PtR_NC_Control1
+                    Form_PTR.Text = "PTR Reporting - Line:" & .ASSEMBLY_LINE_ID & ", Station:" & .STATION_ID
+                End With
+                Form_PTR.Show()
+            Catch ex As Exception
+
+            End Try
+        Catch ex As Exception
+
+        End Try
+    End Sub
+#End Region
+
+
 End Class

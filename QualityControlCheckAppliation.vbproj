@@ -96,6 +96,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=8.0.30.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
     <Reference Include="OpenPdfOperation">
       <HintPath>..\..\OTHERS\LIBRARY\OpenPdfOperation\bin\Debug\OpenPdfOperation.dll</HintPath>
     </Reference>
@@ -110,6 +111,9 @@
     </Reference>
     <Reference Include="POCO_YGSP">
       <HintPath>..\..\OTHERS\MVC_MODEL\POCO_YGSP\bin\Debug\POCO_YGSP.dll</HintPath>
+    </Reference>
+    <Reference Include="PTR_NC_Counter">
+      <HintPath>..\..\USER_CONTROL\PTR_NC_Counter\PTR_NC_Counter\bin\Debug\PTR_NC_Counter.dll</HintPath>
     </Reference>
     <Reference Include="Spire.Pdf, Version=8.7.2.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <HintPath>packages\FreeSpire.XLS.12.7.0\lib\net40\Spire.Pdf.dll</HintPath>
@@ -166,6 +170,12 @@
       <DependentUpon>BarcodeEntry.vb</DependentUpon>
     </Compile>
     <Compile Include="02_SubForms\BarcodeEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="02_SubForms\Form_PTR.Designer.vb">
+      <DependentUpon>Form_PTR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="02_SubForms\Form_PTR.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="02_SubForms\Login.Designer.vb">
@@ -252,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="02_SubForms\BarcodeEntry.resx">
       <DependentUpon>BarcodeEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="02_SubForms\Form_PTR.resx">
+      <DependentUpon>Form_PTR.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="02_SubForms\Login.resx">
       <DependentUpon>Login.vb</DependentUpon>
