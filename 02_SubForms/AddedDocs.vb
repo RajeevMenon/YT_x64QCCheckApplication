@@ -18,9 +18,35 @@
                 AddedDocErrorMessage = ""
             End If
             If INST_IM_OK = True And SFTY_IM_OK = True And EUDOC_OK = True Then
-                'IM & SafetyIM always has "-", this needed to be changed to "."
-                Dim IM = TextBox_IM.Text.ToUpper.Trim & " + " & TextBox_SIM.Text.ToUpper.Trim
-                IM = IM.Replace(" ", "").Replace("-", ".")
+                'IM & SafetyIM always has "-", this needed to be changed to "|"
+
+                Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0) 'Always
+                Dim IM_Ver As String = "/" & Decimal.Parse(TextBox_IM.Text.ToUpper.Trim.Split("/")(1) / 10).ToString("#") 'Always
+                Dim IM_Add As String = ""
+                If TextBox_IM.Text.ToUpper.Trim.Split("/").Length > 1 Then
+                    Dim IM_Split() As String = TextBox_IM.Text.ToUpper.Split("/")
+                    For i As Integer = 2 To IM_Split.Length - 1
+                        IM_Add += "/" & IM_Split(i)
+                    Next
+                End If
+                Dim Final_IM_String As String = IM_Name & IM_Ver & IM_Add
+
+                Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0) 'Always
+                Dim SIM_Ver As String = "/" & Decimal.Parse(TextBox_SIM.Text.ToUpper.Trim.Split("/")(1)).ToString("#") 'Always No need to multiply by 10
+                Dim SIM_Add As String = ""
+                If TextBox_SIM.Text.ToUpper.Trim.Split("/").Length > 1 Then
+                    Dim SIM_Split() As String = TextBox_SIM.Text.ToUpper.Split("/")
+                    For i As Integer = 2 To SIM_Split.Length - 1
+                        SIM_Add += "/" & SIM_Split(i)
+                    Next
+                End If
+                Dim Final_SIM_String As String = SIM_Name & SIM_Ver & SIM_Add
+
+                Dim IM As String = Final_IM_String.ToUpper.Trim & "+" & Final_SIM_String.ToUpper.Trim
+                IM = IM.Replace(" ", "").Replace("-", "|")
+
+                MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", IM & "-")
+
                 For Each Item In MainForm.AllCheckResult
                     If Not IsNothing(Item) Then
                         If Item.StepNo = MainForm.CurrentCheckPoint.StepNo Then
@@ -29,11 +55,12 @@
                         End If
                     End If
                 Next
-                MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", IM & "-")
+
                 If TextBox_EUDoC.Text.ToUpper.Length > 0 Then
                     'EU document QR code alway begin with "EUDOC-", this is not needed in the final result
                     MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper.Split("-")(1) & "-")
                 End If
+
                 MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
                 MainForm.wait(1)
                 MainForm.Button2.PerformClick()
@@ -103,6 +130,19 @@
     End Sub
     Private Sub TextBox_IM_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox_IM.KeyDown
         Try
+
+            'Following Rule Is applicable for generating IM QR
+            '-------------------------------------------------
+            'IM-Name / Version / MNL_CHANGE1 / MNL_CHANGE2...
+            'IM-Name
+            'IM01C50G01-01EN
+            'VERSION: 
+            '7.0 --> 70
+            '7.2 --> 72
+            'MNL_CHANGE:
+            '23-20E --> 23-20E
+            'QR = IM01C50G01-01EN/72/23-20E
+
             If e.KeyCode = Keys.Enter Then
                 INST_IM_OK = False
                 If CurrentIndexNo.Length = 0 Then
@@ -111,13 +151,22 @@
                 Else
                     AddedDocErrorMessage = ""
                     If CustOrd.MS_CODE Like "EJ[AX]???[EA]-?????-?????*" Then
-                        Dim Version = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C25A01-01EN").Select(Function(y) y.DOC_VERSION).FirstOrDefault
-                        If TextBox_IM.Text.ToUpper Like "IM*01C25A01-01E/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
+                        Dim IM_Doc = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C25A01-01EN").FirstOrDefault
+                        Dim QR As String = ""
+                        If IM_Doc.DOC_NAME.Split("+").Length > 1 Then
+                            QR = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.DOC_VERSION * 10).ToString("#0")
+                            For i As Integer = 1 To IM_Doc.DOC_NAME.Split("+").Length - 1
+                                QR += "/" & IM_Doc.DOC_NAME.Split("+")(i).Trim.ToUpper
+                            Next
+                        Else
+                            QR = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.DOC_VERSION * 10).ToString("#0")
+                        End If
+                        If TextBox_IM.Text.ToUpper Like QR.ToUpper Then
                             INST_IM_OK = True
                         End If
                     ElseIf CustOrd.MS_CODE Like "YTA[67]??-???????*" Then
-                        Dim Version = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C50G01-01EN").Select(Function(y) y.DOC_VERSION).FirstOrDefault
-                        If TextBox_IM.Text.ToUpper Like "IM*01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "*" Then
+                        'NonRoHS only for 5Q00
+                        If Link.PlanID = "5Q00" Then
                             Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
                             Dim ErrMsg As String = ""
                             Dim Non_RoHS = TmlEntity.GetDatabaseTableAs_List(Of POCO_YGSP.non_rohs)("MS_CODE", "%", "MS_CODE", "%", ErrMsg)
@@ -129,19 +178,46 @@
                                 Dim SL_Check = Non_RoHS.Where(Function(x) x.SERIAL_NO = CustOrd.SERIAL_NO_BEFORE).ToList
                                 If SL_Check.Count > 0 Then
                                     If CustOrd.SERIAL_NO_BEFORE = SL_Check.Select(Function(y) y.SERIAL_NO).FirstOrDefault.ToString Then
-                                        If TextBox_IM.Text.ToUpper Like "IM*01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "/21.YKSA" Then
+                                        Dim IM_Doc = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C50G01-01ENZ").FirstOrDefault
+                                        Dim QR As String = ""
+                                        If IM_Doc.DOC_NAME.Split("+").Length > 1 Then
+                                            QR = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.DOC_VERSION * 10).ToString("#0")
+                                            For i As Integer = 1 To IM_Doc.DOC_NAME.Split("+").Length - 1
+                                                QR += "/" & IM_Doc.DOC_NAME.Split("+")(i).Trim.ToUpper
+                                            Next
+                                        Else
+                                            QR = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.DOC_VERSION * 10).ToString("#0")
+                                        End If
+                                        If TextBox_IM.Text.ToUpper Like QR.ToUpper Then
                                             INST_IM_OK = True
                                         End If
                                     End If
                                 Else
-                                    If TextBox_IM.Text.ToUpper Like "IM*01C50G01-01EN/" & Math.Round(Decimal.Parse(Version), 0) & "/22.23.E" Then
+                                    'Standard
+                                    Dim IM_Doc = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C50G01-01EN").FirstOrDefault
+                                    Dim QR As String = ""
+                                    If IM_Doc.DOC_NAME.Split("+").Length > 1 Then
+                                        QR = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.DOC_VERSION * 10).ToString("#0")
+                                        For i As Integer = 1 To IM_Doc.DOC_NAME.Split("+").Length - 1
+                                            QR += "/" & IM_Doc.DOC_NAME.Split("+")(i).Trim.ToUpper
+                                        Next
+                                    Else
+                                        QR = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.DOC_VERSION * 10).ToString("#0")
+                                    End If
+                                    If TextBox_IM.Text.ToUpper Like QR.ToUpper Then
                                         INST_IM_OK = True
                                     End If
                                 End If
-
+                            End If
+                        Else
+                            'Standard
+                            Dim IM_Doc = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C50G01-01EN").FirstOrDefault
+                            Dim QR As String = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.CAT_DOC_VER * 10).ToString("#0") & "/" & IM_Doc.DOC_NAME.Split("+")(1).Trim.ToUpper
+                            If TextBox_IM.Text.ToUpper Like QR Then
+                                INST_IM_OK = True
                             End If
                         End If
-                    End If
+                End If
                 End If
             End If
 
