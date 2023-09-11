@@ -212,7 +212,7 @@
                         Else
                             'Standard
                             Dim IM_Doc = DocTbl.Where(Function(x) x.CAT_DOC = "IM01C50G01-01EN").FirstOrDefault
-                            Dim QR As String = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.CAT_DOC_VER * 10).ToString("#0") & "/" & IM_Doc.DOC_NAME.Split("+")(1).Trim.ToUpper
+                            Dim QR As String = IM_Doc.CAT_DOC & "/" & Decimal.Parse(IM_Doc.DOC_VERSION * 10).ToString("#0") & "/" & IM_Doc.DOC_NAME.Split("+")(1).Trim.ToUpper
                             If TextBox_IM.Text.ToUpper Like QR Then
                                 INST_IM_OK = True
                             End If
