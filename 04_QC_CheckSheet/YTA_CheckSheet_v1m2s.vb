@@ -1462,21 +1462,44 @@ FixVar3:
             If Mscode Like "YTA???-??2*" Then
                 Range_1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & CustOrd.ORD_INST_MAX_T70 & " " & CustOrd.UNIT_T70
                 Range_2 = "S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & CustOrd.ORD_INST_MAX_T71 & " " & CustOrd.UNIT_T71
-                Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
-                Var1 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) - 25).ToString & " " & CustOrd.UNIT_T71
-                Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
-                Var2 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) + 25).ToString & " " & CustOrd.UNIT_T71
-                Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
-                Var3 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) - 50).ToString & " " & CustOrd.UNIT_T71
+                Dim I1 As Integer = 0
+                Dim I2 As Integer = 0
+                If Integer.TryParse(CustOrd.ORD_INST_MIN_T70, I1) And Integer.TryParse(CustOrd.ORD_INST_MAX_T70, I2) And
+                     Integer.TryParse(CustOrd.ORD_INST_MIN_T71, I1) And Integer.TryParse(CustOrd.ORD_INST_MAX_T71, I2) Then
+                    Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
+                    Var1 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) - 25).ToString & " " & CustOrd.UNIT_T71
+                    Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
+                    Var2 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) + 25).ToString & " " & CustOrd.UNIT_T71
+                    Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
+                    Var3 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T71) - 50).ToString & " " & CustOrd.UNIT_T71
+                Else
+                    Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
+                    Var1 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T71) - 25).ToString & " " & CustOrd.UNIT_T71
+                    Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
+                    Var2 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T71) + 25).ToString & " " & CustOrd.UNIT_T71
+                    Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
+                    Var3 &= "|| S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T71) - 50).ToString & " " & CustOrd.UNIT_T71
+                End If
             Else
                 Range_1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & CustOrd.ORD_INST_MAX_T70 & " " & CustOrd.UNIT_T70
                 Range_2 = "S2: "
-                Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
-                Var1 &= "|| S2: "
-                Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
-                Var2 &= "|| S2: "
-                Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
-                Var3 &= "|| S2: "
+                Dim I1 As Integer = 0
+                Dim I2 As Integer = 0
+                If Integer.TryParse(CustOrd.ORD_INST_MIN_T70, I1) And Integer.TryParse(CustOrd.ORD_INST_MAX_T70, I2) Then
+                    Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
+                    Var1 &= "|| S2: "
+                    Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
+                    Var2 &= "|| S2: "
+                    Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Integer.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
+                    Var3 &= "|| S2: "
+                Else
+                    Var1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T70) + 25).ToString & " " & CustOrd.UNIT_T70
+                    Var1 &= "|| S2: "
+                    Var2 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T70) - 25).ToString & " " & CustOrd.UNIT_T70
+                    Var2 &= "|| S2: "
+                    Var3 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & (Decimal.Parse(CustOrd.ORD_INST_MAX_T70) + 50).ToString & " " & CustOrd.UNIT_T70
+                    Var3 &= "|| S2: "
+                End If
             End If
             Range = Range_1 & " || " & Range_2
             ProcessStepReturn.UserInputAction.UserInputList = {Range, Var1, Var2, Var3}
@@ -1484,8 +1507,6 @@ FixVar3:
             ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_190_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_190_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
             Return ProcessStepReturn
-
-
         Catch ex As Exception
             Return Nothing
         End Try

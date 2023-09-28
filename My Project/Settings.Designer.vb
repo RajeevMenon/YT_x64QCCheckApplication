@@ -87,6 +87,18 @@ Namespace My
                 Return CType(Me("QualityControlCheckAppliation_TML_Service_Service1"),String)
             End Get
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Login() As String
+            Get
+                Return CType(Me("Login"),String)
+            End Get
+            Set
+                Me("Login") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
