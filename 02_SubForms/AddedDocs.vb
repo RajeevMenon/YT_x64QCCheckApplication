@@ -18,43 +18,50 @@
                 AddedDocErrorMessage = ""
             End If
             If INST_IM_OK = True And SFTY_IM_OK = True And EUDOC_OK = True Then
+
+                Dim IM As String = "No-IM"
                 'IM & SafetyIM always has "-", this needed to be changed to "|"
 
-                Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0) 'Always
-                Dim IM_Ver As String = "/" & Decimal.Parse(TextBox_IM.Text.ToUpper.Trim.Split("/")(1) / 10).ToString("#") 'Always
-                Dim IM_Add As String = ""
-                If TextBox_IM.Text.ToUpper.Trim.Split("/").Length > 1 Then
-                    Dim IM_Split() As String = TextBox_IM.Text.ToUpper.Split("/")
-                    For i As Integer = 2 To IM_Split.Length - 1
-                        IM_Add += "/" & IM_Split(i)
-                    Next
-                End If
-                Dim Final_IM_String As String = IM_Name & IM_Ver & IM_Add
-
-                Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0) 'Always
-                Dim SIM_Ver As String = "/" & Decimal.Parse(TextBox_SIM.Text.ToUpper.Trim.Split("/")(1)).ToString("#") 'Always No need to multiply by 10
-                Dim SIM_Add As String = ""
-                If TextBox_SIM.Text.ToUpper.Trim.Split("/").Length > 1 Then
-                    Dim SIM_Split() As String = TextBox_SIM.Text.ToUpper.Split("/")
-                    For i As Integer = 2 To SIM_Split.Length - 1
-                        SIM_Add += "/" & SIM_Split(i)
-                    Next
-                End If
-                Dim Final_SIM_String As String = SIM_Name & SIM_Ver & SIM_Add
-
-                Dim IM As String = Final_IM_String.ToUpper.Trim & "+" & Final_SIM_String.ToUpper.Trim
-                IM = IM.Replace(" ", "").Replace("-", "|")
-
-                MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", IM & "-")
-
-                For Each Item In MainForm.AllCheckResult
-                    If Not IsNothing(Item) Then
-                        If Item.StepNo = MainForm.CurrentCheckPoint.StepNo Then
-                            Item.Result = Item.Result.Replace("IM-", IM & "-")
-                            If TextBox_EUDoC.Text.ToUpper.Length > 0 Then Item.Result = Item.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper & "-")
-                        End If
+                If TextBox_IM.Text.ToUpper.Length > 0 Then
+                    Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0) 'Same
+                    Dim IM_Ver As String = "(" & Decimal.Parse(TextBox_IM.Text.ToUpper.Trim.Split("/")(1) / 10).ToString("#") & ")" 'Devide by 10
+                    Dim IM_Add As String = ""
+                    If TextBox_IM.Text.ToUpper.Trim.Split("/").Length > 1 Then
+                        Dim IM_Split() As String = TextBox_IM.Text.ToUpper.Split("/")
+                        For i As Integer = 2 To IM_Split.Length - 1
+                            IM_Add += "/" & IM_Split(i)
+                        Next
                     End If
-                Next
+                    Dim Final_IM_String As String = IM_Name & IM_Ver & IM_Add
+                    IM = Final_IM_String.ToUpper.Trim
+                End If
+
+
+                If TextBox_SIM.Text.ToUpper.Length > 0 Then
+                    Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0) 'Same
+                    Dim SIM_Ver As String = "(" & Decimal.Parse(TextBox_SIM.Text.ToUpper.Trim.Split("/")(1)).ToString("#") & ")" 'Same
+                    Dim SIM_Add As String = ""
+                    If TextBox_SIM.Text.ToUpper.Trim.Split("/").Length > 1 Then
+                        Dim SIM_Split() As String = TextBox_SIM.Text.ToUpper.Split("/")
+                        For i As Integer = 2 To SIM_Split.Length - 1
+                            SIM_Add += "/" & SIM_Split(i)
+                        Next
+                    End If
+                    Dim Final_SIM_String As String = SIM_Name & SIM_Ver & SIM_Add
+                    IM &= "+" & Final_SIM_String.ToUpper.Trim
+                    IM = IM.Replace(" ", "").Replace("-", "|")
+                    MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("IM-", IM & "-")
+                End If
+
+
+                'For Each Item In MainForm.AllCheckResult
+                '    If Not IsNothing(Item) Then
+                '        If Item.StepNo = MainForm.CurrentCheckPoint.StepNo Then
+                '            Item.Result = Item.Result.Replace("IM-", IM & "-")
+                '            If TextBox_EUDoC.Text.ToUpper.Length > 0 Then Item.Result = Item.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper & "-")
+                '        End If
+                '    End If
+                'Next
 
                 If TextBox_EUDoC.Text.ToUpper.Length > 0 Then
                     'EU document QR code alway begin with "EUDOC-", this is not needed in the final result
