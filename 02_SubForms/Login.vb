@@ -13,6 +13,10 @@ Public Class Login
     Private Sub OK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK.Click
         Dim loginID As String = UsernameTextBox.Text
         Dim psswd As String = PasswordTextBox.Text
+
+        My.Settings.Login = UsernameTextBox.Text
+        My.Settings.Save()
+
         Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
         Dim ErrMsg As String = ""
         Dim LoginTbl = TmlEntity.GetDatabaseTableAs_Object(Of POCO_YGSP.login)("LOGIN", loginID, "LOGIN", loginID, ErrMsg)
@@ -40,6 +44,13 @@ Public Class Login
         PasswordTextBox.Text = ""
     End Sub
 
+    Private Sub Login_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If My.Settings.Login.Length > 0 Then
+            UsernameTextBox.Text = My.Settings.Login
+            PasswordTextBox.Select()
+            PasswordTextBox.ScrollToCaret()
+        End If
+    End Sub
     Public Function GetMD5(ByVal Input As String) As String
         Using md5Hash As MD5 = MD5.Create()
             Dim data As Byte() = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(Input)) ' Import System.Text for getting Encoding function
