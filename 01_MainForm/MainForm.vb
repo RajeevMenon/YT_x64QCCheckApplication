@@ -1482,7 +1482,7 @@ LoopFinished:
             End If
             CurrentCheckPoint = New CheckSheetStep
             RichTextBox_ActivityToCheck.Text = "Wait.."
-            CurrentCheckPoint = YTA_CheckSheet.ProcessStepNo(StepNo:=Integer.Parse(RichTextBox_Step.Text), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+            CurrentCheckPoint = YTA_CheckSheet_v1m2s.ProcessStepNo(StepNo:=Integer.Parse(RichTextBox_Step.Text), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
             If Not IsDBNull(CurrentCheckPoint) Then
                 If Not IsNothing(CurrentCheckPoint) Then
                     If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then

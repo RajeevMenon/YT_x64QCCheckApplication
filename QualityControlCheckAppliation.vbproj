@@ -27,8 +27,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\192.168.151.12\AppStore\TML_App\TML_YTA_QC_CheckApp\</UpdateUrl>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>59</ApplicationRevision>
-    <ApplicationVersion>1.0.0.59</ApplicationVersion>
+    <ApplicationRevision>60</ApplicationRevision>
+    <ApplicationVersion>1.0.0.60</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -215,7 +215,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="04_QC_CheckSheet\YTA_CheckSheet.vb" />
     <Compile Include="02_SubForms\AddedDocs.Designer.vb">
       <DependentUpon>AddedDocs.vb</DependentUpon>
     </Compile>
