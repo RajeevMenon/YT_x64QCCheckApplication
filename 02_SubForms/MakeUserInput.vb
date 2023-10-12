@@ -98,6 +98,10 @@
             If e.KeyCode = Keys.Enter Then
                 If MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString.Length > 0 Then
 
+                    Dim ErrMsg As String = ""
+                    Dim TmlEty As New MFG_ENTITY.Op(MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString)
+                    Dim Sql(0) As String
+
                     If MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK" Then 'DLM QR Label. Here connectionstring is empty
                         Dim CheckString = "MFR:YOKOGAWA;CAT:EXT S/N;S/N:"
                         If InputTextBox.Text.Trim.ToUpper Like CheckString & MainForm.CustOrd.SERIAL_NO Then
@@ -107,10 +111,59 @@
                             MainForm.Button2.PerformClick()
                             Me.Close()
                         End If
+                    ElseIf MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField = "SERIAL_NO_BEFORE" Then
+
+                        Dim SerialScan As String = InputTextBox.Text.Trim.ToUpper
+                        If SerialScan.Length <> 9 Then
+                            WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        ElseIf Not (SerialScan Like "[9Y]????????") Then
+                            If Link.PlanID = "6Z00" Then
+                                If Not (SerialScan Like "[9Y]????????") Then
+                                    WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
+                            ElseIf Link.PlanID = "5Q00" Then
+                                If Not (SerialScan Like "[SY]????????") Then
+                                    WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
+                            Else
+                                WMsg.Message = "Error: Unknown Plant ID:" & Link.PlanID
+                                WMsg.ShowDialog()
+                                Exit Sub
+                            End If
+
+                        ElseIf SerialScan Like "Y????????" Then
+                            Dim CustOrdList = TmlEty.GetDatabaseTableAs_List(Of POCO_YGSP.cust_ord)("SERIAL_NO_BEFORE", SerialScan, ErrMsg:=ErrMsg)
+                            If CustOrdList.Count > 0 Then
+                                WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] already used for modification!"
+                                WMsg.ShowDialog()
+                                Exit Sub
+                            End If
+                            If MainForm.CustOrd.SERIAL_NO = SerialScan Then
+                                WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] is not of 'BEFORE MODIFICATION UNIT'."
+                                WMsg.ShowDialog()
+                                Exit Sub
+                            End If
+                        End If
+
+                        Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
+                        Sql(0) &= " SET " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField & " = "
+                        Sql(0) &= "'" & InputTextBox.Text.Trim.ToUpper & "' "
+                        Sql(0) &= "WHERE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputWhereFieldName & " = "
+                        Sql(0) &= "'" & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputWhereFieldValue & "';"
+                        If Sql(0).Length = 0 Then
+                            WMsg.Message = "Error: No Data to Save to DB!"
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        End If
+                        TmlEty.ExecuteTransactionQuery(Sql, ErrMsg:=ErrMsg)
                     ElseIf MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField.Length > 0 Then
-                        Dim ErrMsg As String = ""
-                        Dim TmlEty As New MFG_ENTITY.Op(MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString)
-                        Dim Sql(0) As String
+
                         Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
                         Sql(0) &= " SET " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField & " = "
                         Sql(0) &= "'" & InputTextBox.Text.Trim.ToUpper & "' "
