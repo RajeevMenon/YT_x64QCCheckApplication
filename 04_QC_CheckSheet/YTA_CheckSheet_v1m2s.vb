@@ -1266,12 +1266,18 @@
                     End If
                 Else
                     Dim QicFile As String = QicPath & CustOrd.SERIAL_NO & "_DEV.xls"
-                    Dim ExpExl As New ExportExcel
-                    ExpExl.ExcelSheet1_SaveAsPdf(QicFile, TargetFile, ErrMsg)
-                    If Len(ErrMsg) > 0 Then
-                        Exit Function
-                    End If
+                    'Dim ExpExl As New ExportExcel
+                    'ExpExl.ExcelSheet1_SaveAsPdf(QicFile, TargetFile, ErrMsg)
+                    'If Len(ErrMsg) > 0 Then
+                    '    Exit Function
+                    'End If
+                    Dim ExcelWorkBook As Spire.Xls.Workbook = New Spire.Xls.Workbook()
+                    ExcelWorkBook.LoadFromFile(QicFile & ".xls")
+                    ExcelWorkBook.Worksheets(0).PageSetup.IsFitToPage = True
+                    ExcelWorkBook.Worksheets(0).SaveToPdf(TargetFile & ".pdf")
+
                     System.IO.File.Copy(TargetFile & ".pdf", QicPath & CustOrd.SERIAL_NO & "_DEV.pdf", True)
+
                 End If
             Else
                 Dim DeviceIDFolerPath As String = MainForm.Setting.Var_06_DocsStore & "\Production Complete Documents\Device ID\"

@@ -118,26 +118,7 @@
                             WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
                             WMsg.ShowDialog()
                             Exit Sub
-                        ElseIf Not (SerialScan Like "[9Y]????????") Then
-                            If Link.PlanID = "6Z00" Then
-                                If Not (SerialScan Like "[9Y]????????") Then
-                                    WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
-                                    WMsg.ShowDialog()
-                                    Exit Sub
-                                End If
-                            ElseIf Link.PlanID = "5Q00" Then
-                                If Not (SerialScan Like "[SY]????????") Then
-                                    WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
-                                    WMsg.ShowDialog()
-                                    Exit Sub
-                                End If
-                            Else
-                                WMsg.Message = "Error: Unknown Plant ID:" & Link.PlanID
-                                WMsg.ShowDialog()
-                                Exit Sub
-                            End If
-
-                        ElseIf SerialScan Like "Y????????" Then
+                        ElseIf SerialScan Like "?????????" Then
                             Dim CustOrdList = TmlEty.GetDatabaseTableAs_List(Of POCO_YGSP.cust_ord)("SERIAL_NO_BEFORE", SerialScan, ErrMsg:=ErrMsg)
                             If CustOrdList.Count > 0 Then
                                 WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] already used for modification!"
@@ -149,7 +130,23 @@
                                 WMsg.ShowDialog()
                                 Exit Sub
                             End If
+                            If Link.PlanID = "6Z00" Then
+                                If Not (SerialScan Like "[9Y][014]???????") Then
+                                    WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
+                            ElseIf Link.PlanID = "5Q00" Then
+                                If Not (SerialScan Like "[SY][53]???????") Then
+                                    WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
+                            Else
+                                WMsg.Message = "Error: Unknown Plant ID:" & Link.PlanID
+                            WMsg.ShowDialog()
                         End If
+                    End If
 
                         Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
                         Sql(0) &= " SET " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField & " = "
