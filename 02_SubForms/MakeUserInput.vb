@@ -120,10 +120,16 @@
                             Exit Sub
                         ElseIf SerialScan Like "?????????" Then
                             Dim CustOrdList = TmlEty.GetDatabaseTableAs_List(Of POCO_YGSP.cust_ord)("SERIAL_NO_BEFORE", SerialScan, ErrMsg:=ErrMsg)
-                            If CustOrdList.Count > 0 Then
-                                WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] already used for modification!"
+                            If CustOrdList.Count > 1 Then
+                                WMsg.Message = "Error: Before Serial No. [ " & SerialScan & " ] already used for modification!"
                                 WMsg.ShowDialog()
                                 Exit Sub
+                            ElseIf CustOrdList.Count = 1 Then
+                                If CustOrdList.Item(0).INDEX_NO <> MainForm.CustOrd.INDEX_NO Then
+                                    WMsg.Message = "Error: Before Serial No. [ " & SerialScan & " ] already used for IndexNo.:" & CustOrdList.Item(0).INDEX_NO
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
                             End If
                             If MainForm.CustOrd.SERIAL_NO = SerialScan Then
                                 WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] is not of 'BEFORE MODIFICATION UNIT'."
