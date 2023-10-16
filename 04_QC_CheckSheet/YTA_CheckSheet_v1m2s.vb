@@ -1213,18 +1213,21 @@
             Return ProcessStepReturn
 
         Catch ex As Exception
-            Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "180"
-            ProcessStepReturn.ProcessStep = "Print QIC"
-            ProcessStepReturn.Activity = "Print Certificates"
-            ProcessStepReturn.ToCheck = "Printed YES || NO"
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
-            ProcessStepReturn.Initial = Initial
+            'Dim ProcessStepReturn As New CheckSheetStep
+            'ProcessStepReturn.ProcessNo = "180"
+            'ProcessStepReturn.ProcessStep = "Print QIC"
+            'ProcessStepReturn.Activity = "Print Certificates"
+            'ProcessStepReturn.ToCheck = "Printed YES || NO"
+            'ProcessStepReturn.Method = CheckSheetStep.MethodOption.DocumentCheck
+            'ProcessStepReturn.Initial = Initial
 
-            ProcessStepReturn.StepNo = "180_01_00"
-            ProcessStepReturn.ActivityToCheck = "Print QIC"
-            ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Runtime Error:" & ex.Message
-            Return ProcessStepReturn
+            'ProcessStepReturn.StepNo = "180_01_00"
+            'ProcessStepReturn.ActivityToCheck = "Print QIC"
+            'ProcessStepReturn.ViewDocAction.DocumentCheckMessage = "Runtime Error:" & ex.Message
+            WMsg.Message = "ProcessStepNo180_01_00() Exception:" & ex.Message
+            WMsg.ShowDialog()
+            Return Nothing
+            'Return ProcessStepReturn
         End Try
     End Function
     Public Function ProcessStepNo180_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
@@ -1272,7 +1275,7 @@
                     '    Exit Function
                     'End If
                     Dim ExcelWorkBook As Spire.Xls.Workbook = New Spire.Xls.Workbook()
-                    ExcelWorkBook.LoadFromFile(QicFile & ".xls")
+                    ExcelWorkBook.LoadFromFile(QicFile)
                     ExcelWorkBook.Worksheets(0).PageSetup.IsFitToPage = True
                     ExcelWorkBook.Worksheets(0).SaveToPdf(TargetFile & ".pdf")
 
@@ -1289,6 +1292,8 @@
             Return ProcessStepReturn
 
         Catch ex As Exception
+            WMsg.Message = "ProcessStepNo180_02_00() Exception:" & ex.Message
+            WMsg.ShowDialog()
             Return Nothing
         End Try
     End Function
@@ -1362,6 +1367,8 @@
             Return ProcessStepReturn
 
         Catch ex As Exception
+            WMsg.Message = "ProcessStepNo180_03_00() Exception:" & ex.Message
+            WMsg.ShowDialog()
             Return Nothing
         End Try
     End Function
@@ -1442,6 +1449,8 @@ FixVar3:
 
 
         Catch ex As Exception
+            WMsg.Message = "ProcessStepNo190_02_00() Exception:" & ex.Message
+            WMsg.ShowDialog()
             Return Nothing
         End Try
     End Function
