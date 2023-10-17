@@ -150,9 +150,9 @@
                                 End If
                             Else
                                 WMsg.Message = "Error: Unknown Plant ID:" & Link.PlanID
-                            WMsg.ShowDialog()
+                                WMsg.ShowDialog()
+                            End If
                         End If
-                    End If
 
                         Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
                         Sql(0) &= " SET " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField & " = "
@@ -165,6 +165,22 @@
                             Exit Sub
                         End If
                         TmlEty.ExecuteTransactionQuery(Sql, ErrMsg:=ErrMsg)
+                        If ErrMsg.Length = 0 Then
+                            InputTextBox.BackColor = Color.Green
+                            MainForm.wait(1)
+                            MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveUserValue = InputTextBox.Text.Trim.ToUpper
+                            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
+                            MainForm.Button2.PerformClick()
+                            Me.Close()
+                        Else
+                            InputTextBox.BackColor = Color.Red
+                            MainForm.wait(1)
+                            InputTextBox.BackColor = Color.White
+                            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+                            WMsg.Message = "Error: " & ErrMsg
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        End If
                     ElseIf MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField.Length > 0 Then
 
                         Sql(0) = "UPDATE " & MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName
@@ -199,6 +215,7 @@
                         WMsg.ShowDialog()
                         Exit Sub
                     End If
+
 
 
 
