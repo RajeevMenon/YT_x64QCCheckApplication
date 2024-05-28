@@ -51,6 +51,11 @@
                     WMsg.ShowDialog()
                     Exit Sub
                 End If
+                MainForm.CoHeader = TmlEntityYGS.GetDatabaseTableAs_Object(Of POCO_YGSP.co_register)("ORDER_NO", MainForm.CustOrd.PROD_NO, "LINE_NO", MainForm.CustOrd.LINE_NO, ErrMsg:=ErrMsg)
+                If ErrMsg.Length > 0 Then
+                    Label_Message.Text = ErrMsg
+                    Exit Sub
+                End If
 #End Region
 
 #Region "Validate if All Inspection or Previous Step Inspections Already Done"

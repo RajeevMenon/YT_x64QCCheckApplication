@@ -824,6 +824,7 @@ Public Class MainForm
     Public VersionText As String
     Public Shared CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
+    Public CoHeader As POCO_YGSP.co_register
     Public CustOrd As POCO_YGSP.cust_ord
     Public Shared Hipot As POCO_YGSP.hipot_tb
     Public YTA_Crc As POCO_YGSP.yta710_inspection_tb

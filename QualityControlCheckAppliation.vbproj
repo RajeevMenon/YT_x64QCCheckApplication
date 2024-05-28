@@ -15,7 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\MyFiles\Controlled_Apps\PRESS_TEMP_COMMON\LocalPublish_YTAQCC_20xx-xx-xx-xx\</PublishUrl>
+    <PublishUrl>C:\MyFiles\Controlled_Apps\PRESS_TEMP_COMMON\YKSA_YTAQCC_2024-xx-xx-01\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -27,8 +27,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\192.168.151.12\AppStore\TML_App\TML_YTA_QC_CheckApp\</UpdateUrl>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>64</ApplicationRevision>
-    <ApplicationVersion>1.0.0.64</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.1.0.1</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -66,11 +66,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>148A7F3E2C51E8DE52825CF91B6F1DCBDF27B30A</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D2CD8D018AE6016A2671E54CD85EAF1C6271BE99</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>QualityControlCheckAppliation_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -303,6 +302,7 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="QualityControlCheckAppliation_1_TemporaryKey.pfx" />
     <None Include="QualityControlCheckAppliation_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
