@@ -817,6 +817,7 @@ Public Class MainForm
     '    End Try
     'End Sub
 #End Region
+
 #Region "NEW VERSION"
     Public Initial As String
     Public WorkerName As String
@@ -1661,11 +1662,20 @@ LoopFinished:
             If QcData.Count > 0 Then
                 Dim BlankDoc As String = Setting.Var_06_DocsStore & "\Production Release Documents\QC Check Sheets\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
                 Dim FinalDoc As String = Setting.Var_06_DocsStore & "\Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+
                 Dim UseDoc As New PdfSharp.Pdf.PdfDocument
                 If System.IO.File.Exists(BlankDoc) Then
                     Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
+
+                    QcData = QcData.OrderBy(Function(x) Integer.Parse(x.PROCESS_NO)).ToList
+
                     For Each QcWrite In QcData
                         If QcWrite.INDEX_NO.ToString.Length > 0 Then
+
+                            If QcWrite.PROCESS_NO = "200" Then
+                                Dim Stopehere As String = ""
+                            End If
+
                             Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
                             For Each WriteParam In WriteParams
                                 Dim WriteInput = WriteParam.Split("-")(0)

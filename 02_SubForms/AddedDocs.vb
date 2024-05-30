@@ -23,7 +23,7 @@
                 'IM & SafetyIM always has "-", this needed to be changed to "|"
 
                 If TextBox_IM.Text.ToUpper.Length > 0 Then
-                    Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0) 'Same
+                    Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0).Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
                     Dim DocList = DocTbl.Where(Function(x) x.CAT_DOC = IM_Name).FirstOrDefault
                     Dim IM_Ver As String = DocList.DOC_VERSION '"(" & Decimal.Parse(TextBox_IM.Text.ToUpper.Trim.Split("/")(1) / 10).ToString("#") & ")" 'Devide by 10
                     Dim Final_IM_String As String = IM_Name & "(" & IM_Ver & ")" '& IM_Add
@@ -32,7 +32,7 @@
 
 
                 If TextBox_SIM.Text.ToUpper.Length > 0 Then
-                    Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0) 'Same
+                    Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0).Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
                     Dim DocList = DocTbl.Where(Function(x) x.CAT_DOC = SIM_Name).FirstOrDefault
                     Dim SIM_Ver As String = DocList.DOC_VERSION
                     Dim Final_SIM_String As String = SIM_Name & "(" & SIM_Ver & ")"
@@ -43,7 +43,8 @@
 
                 If TextBox_EUDoC.Text.ToUpper.Length > 0 Then
                     'EU document QR code alway begin with "EUDOC-", this is not needed in the final result
-                    MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("EUDOC-", TextBox_EUDoC.Text.ToUpper.Split("-")(1) & "-")
+                    Dim EuDocPart As String = TextBox_EUDoC.Text.ToUpper.Trim.Replace("EUDOC-", "")
+                    MainForm.CurrentCheckPoint.Result = MainForm.CurrentCheckPoint.Result.Replace("EUDOC-", EuDocPart & "-")
                 End If
 
                 MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)

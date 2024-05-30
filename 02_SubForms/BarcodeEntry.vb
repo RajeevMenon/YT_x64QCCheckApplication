@@ -38,8 +38,16 @@
                 End If
                 If IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
                     If MsgBox("Production already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
-                        MainForm.PrintQcc_Rev1()
-                        Exit Sub
+                        Dim ActFinDate As String = MainForm.CustOrd.ACTUAL_FINISH_DATE
+                        Dim OneWeekBefore As String = Date.Today.AddDays(-7).ToString("yyyy-MM-dd")
+                        If ActFinDate > OneWeekBefore Then
+                            MainForm.PrintQcc_Rev1()
+                            Exit Sub
+                        Else
+                            WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranter Portal."
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        End If
                     Else
                         WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranter Portal."
                         WMsg.ShowDialog()
