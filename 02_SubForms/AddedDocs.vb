@@ -23,8 +23,9 @@
                 'IM & SafetyIM always has "-", this needed to be changed to "|"
 
                 If TextBox_IM.Text.ToUpper.Length > 0 Then
-                    Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0).Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
+                    Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0) 'Same
                     Dim DocList = DocTbl.Where(Function(x) x.CAT_DOC = IM_Name).FirstOrDefault
+                    IM_Name = IM_Name.Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
                     Dim IM_Ver As String = DocList.DOC_VERSION '"(" & Decimal.Parse(TextBox_IM.Text.ToUpper.Trim.Split("/")(1) / 10).ToString("#") & ")" 'Devide by 10
                     Dim Final_IM_String As String = IM_Name & "(" & IM_Ver & ")" '& IM_Add
                     IM = Final_IM_String.ToUpper.Trim
@@ -32,8 +33,9 @@
 
 
                 If TextBox_SIM.Text.ToUpper.Length > 0 Then
-                    Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0).Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
+                    Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0) 'Same
                     Dim DocList = DocTbl.Where(Function(x) x.CAT_DOC = SIM_Name).FirstOrDefault
+                    SIM_Name = SIM_Name.Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
                     Dim SIM_Ver As String = DocList.DOC_VERSION
                     Dim Final_SIM_String As String = SIM_Name & "(" & SIM_Ver & ")"
                     IM &= "+" & Final_SIM_String.ToUpper.Trim
