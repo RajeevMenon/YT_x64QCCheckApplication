@@ -1806,7 +1806,7 @@ FixVar3:
             ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR Label prepared for this job?"
             ProcessStepReturn.MakeUserInputAction.UserInputOld = ""
             ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
-            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK"
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK" 'only check for "MFR:YOKOGAWA;CAT:EXT S/N;S/N:"
             ProcessStepReturn.MakeUserInputAction.UserInputSaveTableField = ""
 
             ProcessStepReturn.Result = "" 'This is blank as 'MakeUserInputAction' is for saving user input to DB only

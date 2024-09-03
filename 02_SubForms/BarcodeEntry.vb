@@ -73,6 +73,10 @@
                     Label_Message.Text = ErrMsg
                     Exit Sub
                 End If
+                If Not (MainForm.CustOrd.MS_CODE Like "YTA[67]10-???????*") Then
+                    'QR Code scan restricted only to final insp. to avoid use of 2D Scanner at First station
+                    TotalInspectionSteps.Remove(TotalInspectionSteps.Where(Function(x) x.STEP_NO = "20_00_01").ToList.Item(0))
+                End If
                 MainForm.QcSteps = TotalInspectionSteps
                 MainForm.AllowedSteps = MainForm.QcSteps.OrderBy(Function(x) x.SLNO).Where(Function(x) x.STATION = My.Settings.Station).Select(Of String)(Function(x) x.STEP_NO).ToArray
                 ReDim MainForm.AllCheckResult(MainForm.AllowedSteps.Length - 1)
