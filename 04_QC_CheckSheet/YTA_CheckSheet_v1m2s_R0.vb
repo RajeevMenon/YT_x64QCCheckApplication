@@ -1,4 +1,4 @@
-﻿Public Class YTA_CheckSheet_v1m2s
+﻿Public Class YTA_CheckSheet_v1m2s_R0
 
     Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
     Dim WMsg As New WarningForm
@@ -69,7 +69,6 @@
             If StepNo = "200_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_03_00(Initial, CustOrd, ErrMsg)
             If StepNo = "200_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_04_00(Initial, CustOrd, ErrMsg)
             If StepNo = "200_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_05_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_05_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_05_01(Initial, CustOrd, ErrMsg)
             If StepNo = "200_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_06_00(Initial, CustOrd, ErrMsg)
             If StepNo = "200_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_07_00(Initial, CustOrd, ErrMsg)
             If StepNo = "200_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_08_00(Initial, CustOrd, ErrMsg)
@@ -2128,70 +2127,18 @@ FixVar3:
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If CustOrd.MS_CODE Like "YTA???-??????N*" Then
-                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Selection"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Is Mounting Bracket Required for this Job?  YES  ||  NO"
+                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Kept Inside Box?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is there any Mounting Brackets kept inside Box?  YES  ||  NO"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             Else
-                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Selection"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Is Mounting Bracket Required for this Job?  YES  ||  NO"
+                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Kept Inside Box?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Brackets kept inside Box?  YES  ||  NO"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             End If
-            Return ProcessStepReturn
-
-
-        Catch ex As Exception
-            Return Nothing
-        End Try
-    End Function
-    Public Function ProcessStepNo200_05_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-        Try
-
-            Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "200"
-            ProcessStepReturn.ProcessStep = "Packing"
-            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
-            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-            ProcessStepReturn.Initial = Initial
-
-            ProcessStepReturn.StepNo = "200_05_01"
-
-            If CustOrd.MS_CODE Like "YTA???-??????B*" Then
-                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_J_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_B_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_B_Bracket.jpg"
-            ElseIf CustOrd.MS_CODE Like "YTA???-??????D*" Then
-                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_D_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_D_Bracket.jpg"
-            ElseIf CustOrd.MS_CODE Like "YTA???-??????J*" Then
-                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_J_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_B_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_J_Bracket.jpg"
-            ElseIf CustOrd.MS_CODE Like "YTA???-??????K*" Then
-                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_D_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_K_Bracket.jpg"
-            ElseIf CustOrd.MS_CODE Like "YTA???-??????N*" Then
-                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
-            End If
-            ProcessStepReturn.Result = ""
             Return ProcessStepReturn
 
 
