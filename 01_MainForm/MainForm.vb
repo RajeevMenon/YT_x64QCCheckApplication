@@ -822,6 +822,7 @@ Public Class MainForm
     Public Initial As String
     Public WorkerName As String
     Public WorkerID As String
+    Public LoginID As String
     Public VersionText As String
     Public Shared CurrentCheckPoint As CheckSheetStep
     Dim ErrMsg As String = ""
@@ -919,7 +920,7 @@ Repeat:
                         If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
                             Dim PSV As New ProcedureStepView
                             PSV.TopLevel = False
-                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
                             PanelSubForm.Controls.Add(PSV)
                             PSV.AutoScroll = True
                             PSV.Dock = DockStyle.Fill
@@ -1015,7 +1016,7 @@ Repeat:
                         If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
                             Dim PSV As New ProcedureStepView
                             PSV.TopLevel = False
-                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
                             PanelSubForm.Controls.Add(PSV)
                             PSV.AutoScroll = True
                             PSV.Dock = DockStyle.Fill
@@ -1108,7 +1109,7 @@ Repeat:
                             If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
                                 Dim PSV As New ProcedureStepView
                                 PSV.TopLevel = False
-                                PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                                PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
                                 PanelSubForm.Controls.Add(PSV)
                                 PSV.AutoScroll = True
                                 PSV.Dock = DockStyle.Fill
@@ -1260,7 +1261,7 @@ LoopFinished:
                             If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
                                 Dim PSV As New ProcedureStepView
                                 PSV.TopLevel = False
-                                PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ActivityToCheck, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                                PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
                                 PanelSubForm.Controls.Add(PSV)
                                 PSV.AutoScroll = True
                                 PSV.Dock = DockStyle.Fill
@@ -1362,6 +1363,7 @@ LoopFinished:
 
         End Try
     End Sub
+
     Public Sub wait(ByVal interval As Integer)
         Dim sw As New Stopwatch
         Dim wait_time As Double
@@ -1856,8 +1858,31 @@ Repeat:
             WMsg.ShowDialog()
         End Try
     End Sub
+    Private Sub GoToStepToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GoToStepToolStripMenuItem.Click
+        Try
+            If LoginID = "46501497" Then
+                If Not IsNothing(CustOrd) Then
+                    If CustOrd.MS_CODE.Length > 0 Then
+                        Dim StepNo As String = ""
+                        StepNo = InputBox("Input StepNo to go to", "STEP NO.", "")
+                        If StepNo.Length > 0 Then
+                            TextBox_Step.Text = StepNo
+                            If AllowedSteps.Length > 0 Then
+                                If Array.IndexOf(AllowedSteps, TextBox_Step.Text) - 1 >= 0 Then
+                                    TextBox_Step.Text = AllowedSteps(Array.IndexOf(AllowedSteps, TextBox_Step.Text) - 1)
+                                    Button2.PerformClick()
+                                Else
+                                    FirstCheckPoint()
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
 
-
+        End Try
+    End Sub
 #End Region
 
 #Region "PTR Reporting"
@@ -1880,6 +1905,7 @@ Repeat:
 
         End Try
     End Sub
+
 #End Region
 
 

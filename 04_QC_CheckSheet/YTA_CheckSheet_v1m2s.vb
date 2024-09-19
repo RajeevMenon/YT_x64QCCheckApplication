@@ -1855,11 +1855,11 @@ FixVar3:
 
             ProcessStepReturn.StepNo = "190_14_00"
             ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate Fixed?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag plate fixed correctly  YES  ||  NO"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag plate fixed correctly with RING (F9900GG)  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\190\" & "N4_PlateYTA.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If CustOrd.MS_CODE Like "YTA???-???????*/N4*" Then
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "N4_PlateYTA.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             Else
@@ -1912,40 +1912,93 @@ FixVar3:
             Return Nothing
         End Try
     End Function
+    'Public Function ProcessStepNo190_16_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    '    Try
+
+    '        Dim ProcessStepReturn As New CheckSheetStep
+    '        ProcessStepReturn.ProcessNo = "190"
+    '        ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
+    '        ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
+    '        ProcessStepReturn.ToCheck = "Correct || Not Correct"
+    '        ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+    '        ProcessStepReturn.Initial = Initial
+
+    '        ProcessStepReturn.StepNo = "190_16_00"
+    '        ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
+    '        ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket Parts correct?"
+    '        ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+    '        ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+    '        If Not (CustOrd.MS_CODE Like "YTA???-??????N*") Then
+    '            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+    '        Else
+    '            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
+    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
+    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
+    '        End If
+    '        ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
+    '        Return ProcessStepReturn
+
+
+    '    Catch ex As Exception
+    '        Return Nothing
+    '    End Try
+    'End Function
     Public Function ProcessStepNo190_16_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
-
-            Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190"
-            ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
-            ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
-            ProcessStepReturn.ToCheck = "Correct || Not Correct"
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-            ProcessStepReturn.Initial = Initial
-
-            ProcessStepReturn.StepNo = "190_16_00"
-            ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket Parts correct?"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If Not (CustOrd.MS_CODE Like "YTA???-??????N*") Then
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                Dim ProcessStepReturn As New CheckSheetStep
+                ProcessStepReturn.ProcessNo = "190"
+                ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
+                ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
+                ProcessStepReturn.ToCheck = "Correct || Not Correct"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.ProcedureStep
+                ProcessStepReturn.Initial = Initial
+
+                ProcessStepReturn.StepNo = "190_16_00"
+                ProcessStepReturn.ActivityToCheck = "Mounting Bracket Check"
+                ProcessStepReturn.ProcedureStepAction.ProcedureMessage = "Is all the items as below is Available?"
+                ProcessStepReturn.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.CenterImage
+                If CustOrd.MS_CODE Like "YTA???-??????B*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_B_Bracket.jpg"
+                ElseIf CustOrd.MS_CODE Like "YTA???-??????D*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_D_Bracket.jpg"
+                ElseIf CustOrd.MS_CODE Like "YTA???-??????J*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_J_Bracket.jpg"
+                ElseIf CustOrd.MS_CODE Like "YTA???-??????K*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
+                End If
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
+                Return ProcessStepReturn
             Else
+                Dim ProcessStepReturn As New CheckSheetStep
+                ProcessStepReturn.ProcessNo = "190"
+                ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
+                ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
+                ProcessStepReturn.ToCheck = "Correct || Not Correct"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+
+                ProcessStepReturn.StepNo = "190_16_00"
+                ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket Parts correct?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
-            End If
-            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
-            Return ProcessStepReturn
+                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
+                Return ProcessStepReturn
 
+            End If
 
         Catch ex As Exception
             Return Nothing
         End Try
     End Function
-
     'PACKING
     Public Function ProcessStepNo200_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
@@ -2003,44 +2056,6 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    'Public Function ProcessStepNo200_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-    '    Try
-
-    '        Dim ProcessStepReturn As New CheckSheetStep
-    '        ProcessStepReturn.ProcessNo = "200"
-    '        ProcessStepReturn.ProcessStep = "Packing"
-    '        ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
-    '        ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
-    '        ProcessStepReturn.Method = CheckSheetStep.MethodOption.AddedDocs
-    '        ProcessStepReturn.Initial = Initial
-
-    '        ProcessStepReturn.StepNo = "200_02_00"
-    '        ProcessStepReturn.ActivityToCheck = "Scan QR-code of IM,SafetyIM,EU-Doc etc, if any."
-    '        If Integer.Parse(CustOrd.QTY_NO) = 1 And CustOrd.MS_CODE Like "YTA*/K[UFS]*" Then
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_IM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_EUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        ElseIf Integer.Parse(CustOrd.QTY_NO) = 1 And Not (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_IM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoEUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        ElseIf Integer.Parse(CustOrd.QTY_NO) <> 1 And (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoIM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_EUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        Else
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoIM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoEUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        End If
-
-    '        Return ProcessStepReturn
-
-
-    '    Catch ex As Exception
-    '        Return Nothing
-    '    End Try
-    'End Function
     Public Function ProcessStepNo200_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 

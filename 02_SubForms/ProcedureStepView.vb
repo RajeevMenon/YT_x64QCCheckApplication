@@ -42,12 +42,26 @@
             If PicturePath <> "" Then
                 Dim Source As Image
                 Source = Image.FromFile(PicturePath)
-                PictureBox1.Image = Source
+
+                Dim MaxHeight As Integer = PictureBox1.Height
+                Dim AdjRatio As Decimal = MaxHeight / Source.Height
+                Dim NewHeight As Integer = CInt(Source.Height * AdjRatio)
+                Dim NewWidth As Integer = CInt(Source.Width * AdjRatio)
+                Dim resizedImage As Image = ResizeImage(Source, NewWidth, NewHeight)
+                PictureBox1.Image = resizedImage
+
                 'If Source.Width > PictureBox1.ClientSize.Width OrElse Source.Height > PictureBox1.ClientSize.Height Then
                 '    PictureBox1.SizeMode = PictureBoxSizeMode.AutoSize 'if image is larger than picturebox
                 'Else
                 '    PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage 'if image is smaller than picturebox
                 'End If
+                If Not IsNothing(MainForm.CurrentCheckPoint.ProcedureStepAction.SetSizeMode) Then
+                    If MainForm.CurrentCheckPoint.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.Normal Then PictureBox1.SizeMode = PictureBoxSizeMode.Normal
+                    If MainForm.CurrentCheckPoint.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.AutoSize Then PictureBox1.SizeMode = PictureBoxSizeMode.AutoSize
+                    If MainForm.CurrentCheckPoint.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.CenterImage Then PictureBox1.SizeMode = PictureBoxSizeMode.CenterImage
+                    If MainForm.CurrentCheckPoint.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.StretchImage Then PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
+                    If MainForm.CurrentCheckPoint.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.Zoom Then PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+                End If
                 PictureBox1.Anchor = AnchorStyles.Top
 
                 'Me.DoubleBuffered = True
@@ -61,6 +75,21 @@
 
         End Try
     End Sub
+
+    ' Function to resize the image
+    Private Function ResizeImage(ByVal img As Image, ByVal width As Integer, ByVal height As Integer) As Image
+        ' Create a new bitmap with the desired size
+        Dim bmp As New Bitmap(width, height)
+
+        ' Use Graphics to draw the resized image
+        Using g As Graphics = Graphics.FromImage(bmp)
+            ' Set high-quality interpolation modes
+            g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+            g.DrawImage(img, 0, 0, width, height)
+        End Using
+
+        Return bmp
+    End Function
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
         Try

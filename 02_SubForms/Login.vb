@@ -28,6 +28,7 @@ Public Class Login
                 MainForm.Initial = LoginTbl.INITIAL & "(" & Date.Today.ToString("MMM/dd") & ")"
                 MainForm.WorkerName = LoginTbl.PERSON
                 MainForm.WorkerID = LoginTbl.INITIAL
+                MainForm.LoginID = LoginTbl.LOGIN
                 MainForm.ContextMenuStation.Enabled = True
                 MainForm.LoadIndexScan()
             Else
