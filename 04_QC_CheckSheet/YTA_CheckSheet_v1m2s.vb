@@ -1999,6 +1999,7 @@ FixVar3:
             Return Nothing
         End Try
     End Function
+
     'PACKING
     Public Function ProcessStepNo200_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
