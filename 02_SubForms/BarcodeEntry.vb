@@ -185,25 +185,31 @@
                         End If
                     End If
 
-                    'Get CRC Result
-                    If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("150_01_00")) = "150_01_00" Or
-                        Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("180_01_00")) = "180_01_00" Then
-                        Dim YTA_CrcList = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.yta710_inspection_tb)("SERIAL", MainForm.CustOrd.SERIAL_NO, "SERIAL", MainForm.CustOrd.SERIAL_NO, ErrMsg)
-                        If ErrMsg.Length > 0 Then
-                            Label_Message.Text = ErrMsg
-                            Exit Sub
+                'Get CRC Result
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("150_01_00")) = "150_01_00" Or
+                    Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("180_01_00")) = "180_01_00" Then
+                    Dim SerialCheck As String = ""
+                    If MainForm.CustOrd.SERIAL_NO Like "*-M" Then
+                        SerialCheck = MainForm.CustOrd.SERIAL_NO.Split("-")(0) & "-"
+                    Else
+                        SerialCheck = MainForm.CustOrd.SERIAL_NO
+                    End If
+                    Dim YTA_CrcList = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.yta710_inspection_tb)("SERIAL", SerialCheck, "SERIAL", SerialCheck, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        Label_Message.Text = ErrMsg
+                        Exit Sub
+                    Else
+                        If YTA_CrcList.Count > 0 Then
+                            MainForm.YTA_Crc = YTA_CrcList.Where(Function(x) x.ID = (YTA_CrcList.Max(Function(y) y.ID))).FirstOrDefault
                         Else
-                            If YTA_CrcList.Count > 0 Then
-                                MainForm.YTA_Crc = YTA_CrcList.Where(Function(x) x.ID = (YTA_CrcList.Max(Function(y) y.ID))).FirstOrDefault
-                            Else
-                                MainForm.YTA_Crc = New POCO_YGSP.yta710_inspection_tb
-                                MainForm.YTA_Crc.RESULT = "NA"
-                            End If
+                            MainForm.YTA_Crc = New POCO_YGSP.yta710_inspection_tb
+                            MainForm.YTA_Crc.RESULT = "NA"
                         End If
                     End If
+                End If
 
-                    'Get PLATE PART NUMBER
-                    If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("40_01_00")) = "40_01_00" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("190_11_00")) = "190_11_00" Then
+                'Get PLATE PART NUMBER
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("40_01_00")) = "40_01_00" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("190_11_00")) = "190_11_00" Then
                         Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
                         If ErrMsg.Length > 0 Then
                             Label_Message.Text = ErrMsg
@@ -245,7 +251,7 @@
                 Dim SelParts(3) As String
                 Dim rl As New TML_Library.RandomArray
                 SelParts = rl.MakeRandomControlledlist(PlatePartNo, allParts, 4)
-                If CustOrd.SERIAL_NO Like "S5*" Then
+                If CustOrd.SERIAL_NO Like "S5???????" Then
                     For i As Integer = 0 To SelParts.Length - 1
                         If SelParts(i) = "F9220MV" Then
                             SelParts(i) = "F9220LV"

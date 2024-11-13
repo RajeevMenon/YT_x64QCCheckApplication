@@ -220,7 +220,7 @@
             ProcessStepReturn.ActivityToCheck = "Prepare Data Plates with correct COO."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the COO printed In the plate."
             ProcessStepReturn.UserInputAction.UserInputList = {"Made In China", "Made In Japan", "Made In KSA", "Made In Singapore"}
-            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
+            If (CustOrd.SERIAL_NO Like "Y3*" Or CustOrd.SERIAL_NO Like "S5???????-M") And CustOrd.EU_COUNTRY = "SA" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
                 ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             ElseIf CustOrd.MS_CODE Like "*/JP*" Or CustOrd.SERIAL_NO Like "Y4*" Then
@@ -1326,7 +1326,7 @@
             End If
 
             Dim COO As String = ""
-            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
+            If (CustOrd.SERIAL_NO Like "Y3*" Or CustOrd.SERIAL_NO Like "S5???????-M") And CustOrd.EU_COUNTRY = "SA" Then
                 COO = "Made In KSA"
             ElseIf CustOrd.MS_CODE Like "*/JP*" Then
                 COO = "Made In Japan"
