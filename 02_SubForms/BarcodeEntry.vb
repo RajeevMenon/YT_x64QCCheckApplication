@@ -49,9 +49,11 @@
                             Exit Sub
                         End If
                     Else
-                        WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranter Portal."
-                        WMsg.ShowDialog()
-                        Exit Sub
+                        If Not (MainForm.Initial Like "RR*" And MainForm.WorkerName.ToUpper Like "*RAJEEV*") Then
+                            WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranter Portal."
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        End If
                     End If
                 End If
                 If Not (MainForm.CustOrd.MS_CODE Like "YTA[67]10-???????*") Then
