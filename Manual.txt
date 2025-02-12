@@ -50,4 +50,7 @@
 5. User can now click Next Button or Previous Button to proceed
 		If user keeps on clicking and reaches the last step, then one more click will call MainForm.FirstCheckPoint()
 		If user keeps on clicking previous steps and reaches first step, then one more click will call MainForm.LastCheckPoint()
-6. If all inspection steps are GO then during Next or Previous button click, the application will call MainForm.ShowCompleteInspection()
+
+6. If user wants to quickly go to a specific checkpoint, click Atl+S and then enter the checkpoint number
+
+7. If all inspection steps are GO then during Next or Previous button click, the application will call MainForm.ShowCompleteInspection()

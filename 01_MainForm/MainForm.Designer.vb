@@ -38,6 +38,7 @@ Partial Class MainForm
         Me.RestartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportPTRFailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GoToStepToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.PanelSubForm.SuspendLayout()
@@ -148,7 +149,7 @@ Partial Class MainForm
         '
         Me.ContextMenuStation.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectStationToolStripMenuItem, Me.ToolStripMenuItem1, Me.RestartToolStripMenuItem, Me.ReportPTRFailToolStripMenuItem, Me.GoToStepToolStripMenuItem})
         Me.ContextMenuStation.Name = "ContextMenuStation"
-        Me.ContextMenuStation.Size = New System.Drawing.Size(188, 136)
+        Me.ContextMenuStation.Size = New System.Drawing.Size(188, 114)
         '
         'SelectStationToolStripMenuItem
         '
@@ -189,6 +190,7 @@ Partial Class MainForm
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.DoubleBuffered = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.KeyPreview = True
         Me.Name = "MainForm"
         Me.Text = "QC Check"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
@@ -215,4 +217,5 @@ Partial Class MainForm
     Friend WithEvents RestartToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ReportPTRFailToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents GoToStepToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolTip1 As ToolTip
 End Class

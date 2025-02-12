@@ -27,8 +27,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\192.168.151.12\AppStore\TML_App\TML_YTA_QC_CheckApp\</UpdateUrl>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
-    <ApplicationRevision>11</ApplicationRevision>
-    <ApplicationVersion>1.1.0.11</ApplicationVersion>
+    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationVersion>1.1.0.13</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -66,10 +66,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D2CD8D018AE6016A2671E54CD85EAF1C6271BE99</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>43300A9C65BD896EA3F774B6AE8EC0C0E30AB4D0</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>QualityControlCheckAppliation_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>QualityControlCheckAppliation_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -304,6 +304,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="QualityControlCheckAppliation_1_TemporaryKey.pfx" />
+    <None Include="QualityControlCheckAppliation_2_TemporaryKey.pfx" />
     <None Include="QualityControlCheckAppliation_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

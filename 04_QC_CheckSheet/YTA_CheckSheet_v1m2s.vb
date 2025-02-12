@@ -693,8 +693,8 @@
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "110"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.Activity = "Ground Screws Fixing/DLM QR Label Fixing"
-            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
+            ProcessStepReturn.Activity = "Ground Screws attach to Unit"
+            ProcessStepReturn.ToCheck = "INTERNAL & EXTERNAL GROUND SCREW ON CASE"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
 
@@ -1481,7 +1481,7 @@ FixVar3:
             Dim Range As String
             Dim Randm As Random = New Random
             Dim Mscode = CustOrd.MS_CODE
-            If Mscode Like "YTA???-??2*" Then
+            If Mscode Like "YTA???-??2*" And CustOrd.ORD_INST_CONTECT1_W24 <> "RTD PT100 4WIRE" Then
                 Range_1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & CustOrd.ORD_INST_MAX_T70 & " " & CustOrd.UNIT_T70
                 Range_2 = "S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & CustOrd.ORD_INST_MAX_T71 & " " & CustOrd.UNIT_T71
                 Dim I1 As Integer = 0
@@ -1912,39 +1912,6 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    'Public Function ProcessStepNo190_16_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-    '    Try
-
-    '        Dim ProcessStepReturn As New CheckSheetStep
-    '        ProcessStepReturn.ProcessNo = "190"
-    '        ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
-    '        ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
-    '        ProcessStepReturn.ToCheck = "Correct || Not Correct"
-    '        ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-    '        ProcessStepReturn.Initial = Initial
-
-    '        ProcessStepReturn.StepNo = "190_16_00"
-    '        ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
-    '        ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket Parts correct?"
-    '        ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
-    '        ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
-    '        If Not (CustOrd.MS_CODE Like "YTA???-??????N*") Then
-    '            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
-    '        Else
-    '            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
-    '        End If
-    '        ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
-    '        Return ProcessStepReturn
-
-
-    '    Catch ex As Exception
-    '        Return Nothing
-    '    End Try
-    'End Function
     Public Function ProcessStepNo190_16_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
             If Not (CustOrd.MS_CODE Like "YTA???-??????N*") Then

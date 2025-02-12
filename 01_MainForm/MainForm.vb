@@ -1100,6 +1100,7 @@ Repeat:
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
                             RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
                             TextBox_Step.Text = CurrentCheckPoint.StepNo
+                            ToolTip1.SetToolTip(RichTextBox_Step, TextBox_Step.Text)
                             RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
                             RichTextBox_AutoSize(RichTextBox_Step)
                             RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
@@ -1252,6 +1253,7 @@ LoopFinished:
                         If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
                             RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
                             TextBox_Step.Text = CurrentCheckPoint.StepNo
+                            ToolTip1.SetToolTip(RichTextBox_Step, TextBox_Step.Text)
                             RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
                             RichTextBox_AutoSize(RichTextBox_Step)
                             RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
@@ -1906,6 +1908,23 @@ Repeat:
         End Try
     End Sub
 
+#End Region
+
+#Region "QuickStep"
+    Private Sub MainForm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        Try
+            If e.Alt And e.KeyCode = Keys.S Then
+                TextBox_Step.Text = InputBox("Quick Step", "Quick Step", AllowedSteps(1))
+                Dim i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text)
+                If i > 0 Then
+                    TextBox_Step.Text = AllowedSteps(i - 1)
+                    Button2.PerformClick()
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
 #End Region
 
 

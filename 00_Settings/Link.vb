@@ -76,7 +76,7 @@ End Class
 'Public NotInheritable Class Link
 '    Public Const PlanID As String = "6Z00"
 '    Public Const Network As String = "DOMAIN"
-'    Public Const ServerAddress As String = "cpc475-tmlpc02.bh.me.ykgw.net" '"10.25.216.12" '
+'    Public Const ServerAddress As String = "cpc475-tmlpc04.bh.me.ykgw.net" '"10.25.216.12" '
 '    Public Const PortNo As String = "4600"
 '    Public Const FE0_File As String = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=$$$\FE0_YMA.mdb" 'Replace, $$$ with Application.StartupPath or As needed
 '    Public Const Mysql_YGSP_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
