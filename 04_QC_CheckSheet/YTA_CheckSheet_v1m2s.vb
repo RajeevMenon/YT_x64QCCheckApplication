@@ -725,14 +725,14 @@
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "110"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.Activity = "Ground Screws Fixing/DLM QR Label Fixing"
-            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
+            ProcessStepReturn.Activity = "DLM QR Nameplate Fixing"
+            ProcessStepReturn.ToCheck = "Name plate with QR-Image is prepared"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
 
             ProcessStepReturn.StepNo = "110_02_00"
-            ProcessStepReturn.ActivityToCheck = "DLM QR Label Fixing"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "[Affix QR Label] Confirm QR Label Attached"
+            ProcessStepReturn.ActivityToCheck = "Name plate with QR Image"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm Nameplate with QR image is prepared"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithOutQR_Label.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithQR_Label.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithQR_Label.jpg"
@@ -1798,13 +1798,13 @@ FixVar3:
 
             ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "QR Label"
-            ProcessStepReturn.Activity = "Scan QR Label to ensure correct Printing?"
-            ProcessStepReturn.ToCheck = "Correct QR Label Prepared"
+            ProcessStepReturn.Activity = "Scan QR to ensure correctmess of Data"
+            ProcessStepReturn.ToCheck = "Correct Nameplate with QR is Prepared"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.MakeUsrInpt
 
             ProcessStepReturn.StepNo = "190_12_01"
-            ProcessStepReturn.ActivityToCheck = "QR Label print correctness"
-            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR Label prepared for this job?"
+            ProcessStepReturn.ActivityToCheck = "QR code correctness"
+            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR on the Nameplate of the unit"
             ProcessStepReturn.MakeUserInputAction.UserInputOld = ""
             ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
             ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK" 'only check for "MFR:YOKOGAWA;CAT:EXT S/N;S/N:"
