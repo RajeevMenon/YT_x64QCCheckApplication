@@ -7,4 +7,4 @@
 3.2		-	2023-08-18	-	Added some PP Job Improvements and released for MASS PRODUCTION
 3.3		-	2024-04-24	-	IM, SafetyIM to add to each unit as per FZ2-YTA-01155
 3.4		-	2024-09-16	-	N4 Plate fix with F9900GG picture added as per FZ2-YTA-01109
-3.5		-	2024-09-16	-	DLM QR insepection steps modified per FZ2-YTA-01146 (steps 110_02 and 190_12)
+3.5		-	2025-03-01	-	DLM QR insepection steps modified per FZ2-YTA-01146 (steps 110_02 and 190_12)
