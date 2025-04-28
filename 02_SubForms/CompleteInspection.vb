@@ -78,17 +78,24 @@ UpdateResult:
 
             If My.Settings.Station = "PACKING" Then
                 If Not IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
-                    Dim FinishDate As String = Date.Today.ToString("yyyy-MM-dd")
-                    Dim FinishTime As String = DateAndTime.Now.ToString("hh:mm:ss tt")
-                    Dim SqlQry(0) As String
-                    SqlQry(0) = "UPDATE cust_ord SET ACTUAL_FINISH_DATE='" & FinishDate & "', ACTUAL_FINISH_TIME='" & FinishTime & "' WHERE INDEX_NO='" & MainForm.CustOrd.INDEX_NO & "';"
-                    TmlEntityYGS.ExecuteTransactionQuery(SqlQry, ErrMsg)
-                    If ErrMsg.Length > 0 Then
-                        WMsg.Message = "Actual Finish Date Update Error:" & ErrMsg
+                    'Check if Images are taken for evidence
+                    If System.IO.Directory.GetFiles(Link.EvidenceImagePath, MainForm.CustOrd.INDEX_NO & "*").Count = 0 Then
+                        WMsg.Message = "Take pictures of Packing Box contents!"
                         WMsg.ShowDialog()
                     End If
+
+                    'Set Actual finish date
+                    Dim FinishDate As String = Date.Today.ToString("yyyy-MM-dd")
+                        Dim FinishTime As String = DateAndTime.Now.ToString("hh:mm:ss tt")
+                        Dim SqlQry(0) As String
+                        SqlQry(0) = "UPDATE cust_ord SET ACTUAL_FINISH_DATE='" & FinishDate & "', ACTUAL_FINISH_TIME='" & FinishTime & "' WHERE INDEX_NO='" & MainForm.CustOrd.INDEX_NO & "';"
+                        TmlEntityYGS.ExecuteTransactionQuery(SqlQry, ErrMsg)
+                        If ErrMsg.Length > 0 Then
+                            WMsg.Message = "Actual Finish Date Update Error:" & ErrMsg
+                            WMsg.ShowDialog()
+                        End If
+                    End If
                 End If
-            End If
 
         Next
         ReDim Preserve Sql(Count - 1)
