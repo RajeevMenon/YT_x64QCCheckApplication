@@ -217,20 +217,39 @@
 
                 'Get PLATE PART NUMBER
                 If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("40_01_00")) = "40_01_00" Or Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("190_11_00")) = "190_11_00" Then
-                        Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
-                        If ErrMsg.Length > 0 Then
-                            Label_Message.Text = ErrMsg
-                            Exit Sub
-                        End If
+                    Call SelectYtaPlates(MainForm.CustOrd, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        Label_Message.Text = ErrMsg
+                        Exit Sub
                     End If
-
-                    MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
-                    MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsCurrent.Split(",")(0)
-                    MainForm.FirstCheckPoint()
-                    TextBox_Scan.Text = ""
-                    Me.Close()
-
                 End If
+
+                'Work Control Check
+                Dim WkControl As New WorkControl
+                'Dim ReadOrder = SqlOp_Prd.Read2DBasString("co_register", "ORDER_NO", SqlOp_Prd.DataSel("PROD_NO", ReadData), "LINE_NO", SqlOp_Prd.DataSel("LINE_NO", ReadData))
+                WkControl.ResNo = MainForm.CoHeader.RESERVATION_NO 'SqlOp_Prd.DataSel("RESERVATION_NO", ReadOrder)
+                Dim Cc = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.controlcenter)("CONTROL_BOM", WkControl.ResNo, "STATUS", "ACTIVE")
+                If WkControl.ResNo.Length > 0 And Cc.Count > 0 Then
+                    For Each CcItem In Cc
+                        'Stations: CASE_ASSY,BUILD,HIPOT,PMS,CRC,FINALASSY,PACKING
+                        'WorkControls:SCHEDULE, QCCS_PRINT, BOM_PRINT, BOM_PICK, MARKING, CASE_ASSY, BUILD,HIPOT, PMS,CRC, FINAL_INSP, PACKING, READY_MAIL, SHIP_MAIL
+                        If (CcItem.CONTROL_PROCESS = MainForm.StationName) Or (CcItem.CONTROL_PROCESS = "FINAL_INSP" And MainForm.StationName = "FINALASSY") Then
+                            WkControl.SqlConnection = Link.Mysql_YGSP_ConStr
+                            WkControl.ShowDialog()
+                            If WkControl.Action = "EXIT" Then
+                                Exit Sub
+                            End If
+                        End If
+                    Next
+                End If
+
+                MainForm.Text = MainForm.Text.Split("-")(0) & "-" & " User: " & MainForm.Initial & ", Current Unit: " & MainForm.CustOrd.SERIAL_NO & " [ " & MainForm.CustOrd.MS_CODE & " ]"
+                MainForm.TextBox_Step.Text = MainForm.Setting.Var_08_StepsCurrent.Split(",")(0)
+                MainForm.FirstCheckPoint()
+                TextBox_Scan.Text = ""
+                Me.Close()
+
+            End If
         Catch ex As Exception
             Label_Message.Text = "Runtime Error:" & ex.Message.Substring(0, 50) & ".."
         End Try

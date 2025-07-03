@@ -4,7 +4,6 @@
     Dim WMsg As New WarningForm
 
 #Region "Common"
-
     Public Shared Function ProcessStepNo(ByVal StepNo As String, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 

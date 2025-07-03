@@ -819,6 +819,7 @@ Public Class MainForm
 #End Region
 
 #Region "NEW VERSION"
+    Public StationName As String
     Public Initial As String
     Public WorkerName As String
     Public WorkerID As String
@@ -843,6 +844,10 @@ Public Class MainForm
         'VersionText = AppControl.GetVersion("C:\TML_INI\QualityControlCheckAppliation\")
         VersionText = AppControl.GetVersion(Application.StartupPath & "\00_Settings")
         Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
+
+        If My.Settings.Station.Length > 0 Then
+            StationName = My.Settings.Station
+        End If
 
         RefreshSettings(Link.Network)
         TmlEntityQA = New MFG_ENTITY.Op(Setting.Var_04_MySql_QA)
@@ -1802,7 +1807,7 @@ LoopFinished:
             VersionText = AppControl.GetVersion(Application.StartupPath & "\00_Settings")
             Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
 Repeat:
-            Dim StationName = InputBox("Please select Station Name", "STATION", Setting.Var_08_StepsName)
+            StationName = InputBox("Please select Station Name", "STATION", Setting.Var_08_StepsName)
             If Setting.Var_08_StepsName Like "*" & StationName & "*" And Not StationName.Contains(",") And StationName.Length > 0 Then
                 My.Settings.Station = StationName
                 My.Settings.Save()
