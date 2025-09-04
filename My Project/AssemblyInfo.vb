@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("QualityControlCheckAppliation")>
+<Assembly: AssemblyTitle("YT_x64QCCheckAppliation")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("QualityControlCheckAppliation")>
+<Assembly: AssemblyProduct("YT_x64QCCheckAppliation")>
 <Assembly: AssemblyCopyright("Copyright ©  2021")>
 <Assembly: AssemblyTrademark("")>
 

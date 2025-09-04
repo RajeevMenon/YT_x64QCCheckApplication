@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -82,9 +82,9 @@ Namespace My
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.WebServiceUrl),  _
          Global.System.Configuration.DefaultSettingValueAttribute("http://cpc475-tmlpc02.bh.me.ykgw.net/TML_SERVICE/Service1.asmx")>  _
-        Public ReadOnly Property QualityControlCheckAppliation_TML_Service_Service1() As String
+        Public ReadOnly Property YT_x64QCCheckAppliation_TML_Service_Service1() As String
             Get
-                Return CType(Me("QualityControlCheckAppliation_TML_Service_Service1"),String)
+                Return CType(Me("YT_x64QCCheckAppliation_TML_Service_Service1"),String)
             End Get
         End Property
         
@@ -110,9 +110,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.QualityControlCheckAppliation.My.MySettings
+        Friend ReadOnly Property Settings() As Global.YT_x64QCCheckAppliation.My.MySettings
             Get
-                Return Global.QualityControlCheckAppliation.My.MySettings.Default
+                Return Global.YT_x64QCCheckAppliation.My.MySettings.Default
             End Get
         End Property
     End Module

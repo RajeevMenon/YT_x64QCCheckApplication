@@ -12,8 +12,8 @@ Var_08_StepsPrevous		=	From MySql Settigs Table
 Var_08_StepsCurrent		=	From MySql Settigs Table
 Var_08_AllSteps			=	From MySql Settigs Table
 
-Var_51_ProStepView_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\PS_Img\
-Var_52_SinglePntInst_ImagePath	=	C:\TML_INI\QualityControlCheckAppliation\SPI_Img\
+Var_51_ProStepView_ImagePath	=	C:\TML_INI\YT_x64QCCheckAppliation\PS_Img\
+Var_52_SinglePntInst_ImagePath	=	C:\TML_INI\YT_x64QCCheckAppliation\SPI_Img\
 
 Var_60_020_Position_Initial			=	Initial-11,84,17.8
 Var_60_020_Position_Tick			=	20_01_00$Tick-13,70,18

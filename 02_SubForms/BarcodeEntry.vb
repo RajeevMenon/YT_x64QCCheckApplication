@@ -1,10 +1,13 @@
-﻿Public Class BarcodeEntry
+﻿Imports Newtonsoft.Json
+
+Public Class BarcodeEntry
 
     Dim WMsg As New WarningForm
+    Dim ErrMsg As String = ""
     Private Sub TextBox_Scan_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox_Scan.KeyDown
         Try
             If e.KeyCode = Keys.Enter Then
-                Dim ErrMsg As String = ""
+                ErrMsg = ""
                 Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
                 Dim TmlEntityQA As New MFG_ENTITY.Op(MainForm.Setting.Var_04_MySql_QA)
                 Dim FieldName As String = ""
@@ -37,20 +40,16 @@
                     Exit Sub
                 End If
                 If IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
-                    If MsgBox("Production already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
-                        Dim ActFinDate As String = MainForm.CustOrd.ACTUAL_FINISH_DATE
-                        Dim OneWeekBefore As String = Date.Today.AddDays(-7).ToString("yyyy-MM-dd")
-                        If ActFinDate > OneWeekBefore Then
-                            MainForm.PrintQcc_Rev1()
-                            Exit Sub
+                    If MsgBox("Production already completed on " & MainForm.CustOrd.ACTUAL_FINISH_DATE & ". Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
+                        If MainForm.CurrentQCC_Version = "1.4" Then
+                            'MainForm.PrintQcc_Rev2()
                         Else
-                            WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranter Portal."
-                            WMsg.ShowDialog()
-                            Exit Sub
+                            MainForm.PrintQcc_Rev1()
                         End If
+                        Exit Sub
                     Else
                         If Not (MainForm.Initial Like "RR*" And MainForm.WorkerName.ToUpper Like "*RAJEEV*") Then
-                            WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranter Portal."
+                            WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranet Portal."
                             WMsg.ShowDialog()
                             Exit Sub
                         End If
@@ -74,6 +73,15 @@
 #End Region
 
 #Region "Validate if All Inspection or Previous Step Inspections Already Done"
+                If MainForm.CurrentQCC_Version = "1.4" Then
+                    Dim QcStepsjson As String = System.IO.File.ReadAllText(MainForm.QcSteps_1p4_File)
+                    MainForm.QcSteps = JsonConvert.DeserializeObject(Of List(Of POCO_QA.yta_qcc_steps))(QcStepsjson)
+                Else
+                    Dim QcStepsjson As String = System.IO.File.ReadAllText(MainForm.QcSteps_1p3_File)
+                    MainForm.QcSteps = JsonConvert.DeserializeObject(Of List(Of POCO_QA.yta_qcc_steps))(QcStepsjson)
+                End If
+                Dim Reportjson As String = System.IO.File.ReadAllText(MainForm.JsonReportFile_STD)
+                MainForm.ReportTemplate = JsonConvert.DeserializeObject(Of OpenPdfOperation_x64.Template)(Reportjson)
 
                 Dim TotalInspectionSteps = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_steps)("STEP_NO", "%", ErrMsg).OrderBy(Function(y) y.SLNO).ToList
                 If ErrMsg.Length > 0 Then
@@ -129,10 +137,16 @@
                 'All Station Inspection Step Check
                 If TotalStepsInspected.Length = TotalInspectionSteps.Count Then 'If all Inspection Done
                     If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
-                        MainForm.PrintQcc_Rev1()
+                        If MainForm.CurrentQCC_Version = "1.4" Then
+                            'MainForm.PrintQcc_Rev2()
+                        Else
+                            MainForm.PrintQcc_Rev1()
+                        End If
                         Exit Sub
                     Else
                         If MsgBox("Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                            MsgBox("Canceled current Operation.", MsgBoxStyle.OkCancel)
+                            TextBox_Scan.Text = ""
                             Exit Sub
                         Else
                             MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
@@ -163,34 +177,48 @@
 #End Region
 
 
-                MainForm.QcData = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                If MainForm.CurrentQCC_Version = "1.4" Then
+                    MainForm.QcData_1p4 = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p4)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
                     If ErrMsg.Length > 0 Then
                         Label_Message.Text = ErrMsg
                         Exit Sub
                     End If
+                Else
+                    MainForm.QcData_1p3 = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        Label_Message.Text = ErrMsg
+                        Exit Sub
+                    End If
+                End If
 
-                    'Once reaches upto here, then the application is allowing user to do remaining inspections.
-                    'So before proceeding, it will fill HiPOT, CRC & Plate status for further use.
-                    'So get that and allocate to variable.
 
-                    'Get HIPOT Result
-                    If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("130_01_00")) = "130_01_00" Or
+                'Once reaches upto here, then the application is allowing user to do remaining inspections.
+                'So before proceeding, it will fill HiPOT, CRC & Plate status for further use.
+                'So get that and allocate to variable.
+
+                'Get HIPOT Result
+                If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("130_01_00")) = "130_01_00" Or
                         Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("140_01_00")) = "140_01_00" Or
                         Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("180_01_00")) = "180_01_00" Then
 
-                        Dim Hipots = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.hipot_tb)("index_no", MainForm.CustOrd.INDEX_NO, "index_no", MainForm.CustOrd.INDEX_NO, ErrMsg)
-                        If Hipots.Count > 0 Then
-                            MainForm.Hipot = Hipots.Where(Function(x) x.rec_no = (Hipots.Max(Function(y) y.rec_no))).FirstOrDefault
-                            If ErrMsg.Length > 0 Then
-                                Label_Message.Text = ErrMsg
-                                Exit Sub
-                            End If
-                        Else
-                            MainForm.Hipot = New POCO_YGSP.hipot_tb
-                            MainForm.Hipot.acw_test_result = "NA"
-                            MainForm.Hipot.ir_test_result = "NA"
+                    Dim Hipots = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.hipot_tb)("index_no", MainForm.CustOrd.INDEX_NO, "index_no", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                    If Hipots.Count > 0 Then
+                        MainForm.Hipot = Hipots.Where(Function(x) x.rec_no = (Hipots.Max(Function(y) y.rec_no))).FirstOrDefault
+                        If ErrMsg.Length > 0 Then
+                            Label_Message.Text = ErrMsg
+                            Exit Sub
                         End If
+                    Else
+                        MainForm.Hipot = New POCO_YGSP.hipot_tb
+                        MainForm.Hipot.acw_test_result = "NA"
+                        MainForm.Hipot.ir_test_result = "NA"
                     End If
+                Else
+                    MainForm.Hipot = New POCO_YGSP.hipot_tb
+                    MainForm.Hipot.acw_test_result = "NA"
+                    MainForm.Hipot.ir_test_result = "NA"
+                End If
+
 
                 'Get CRC Result
                 If Array.Find(MainForm.AllowedSteps, Function(x) x.StartsWith("150_01_00")) = "150_01_00" Or

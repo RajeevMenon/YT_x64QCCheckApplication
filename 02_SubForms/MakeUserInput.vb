@@ -138,20 +138,20 @@
                                 WMsg.ShowDialog()
                                 Exit Sub
                             End If
-                            If Link.PlanID = "6Z00" Then
+                            If Link.PlantID = "6Z00" Then
                                 If Not (SerialScan Like "[9Y][014]???????") Then
                                     WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
                                     WMsg.ShowDialog()
                                     Exit Sub
                                 End If
-                            ElseIf Link.PlanID = "5Q00" Then
+                            ElseIf Link.PlantID = "5Q00" Then
                                 If Not (SerialScan Like "[SY][53]???????") Then
                                     WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
                                     WMsg.ShowDialog()
                                     Exit Sub
                                 End If
                             Else
-                                WMsg.Message = "Error: Unknown Plant ID:" & Link.PlanID
+                                WMsg.Message = "Error: Unknown Plant ID:" & Link.PlantID
                                 WMsg.ShowDialog()
                             End If
                         End If

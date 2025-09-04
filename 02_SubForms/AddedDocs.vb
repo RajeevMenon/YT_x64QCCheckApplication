@@ -131,7 +131,7 @@
                     AddedDocErrorMessage = ""
                     If CustOrd.MS_CODE Like "YTA[67]??-???????*" Then
                         'NonRoHS only for 5Q00
-                        If Link.PlanID = "5Q00" Then
+                        If Link.PlantID = "5Q00" Then
                             Dim TmlEntity As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
                             Dim ErrMsg As String = ""
                             Dim Non_RoHS = TmlEntity.GetDatabaseTableAs_List(Of POCO_YGSP.non_rohs)("MS_CODE", "%", "MS_CODE", "%", ErrMsg)

@@ -1,77 +1,77 @@
-﻿Public Class YTA_CheckSheet_v1m2s_R0
+﻿Public Class YTA_CheckSheet_v1p3
 
     Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
     Dim WMsg As New WarningForm
 
 #Region "Common"
-
     Public Shared Function ProcessStepNo(ByVal StepNo As String, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
 
             'BUILD
-            If StepNo = "20_00_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo20_00_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "20_00_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo20_00_01(Initial, CustOrd, ErrMsg)
-            If StepNo = "20_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo20_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo30_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo30_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo30_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo30_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "40_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo40_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "50_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo50_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "60_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo60_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "60_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo60_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "70_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo70_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "70_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo70_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "80_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo80_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "90_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo90_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "100_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo100_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "110_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo110_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "110_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo110_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo120_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo120_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo120_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo120_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo120_05_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "20_00_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_00_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "20_00_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_00_01(Initial, CustOrd, ErrMsg)
+            If StepNo = "20_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "30_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "30_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "30_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_03_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "30_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_04_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "40_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo40_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "50_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo50_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "60_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo60_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "60_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo60_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "70_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo70_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "70_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo70_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "80_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo80_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "90_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo90_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "100_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo100_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "110_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo110_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "110_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo110_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "120_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "120_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "120_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_03_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "120_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_04_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "120_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_05_00(Initial, CustOrd, ErrMsg)
             'HIPOT
-            If StepNo = "130_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo130_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "140_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo140_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "130_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo130_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "140_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo140_01_00(Initial, CustOrd, ErrMsg)
             'YTACRC
-            If StepNo = "150_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo150_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "150_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo150_01_00(Initial, CustOrd, ErrMsg)
             'FINALASSY
-            If StepNo = "160_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo160_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "170_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo170_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "170_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo170_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "180_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo180_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "180_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo180_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "180_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo180_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_05_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_06_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_07_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_08_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_09_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_09_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_10_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_10_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_11_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_11_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_12_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_12_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_12_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_12_01(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_13_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_13_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_14_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_14_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_15_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_15_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_16_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo190_16_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "160_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo160_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "170_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo170_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "170_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo170_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "180_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "180_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "180_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_03_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_03_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_04_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_05_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_06_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_07_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_08_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_09_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_09_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_10_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_10_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_11_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_11_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_12_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_12_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_12_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_12_01(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_13_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_13_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_14_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_14_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_15_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_15_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "190_16_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_16_00(Initial, CustOrd, ErrMsg)
             'PACKING
-            If StepNo = "200_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_05_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_06_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_07_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1m2s).ProcessStepNo200_08_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_01_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_02_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_03_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_04_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_05_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_05_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_05_01(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_06_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_07_00(Initial, CustOrd, ErrMsg)
+            If StepNo = "200_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_08_00(Initial, CustOrd, ErrMsg)
 
 
             MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
@@ -219,7 +219,7 @@
             ProcessStepReturn.ActivityToCheck = "Prepare Data Plates with correct COO."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the COO printed In the plate."
             ProcessStepReturn.UserInputAction.UserInputList = {"Made In China", "Made In Japan", "Made In KSA", "Made In Singapore"}
-            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
+            If (CustOrd.SERIAL_NO Like "Y3*" Or CustOrd.SERIAL_NO Like "S5???????-M") And CustOrd.EU_COUNTRY = "SA" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
                 ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
             ElseIf CustOrd.MS_CODE Like "*/JP*" Or CustOrd.SERIAL_NO Like "Y4*" Then
@@ -692,8 +692,8 @@
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "110"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.Activity = "Ground Screws Fixing/DLM QR Label Fixing"
-            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
+            ProcessStepReturn.Activity = "Ground Screws attach to Unit"
+            ProcessStepReturn.ToCheck = "INTERNAL & EXTERNAL GROUND SCREW ON CASE"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
 
@@ -724,14 +724,14 @@
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "110"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.Activity = "Ground Screws Fixing/DLM QR Label Fixing"
-            ProcessStepReturn.ToCheck = "FIXED INTERNAL & EXTERNAL/FIXED QR LABEL AT PROPER PLACE ON CASE"
+            ProcessStepReturn.Activity = "DLM QR Nameplate Fixing"
+            ProcessStepReturn.ToCheck = "Name plate with QR-Image is prepared"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
 
             ProcessStepReturn.StepNo = "110_02_00"
-            ProcessStepReturn.ActivityToCheck = "DLM QR Label Fixing"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "[Affix QR Label] Confirm QR Label Attached"
+            ProcessStepReturn.ActivityToCheck = "Name plate with QR Image"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm Nameplate with QR image is prepared"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithOutQR_Label.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithQR_Label.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithQR_Label.jpg"
@@ -1188,7 +1188,7 @@
             Dim lotNo As String = MainForm.CustOrd.SHIP_LOT
             If Not IsNumeric(lotNo) Then
                 ErrMsg = "Lot No. is not readable from database."
-                Exit Function
+                Return Nothing
             End If
             If Not (System.IO.Directory.Exists(QicFolerPath & lotNo)) Then
                 System.IO.Directory.CreateDirectory(QicFolerPath & lotNo)
@@ -1275,11 +1275,6 @@
                     End If
                 Else
                     Dim QicFile As String = QicPath & CustOrd.SERIAL_NO & "_DEV.xls"
-                    'Dim ExpExl As New ExportExcel
-                    'ExpExl.ExcelSheet1_SaveAsPdf(QicFile, TargetFile, ErrMsg)
-                    'If Len(ErrMsg) > 0 Then
-                    '    Exit Function
-                    'End If
                     Dim ExcelWorkBook As Spire.Xls.Workbook = New Spire.Xls.Workbook()
                     ExcelWorkBook.LoadFromFile(QicFile)
                     ExcelWorkBook.Worksheets(0).PageSetup.IsFitToPage = True
@@ -1325,7 +1320,7 @@
             End If
 
             Dim COO As String = ""
-            If CustOrd.SERIAL_NO Like "Y3*" And CustOrd.EU_COUNTRY = "SA" Then
+            If (CustOrd.SERIAL_NO Like "Y3*" Or CustOrd.SERIAL_NO Like "S5???????-M") And CustOrd.EU_COUNTRY = "SA" Then
                 COO = "Made In KSA"
             ElseIf CustOrd.MS_CODE Like "*/JP*" Then
                 COO = "Made In Japan"
@@ -1333,18 +1328,18 @@
                 COO = "Made In China"
             End If
             If System.IO.File.Exists(BlankDoc) Then
-                Dim P_Doc = OpenPdfOperation.FileOp.GetDocument(BlankDoc, ErrMsg)
-                Dim FontToWrite As OpenPdfOperation.FileOp.FontName = OpenPdfOperation.FileOp.FontName.Arial
+                Dim P_Doc = OpenPdfOperation_x64.FileOp.GetDocument(BlankDoc, ErrMsg)
+                Dim FontToWrite As OpenPdfOperation_x64.FileOp.FontName = OpenPdfOperation_x64.FileOp.FontName.Arial
 
-                Dim WPS As New List(Of OpenPdfOperation.WriteTextParameters)
+                Dim WPS As New List(Of OpenPdfOperation_x64.WriteTextParameters)
 
                 Dim WriteS As Integer = 10
                 Dim WriteX As Double = 54
                 Dim WriteY As Double = 23.2
-                Dim WP1 As New OpenPdfOperation.WriteTextParameters With {
+                Dim WP1 As New OpenPdfOperation_x64.WriteTextParameters With {
                                             .Name = FontToWrite,
-                                            .Colour = OpenPdfOperation.FileOp.FontColor.Black,
-                                            .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                            .Colour = OpenPdfOperation_x64.FileOp.FontColor.Black,
+                                            .Style = OpenPdfOperation_x64.FileOp.FontStyle.Regular,
                                             .TextSize = Integer.Parse(WriteS),
                                             .TextValue = CustOrd.KCC_DATE,
                                             .X_Position = CDbl(WriteX / 100),
@@ -1353,10 +1348,10 @@
                 WriteS = 10
                 WriteX = 51
                 WriteY = 37.5
-                Dim WP2 As New OpenPdfOperation.WriteTextParameters With {
+                Dim WP2 As New OpenPdfOperation_x64.WriteTextParameters With {
                                             .Name = FontToWrite,
-                                            .Colour = OpenPdfOperation.FileOp.FontColor.Black,
-                                            .Style = OpenPdfOperation.FileOp.FontStyle.Regular,
+                                            .Colour = OpenPdfOperation_x64.FileOp.FontColor.Black,
+                                            .Style = OpenPdfOperation_x64.FileOp.FontStyle.Regular,
                                             .TextSize = Integer.Parse(WriteS),
                                             .TextValue = COO,
                                             .X_Position = CDbl(WriteX / 100),
@@ -1364,7 +1359,7 @@
 
                 WPS.Add(WP1)
                 WPS.Add(WP2)
-                OpenPdfOperation.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+                OpenPdfOperation_x64.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
 
                 P_Doc.Save(FinalDoc)
             End If
@@ -1480,7 +1475,7 @@ FixVar3:
             Dim Range As String
             Dim Randm As Random = New Random
             Dim Mscode = CustOrd.MS_CODE
-            If Mscode Like "YTA???-??2*" Then
+            If Mscode Like "YTA???-??2*" And CustOrd.ORD_INST_CONTECT1_W24 <> "RTD PT100 4WIRE" Then
                 Range_1 = "S1: " & CustOrd.ORD_INST_MIN_T70 & " TO " & CustOrd.ORD_INST_MAX_T70 & " " & CustOrd.UNIT_T70
                 Range_2 = "S2: " & CustOrd.ORD_INST_MIN_T71 & " TO " & CustOrd.ORD_INST_MAX_T71 & " " & CustOrd.UNIT_T71
                 Dim I1 As Integer = 0
@@ -1797,13 +1792,13 @@ FixVar3:
 
             ProcessStepReturn.ProcessNo = "190"
             ProcessStepReturn.ProcessStep = "QR Label"
-            ProcessStepReturn.Activity = "Scan QR Label to ensure correct Printing?"
-            ProcessStepReturn.ToCheck = "Correct QR Label Prepared"
+            ProcessStepReturn.Activity = "Scan QR to ensure correctmess of Data"
+            ProcessStepReturn.ToCheck = "Correct Nameplate with QR is Prepared"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.MakeUsrInpt
 
             ProcessStepReturn.StepNo = "190_12_01"
-            ProcessStepReturn.ActivityToCheck = "QR Label print correctness"
-            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR Label prepared for this job?"
+            ProcessStepReturn.ActivityToCheck = "QR code correctness"
+            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR on the Nameplate of the unit"
             ProcessStepReturn.MakeUserInputAction.UserInputOld = ""
             ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
             ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK" 'only check for "MFR:YOKOGAWA;CAT:EXT S/N;S/N:"
@@ -1854,11 +1849,11 @@ FixVar3:
 
             ProcessStepReturn.StepNo = "190_14_00"
             ProcessStepReturn.ActivityToCheck = "/N4 Tag Plate Fixed?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag plate fixed correctly  YES  ||  NO"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Check /N4 Tag plate fixed correctly with RING (F9900GG)  YES  ||  NO"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\190\" & "N4_PlateYTA.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If CustOrd.MS_CODE Like "YTA???-???????*/N4*" Then
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "N4_PlateYTA.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             Else
@@ -1913,32 +1908,53 @@ FixVar3:
     End Function
     Public Function ProcessStepNo190_16_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
-
-            Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "190"
-            ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
-            ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
-            ProcessStepReturn.ToCheck = "Correct || Not Correct"
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-            ProcessStepReturn.Initial = Initial
-
-            ProcessStepReturn.StepNo = "190_16_00"
-            ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket Parts correct?"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If Not (CustOrd.MS_CODE Like "YTA???-??????N*") Then
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                Dim ProcessStepReturn As New CheckSheetStep
+                ProcessStepReturn.ProcessNo = "190"
+                ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
+                ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
+                ProcessStepReturn.ToCheck = "Correct || Not Correct"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.ProcedureStep
+                ProcessStepReturn.Initial = Initial
+
+                ProcessStepReturn.StepNo = "190_16_00"
+                ProcessStepReturn.ActivityToCheck = "Mounting Bracket Check"
+                ProcessStepReturn.ProcedureStepAction.ProcedureMessage = "Is all the items as below is Available?"
+                ProcessStepReturn.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.CenterImage
+                If CustOrd.MS_CODE Like "YTA???-??????B*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_B_Bracket.jpg"
+                ElseIf CustOrd.MS_CODE Like "YTA???-??????D*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_D_Bracket.jpg"
+                ElseIf CustOrd.MS_CODE Like "YTA???-??????J*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_J_Bracket.jpg"
+                ElseIf CustOrd.MS_CODE Like "YTA???-??????K*" Then
+                    ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
+                End If
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
+                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
+                Return ProcessStepReturn
             Else
+                Dim ProcessStepReturn As New CheckSheetStep
+                ProcessStepReturn.ProcessNo = "190"
+                ProcessStepReturn.ProcessStep = "Visually Inspect Unit"
+                ProcessStepReturn.Activity = "Display||Clean||Lock Screw||Approval Plate||Tag Plate||N4 Plate||N4 Tagnumber||Bracket"
+                ProcessStepReturn.ToCheck = "Correct || Not Correct"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+
+                ProcessStepReturn.StepNo = "190_16_00"
+                ProcessStepReturn.ActivityToCheck = "Mounting Bracket Correct?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Bracket Parts correct?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_1900_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_1900_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
-            End If
-            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
-            Return ProcessStepReturn
+                ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_1900_Position_Initial.Replace("Initial", Initial)
+                Return ProcessStepReturn
 
+            End If
 
         Catch ex As Exception
             Return Nothing
@@ -2002,44 +2018,6 @@ FixVar3:
             Return Nothing
         End Try
     End Function
-    'Public Function ProcessStepNo200_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-    '    Try
-
-    '        Dim ProcessStepReturn As New CheckSheetStep
-    '        ProcessStepReturn.ProcessNo = "200"
-    '        ProcessStepReturn.ProcessStep = "Packing"
-    '        ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
-    '        ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
-    '        ProcessStepReturn.Method = CheckSheetStep.MethodOption.AddedDocs
-    '        ProcessStepReturn.Initial = Initial
-
-    '        ProcessStepReturn.StepNo = "200_02_00"
-    '        ProcessStepReturn.ActivityToCheck = "Scan QR-code of IM,SafetyIM,EU-Doc etc, if any."
-    '        If Integer.Parse(CustOrd.QTY_NO) = 1 And CustOrd.MS_CODE Like "YTA*/K[UFS]*" Then
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_IM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_EUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        ElseIf Integer.Parse(CustOrd.QTY_NO) = 1 And Not (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_IM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoEUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        ElseIf Integer.Parse(CustOrd.QTY_NO) <> 1 And (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoIM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_EUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        Else
-    '            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoIM.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '            ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_NoEUDoC.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-    '        End If
-
-    '        Return ProcessStepReturn
-
-
-    '    Catch ex As Exception
-    '        Return Nothing
-    '    End Try
-    'End Function
     Public Function ProcessStepNo200_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -2127,18 +2105,70 @@ FixVar3:
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
             If CustOrd.MS_CODE Like "YTA???-??????N*" Then
-                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Kept Inside Box?"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Is there any Mounting Brackets kept inside Box?  YES  ||  NO"
+                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Selection"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is Mounting Bracket Required for this Job?  YES  ||  NO"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(1)
             Else
-                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Kept Inside Box?"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "Is the Mounting Brackets kept inside Box?  YES  ||  NO"
+                ProcessStepReturn.ActivityToCheck = "Mounting Brackets Selection"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Is Mounting Bracket Required for this Job?  YES  ||  NO"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
                 ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_2000_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_2000_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             End If
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo200_05_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "200"
+            ProcessStepReturn.ProcessStep = "Packing"
+            ProcessStepReturn.Activity = "UnitKept||IM||EuDOC||QIC||Bracket||VisualCheck||Markings||OrderTag"
+            ProcessStepReturn.ToCheck = "Correct||Not Correct||Details"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+
+            ProcessStepReturn.StepNo = "200_05_01"
+
+            If CustOrd.MS_CODE Like "YTA???-??????B*" Then
+                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_J_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_B_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_B_Bracket.jpg"
+            ElseIf CustOrd.MS_CODE Like "YTA???-??????D*" Then
+                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_D_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_D_Bracket.jpg"
+            ElseIf CustOrd.MS_CODE Like "YTA???-??????J*" Then
+                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_J_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_B_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_J_Bracket.jpg"
+            ElseIf CustOrd.MS_CODE Like "YTA???-??????K*" Then
+                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_D_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "YTA_K_Bracket.jpg"
+            ElseIf CustOrd.MS_CODE Like "YTA???-??????N*" Then
+                ProcessStepReturn.ActivityToCheck = "Which type of Mounting Brackets is Prepared?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Mounting Bracket Type"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\210\" & "YTA_K_Bracket.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Applicable.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Not Applicable.jpg"
+            End If
+            ProcessStepReturn.Result = ""
             Return ProcessStepReturn
 
 
