@@ -130,6 +130,9 @@
     <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
     </Reference>
+    <Reference Include="POCO_PMS">
+      <HintPath>..\..\OTHERS\MVC_MODEL\POCO_PMS\bin\Debug\POCO_PMS.dll</HintPath>
+    </Reference>
     <Reference Include="POCO_QA">
       <HintPath>..\..\OTHERS\MVC_MODEL\POCO_QA\bin\Debug\POCO_QA.dll</HintPath>
     </Reference>

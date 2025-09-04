@@ -1,86 +1,104 @@
 ﻿Public Class YTA_CheckSheet_v1p3
 
-    Dim TmlEntityYGS As New MFG_ENTITY.Op(MainForm.Setting.Var_03_MySql_YGSP)
+    Dim TmlEntityYGS As New MFG_ENTITY.Op(Link.Mysql_YGSP_ConStr)
     Dim WMsg As New WarningForm
 
 #Region "Common"
     Public Shared Function ProcessStepNo(ByVal StepNo As String, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
-
             Dim ProcessStepReturn As New CheckSheetStep
-
-            'BUILD
-            If StepNo = "20_00_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_00_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "20_00_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_00_01(Initial, CustOrd, ErrMsg)
-            If StepNo = "20_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "30_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "40_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo40_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "50_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo50_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "60_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo60_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "60_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo60_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "70_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo70_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "70_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo70_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "80_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo80_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "90_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo90_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "100_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo100_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "110_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo110_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "110_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo110_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "120_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_05_00(Initial, CustOrd, ErrMsg)
-            'HIPOT
-            If StepNo = "130_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo130_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "140_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo140_01_00(Initial, CustOrd, ErrMsg)
-            'YTACRC
-            If StepNo = "150_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo150_01_00(Initial, CustOrd, ErrMsg)
-            'FINALASSY
-            If StepNo = "160_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo160_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "170_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo170_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "170_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo170_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "180_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "180_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "180_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_05_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_06_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_07_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_08_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_09_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_09_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_10_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_10_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_11_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_11_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_12_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_12_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_12_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_12_01(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_13_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_13_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_14_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_14_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_15_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_15_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "190_16_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_16_00(Initial, CustOrd, ErrMsg)
-            'PACKING
-            If StepNo = "200_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_01_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_02_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_03_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_04_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_05_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_05_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_05_01(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_06_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_07_00(Initial, CustOrd, ErrMsg)
-            If StepNo = "200_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_08_00(Initial, CustOrd, ErrMsg)
-
-
+            Dim stepMethodName As String = "ProcessStepNo" & StepNo
+            Dim checker As New YTA_CheckSheet_v1p3
+            Dim methodInfo = checker.GetType().GetMethod(stepMethodName)
+            If methodInfo IsNot Nothing Then
+                ProcessStepReturn = methodInfo.Invoke(checker, New Object() {Initial, CustOrd, ErrMsg})
+            Else
+                ' Handle unknown step
+                ErrMsg = "Invalid StepNo: " & StepNo
+            End If
             MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
-
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
         End Try
     End Function
+    'Public Shared Function ProcessStepNo(ByVal StepNo As String, ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+    '    Try
+
+    '        Dim ProcessStepReturn As New CheckSheetStep
+
+    '        'BUILD
+    '        If StepNo = "20_00_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_00_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "20_00_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_00_01(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "20_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo20_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "30_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "30_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "30_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_03_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "30_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo30_04_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "40_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo40_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "50_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo50_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "60_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo60_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "60_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo60_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "70_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo70_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "70_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo70_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "80_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo80_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "90_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo90_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "100_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo100_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "110_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo110_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "110_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo110_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "120_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "120_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "120_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_03_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "120_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_04_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "120_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo120_05_00(Initial, CustOrd, ErrMsg)
+    '        'HIPOT
+    '        If StepNo = "130_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo130_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "140_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo140_01_00(Initial, CustOrd, ErrMsg)
+    '        'YTACRC
+    '        If StepNo = "150_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo150_01_00(Initial, CustOrd, ErrMsg)
+    '        'FINALASSY
+    '        If StepNo = "160_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo160_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "170_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo170_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "170_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo170_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "180_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "180_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "180_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo180_03_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_03_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_04_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_05_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_06_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_07_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_08_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_09_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_09_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_10_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_10_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_11_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_11_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_12_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_12_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_12_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_12_01(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_13_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_13_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_14_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_14_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_15_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_15_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "190_16_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo190_16_00(Initial, CustOrd, ErrMsg)
+    '        'PACKING
+    '        If StepNo = "200_01_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_01_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_02_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_02_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_03_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_03_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_04_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_04_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_05_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_05_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_05_01" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_05_01(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_06_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_06_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_07_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_07_00(Initial, CustOrd, ErrMsg)
+    '        If StepNo = "200_08_00" Then ProcessStepReturn = (New YTA_CheckSheet_v1p3).ProcessStepNo200_08_00(Initial, CustOrd, ErrMsg)
+
+
+    '        MainForm.SetInspectionColor(StepNo.ToString, ProcessStepReturn.ProcessNo)
+
+    '        Return ProcessStepReturn
+    '    Catch ex As Exception
+    '        Return Nothing
+    '    End Try
+    'End Function
 #End Region
 
 #Region "Version 1.2"

@@ -9,6 +9,7 @@
 '    Public Const FE0_File As String = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=$$$\FE0_YMA.mdb" 'Replace, $$$ with Application.StartupPath or As needed
 '    Public Const Mysql_YGSP_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
 '    Public Const Mysql_QA_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
+'Public Const Mysql_PMS_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_PMS;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
 '    Public Const ServerDB As String = "LIVE_YGSP"
 '    Public Const FactoryNetwork As Initialize.FACTORY = Initialize.FACTORY._YKSA_M_NET
 '    Public Const FactoryQA As String = "A.Ahmed"
@@ -46,6 +47,7 @@
 '    Public Const FE0_File As String = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=$$$\FE0_YMA.mdb" 'Replace, $$$ with Application.StartupPath or As needed
 '    Public Const Mysql_YGSP_ConStr As String = "Server=192.168.151.12;Port=4600;Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
 '    Public Const Mysql_QA_ConStr As String = "Server=192.168.151.12;Port=4600;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
+'Public Const Mysql_PMS_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_PMS;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
 '    Public Const ServerDB As String = "LIVE_YGSP"
 '    Public Const FactoryNetwork As Initialize.FACTORY = Initialize.FACTORY._YKSA_F_NET
 '    Public Const FactoryQA As String = "A.Ahmed"
@@ -83,7 +85,8 @@
 '    Public Const FE0_File As String = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=$$$\FE0_YMA.mdb" 'Replace, $$$ with Application.StartupPath or As needed
 '    Public Const Mysql_YGSP_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
 '    Public Const Mysql_QA_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
-'    Public Const ServerDB As String = "LIVE_YGSP"
+'Public Const Mysql_PMS_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_PMS;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
+'   Public Const ServerDB As String = "LIVE_YGSP"
 '    Public Const FactoryNetwork As Initialize.FACTORY = Initialize.FACTORY._YUAE_M_NET
 '    Public Const FactoryQA As String = "K.Gim"
 '    Public Const Factory As String = "1"
@@ -122,6 +125,7 @@
 '    Public Const FE0_File As String = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=$$$\FE0_YMA.mdb" 'Replace, $$$ with Application.StartupPath or As needed
 '    Public Const Mysql_YGSP_ConStr As String = "Server=" & ServerAddress & ";Port=4600;Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
 '    Public Const Mysql_QA_ConStr As String = "Server=" & ServerAddress & ";Port=4600;Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
+'Public Const Mysql_PMS_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_PMS;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
 '    Public Const ServerDB As String = "LIVE_YGSP"
 '    Public Const FactoryNetwork As Initialize.FACTORY = Initialize.FACTORY._YUAE_F_NET
 '    Public Const FactoryQA As String = "K.Gim"
@@ -161,6 +165,7 @@ Public NotInheritable Class Link
     Public Const FE0_File As String = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=$$$\FE0_YMA.mdb" 'Replace, $$$ with Application.StartupPath or As needed
     Public Const Mysql_YGSP_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_YGSP;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
     Public Const Mysql_QA_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_QA;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
+    Public Const Mysql_PMS_ConStr As String = "Server=" & ServerAddress & ";Port=" & PortNo & ";Database=LIVE_PMS;Uid=PRDSCH;Pwd=LMLINE;CharSet=utf8;"
     Public Const ServerDB As String = "LIVE_YGSP"
     Public Const FactoryNetwork As Initialize.FACTORY = Initialize.FACTORY._YKSA_M_NET
     Public Const FactoryQA As String = "A.Muteb"

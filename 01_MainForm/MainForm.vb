@@ -1,5 +1,6 @@
 ﻿
 Imports Newtonsoft.Json
+Imports Spire.Pdf.Exporting
 
 Public Class MainForm
 
@@ -840,6 +841,7 @@ Public Class MainForm
     Public Shared AllowedSteps As String()
     Public Shared AllCheckResult As CheckSheetStep()
     Dim TmlEntityQA As MFG_ENTITY.Op
+    Dim TmlEntityYGS As New MFG_ENTITY.Op(Link.Mysql_YGSP_ConStr)
     Dim WMsg As New WarningForm
 
     'PdfReportTool
@@ -1611,6 +1613,10 @@ LoopFinished:
             If QcData_1p3.Count > 0 Then
                 Dim BlankDoc As String = Setting.Var_06_DocsStore & "Production Release Documents\QC Check Sheets\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
                 Dim FinalDoc As String = Setting.Var_06_DocsStore & "Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+                If SaveFinalDoc = False Then
+                    Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+                    FinalDoc = FinalFileName
+                End If
                 Dim UseDoc As New PdfSharp.Pdf.PdfDocument
                 If System.IO.File.Exists(FinalDoc) Then
                     Dim P_Doc = OpenPdfOperation_x64.FileOp.GetDocument(BlankDoc, ErrMsg)
@@ -1707,46 +1713,301 @@ LoopFinished:
     Public Sub PrintQcc_Rev1()
         Try
 
+            If IsDate(CustOrd.ACTUAL_FINISH_DATE) Then
+                If My.Settings.Login <> "46501497" Then
+                    WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+                    WMsg.ShowDialog()
+                    Exit Sub
+                Else
+                    If MsgBox($"USER:{ My.Settings.Login} Do you want to run PrintQcc_Rev1() again with the DB CheckResult values and Print QCC?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                        WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    End If
+                End If
+            End If
+
             Dim ErrMsg As String = ""
             QcData_1p3 = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
             If QcData_1p3.Count > 0 Then
-                Dim BlankDoc As String = Setting.Var_06_DocsStore & "\Production Release Documents\QC Check Sheets\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "-(Qty " & CustOrd.TOT_QTY & " Pcs)\" & CustOrd.INDEX_NO & "-QCSHEET.pdf"
+                RefreshSettings(Link.Network)
+                Dim QcChecksheet As String = "YMA-TML-SF-16-v1p3-STD.pdf"
+                Dim BlankDoc = Application.StartupPath & $"\05_Report_Templates\{QcChecksheet}"
                 Dim FinalDoc As String = Setting.Var_06_DocsStore & "\Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+                If SaveFinalDoc = False Then
+                    Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+                    FinalDoc = FinalFileName
+                End If
 
-                Dim UseDoc As New PdfSharp.Pdf.PdfDocument
-                If System.IO.File.Exists(BlankDoc) Then
-                    Dim P_Doc = OpenPdfOperation_x64.FileOp.GetDocument(BlankDoc, ErrMsg)
 
-                    QcData_1p3 = QcData_1p3.OrderBy(Function(x) Integer.Parse(x.PROCESS_NO)).ToList
+#Region "Fill Param Array  --YMA-TML-SF-16 Rev 1.2"
 
-                    For Each QcWrite In QcData_1p3
-                        If QcWrite.INDEX_NO.ToString.Length > 0 Then
 
-                            If QcWrite.PROCESS_NO = "200" Then
-                                Dim Stopehere As String = ""
-                            End If
+                Dim TextValue_SF16 As String = "This is a Test Text"
+                Dim xPos_SF16 As Double = 0 'CDbl(PdfPage.Width) * CDbl(TextBox1.Text)
+                Dim yPos_SF16 As Double = 0 'CDbl(PdfPage.Height) * CDbl(TextBox2.Text)
+                Dim FontName_SF16 As String = "Arial" '"Verdana" '"Arial"
+                Dim FontSize_SF16 As String = "10" '"12" '"10"
+                Dim FontThick_SF16 As String = "Regular" '"Bold" '"Regular"
+                Dim FontColor_SF16 As String = "Black"
+                Dim FontSize_Small As String = "8" '"12" '"10"
 
-                            Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
-                            For Each WriteParam In WriteParams
-                                Dim WriteInput = WriteParam.Split("-")(0)
-                                WriteInput = WriteInput.Replace("|", "-")
-                                Dim WriteSXY = WriteParam.Split("-")(1)
-                                Dim WriteS = WriteSXY.Split(",")(0)
-                                Dim WriteX = WriteSXY.Split(",")(1)
-                                Dim WriteY = WriteSXY.Split(",")(2)
-                                Dim TextToWrite As String = WriteInput
-                                Dim FontToWrite As OpenPdfOperation_x64.FileOp.FontName = OpenPdfOperation_x64.FileOp.FontName.Arial
-                                If WriteInput = "Tick" Then
-                                    TextToWrite = "ü"
-                                    FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
-                                ElseIf WriteInput = "Circle" Then
-                                    TextToWrite = "¡"
-                                    FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
-                                ElseIf WriteInput = "Cross" Then
-                                    TextToWrite = "û"
-                                    FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
+
+                Dim Mark_YTA_Index As String = CustOrd.INDEX_NO
+                Dim Mark_YTA_OrderNo As String = CustOrd.PROD_NO & "    Line: " & CustOrd.LINE_NO
+                Dim Mark_MsCode_Before As String = CustOrd.MS_CODE_BEFORE
+                Dim Mark_MsCode_After As String = CustOrd.MS_CODE
+                Dim Mark_Serial_After As String = CustOrd.SERIAL_NO
+                Dim Mark_PlateDataCorrect As String = ""
+                Dim Mark_IM As String = ""
+                Dim Mark_SafetyIM As String = ""
+                Dim Mark_Header As String = ""
+                Dim Mark_XJ_18 As String = "" '2 line Tag XJYTA710-18
+                If CustOrd.XJ_NO = "XJYTA710-18" Then
+                    Mark_XJ_18 = "(/Z → 2-LINE-TAG)"
+                Else
+                    Mark_XJ_18 = ""
+                End If
+                Dim Mark_XJ_24 As String = "" '5 Point IO XJYTA710-24
+                If CustOrd.XJ_NO = "XJYTA710-24" Then
+                    Mark_XJ_24 = "(/Z → 9P-I/O)"
+                Else
+                    Mark_XJ_24 = ""
+                End If
+
+                Dim BomLines = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.common_bom_reserve_list)("RESNO", CoHeader.RESERVATION_NO, ErrMsg:=ErrMsg)
+                If ErrMsg.Length > 0 Then
+                    WMsg.Message = "common_bom_reserve_list Read Error: " & ErrMsg
+                    WMsg.ShowDialog()
+                    Exit Sub
+                End If
+                If BomLines.Count = 0 Then
+                    Dim BomLinesIssued = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.common_bom_reserve_list_issued)("RESNO", CoHeader.RESERVATION_NO, ErrMsg:=ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        WMsg.Message = "common_bom_reserve_list Read Error: " & ErrMsg
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    End If
+                    If BomLinesIssued.Count = 0 Then
+                        WMsg.Message = $"BOM {CoHeader.RESERVATION_NO} does not contains any YTA units"
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    Else
+                        Dim PartCount = 0
+                        For Each part In BomLinesIssued
+                            If part.PARTNO Like "YTA*" Then
+                                If part.PARTNO Like "*2007098838*" Then
+                                    If CustOrd.QTY_NO = "01" Then
+                                        Mark_PlateDataCorrect = "YES without CE"
+                                        Mark_IM = "IM [Ed.7/21-YKSA]"
+                                        Mark_SafetyIM = "SafetyIM [Ed.1]"
+                                        Mark_Header = "non-RoHS10"
+                                        PartCount += 1
+                                    Else
+                                        Mark_PlateDataCorrect = "YES without CE"
+                                        Mark_IM = "IM and SafetyIM not required"
+                                        Mark_SafetyIM = ""
+                                        Mark_Header = "non-RoHS10"
+                                        PartCount += 1
+                                    End If
+                                Else
+                                    If CustOrd.QTY_NO = "01" Then
+                                        Mark_PlateDataCorrect = "YES with CE"
+                                        Mark_IM = "IM [Ed.7/21-0006]"
+                                        Mark_SafetyIM = "SafetyIM [Ed.1]"
+                                        Mark_Header = ""
+                                    Else
+                                        Mark_PlateDataCorrect = "YES with CE"
+                                        Mark_IM = "IM and SafetyIM not required"
+                                        Mark_SafetyIM = ""
+                                        Mark_Header = ""
+                                    End If
                                 End If
-                                Dim WP As New OpenPdfOperation_x64.WriteTextParameters With {
+                            End If
+                        Next
+                        If PartCount > 1 Then
+                            ErrMsg = "Only 1 type of RoHS-6 YTA can be added"
+                            WMsg.Message = "QCC File Print Error: " & ErrMsg
+                            WMsg.ShowDialog()
+                            Exit Sub
+                        End If
+                    End If
+                Else
+                    Dim PartCount = 0
+                    For Each part In BomLines
+                        If part.PARTNO Like "YTA*" Then
+                            If part.PARTNO Like "*2007098838*" Then
+                                If CustOrd.QTY_NO = "01" Then
+                                    Mark_PlateDataCorrect = "YES without CE"
+                                    Mark_IM = "IM [Ed.7/21-YKSA]"
+                                    Mark_SafetyIM = "SafetyIM [Ed.1]"
+                                    Mark_Header = "non-RoHS10"
+                                    PartCount += 1
+                                Else
+                                    Mark_PlateDataCorrect = "YES without CE"
+                                    Mark_IM = "IM and SafetyIM not required"
+                                    Mark_SafetyIM = ""
+                                    Mark_Header = "non-RoHS10"
+                                    PartCount += 1
+                                End If
+                            Else
+                                If CustOrd.QTY_NO = "01" Then
+                                    Mark_PlateDataCorrect = "YES with CE"
+                                    Mark_IM = "IM [Ed.7/21-0006]"
+                                    Mark_SafetyIM = "SafetyIM [Ed.1]"
+                                    Mark_Header = ""
+                                Else
+                                    Mark_PlateDataCorrect = "YES with CE"
+                                    Mark_IM = "IM and SafetyIM not required"
+                                    Mark_SafetyIM = ""
+                                    Mark_Header = ""
+                                End If
+                            End If
+                        End If
+                    Next
+                    If PartCount > 1 Then
+                        ErrMsg = "Only 1 type of RoHS-6 YTA can be added"
+                        WMsg.Message = "QCC File Print Error: " & ErrMsg
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    End If
+                End If
+                Mark_PlateDataCorrect = ""
+                Mark_IM = ""
+                Mark_SafetyIM = ""
+
+
+                Dim CountryOfOrigin As String = "Original"
+                If Len(Mark_Serial_After) > 5 Then
+                    If CustOrd.EU_COUNTRY = "SA" And Mark_Serial_After Like "Y3???????" Then
+                        CountryOfOrigin = "Made in KSA"
+                    ElseIf CustOrd.EU_COUNTRY <> "SA" And Mark_Serial_After Like "91???????" Then
+                        CountryOfOrigin = "Not allowed" '"Made in Japan"
+                        ErrMsg = "Cannot make Made in Japan unit at YKSA TML"
+                        WMsg.Message = "QCC File Print Error: " & ErrMsg
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    ElseIf CustOrd.EU_COUNTRY <> "SA" And (Mark_Serial_After Like "S5???????" Or Mark_Serial_After Like "Y3???????") Then
+                        CountryOfOrigin = "Made in China"
+                    ElseIf CustOrd.EU_COUNTRY <> "SA" And Mark_Serial_After Like "C2???????" Then
+                        CountryOfOrigin = "Not allowed" '"Made in Singapore"
+                        ErrMsg = "Cannot make Made in Singapore unit at YKSA TML"
+                        WMsg.Message = "QCC File Print Error: " & ErrMsg
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    End If
+                End If
+                CountryOfOrigin = ""
+
+
+                Dim MfgEntity As New MFG_ENTITY.Op(Link.Mysql_PMS_ConStr, MFG_ENTITY.Connections.DB_PMS)
+                Dim SpecWrite_yta = MfgEntity.GetDatabaseAsModel_List(Of POCO_PMS.sf_templates)(New POCO_PMS.sf_templates, "DOC_NUMBER", "YMA-TML-SF-16", "REV", "1.2", ErrMsg)
+                If ErrMsg.Length > 0 Then
+                    WMsg.Message = "QCC File Print Error: " & ErrMsg
+                    WMsg.ShowDialog()
+                    Exit Sub
+                End If
+                Dim TextValue As String = "This is a Test Text"
+                Dim xPos As Double = 0 'CDbl(PdfPage.Width) * CDbl(TextBox1.Text)
+                Dim yPos As Double = 0 'CDbl(PdfPage.Height) * CDbl(TextBox2.Text)
+                Dim FontName As String = "Arial" '"Verdana" '"Arial"
+                Dim FontSize As String = "14" '"12" '"10"
+                Dim FontThick As String = "Bold" '"Regular"
+                Dim FontColor As String = "Black"
+
+                Dim Pcount_YTA = -1
+                Dim ParameterArray_SF16(100)
+                For Each Parameter In SpecWrite_yta
+                    Dim TempSpec_yta As New POCO_PMS.sf_templates
+                    If Parameter.NAME = "INDEX_NO" Then
+                        TextValue_SF16 = Mark_YTA_Index
+                    ElseIf Parameter.NAME = "ORDER_NO" Then
+                        TextValue_SF16 = Mark_YTA_OrderNo
+                    ElseIf Parameter.NAME = "MD_BEFORE" Then
+                        TextValue_SF16 = Mark_MsCode_Before
+                    ElseIf Parameter.NAME = "MD_AFTER" Then
+                        TextValue_SF16 = $"{Mark_MsCode_After}  {Mark_XJ_18}{Mark_XJ_24}"
+                    ElseIf Parameter.NAME = "DATE_PROD" Then
+                        TextValue_SF16 = "" 'Date.Parse(Unit.SCHEDULE).ToString("yyyy-MM-")
+                    ElseIf Parameter.NAME = "SN_BEFORE" Then
+                        TextValue_SF16 = "" 'SerialNoBefore
+                    ElseIf Parameter.NAME = "SN_AFTER" Then
+                        TextValue_SF16 = CustOrd.SERIAL_NO
+                    ElseIf Parameter.NAME = "MAIN_IM_VER" Then
+                        TextValue_SF16 = Mark_IM
+                    ElseIf Parameter.NAME = "SAFE_IM_VER" Then
+                        TextValue_SF16 = Mark_SafetyIM
+                    ElseIf Parameter.NAME = "COO" Then
+                        TextValue_SF16 = CountryOfOrigin
+                    ElseIf Parameter.NAME = "PLATECHECK" Then
+                        TextValue_SF16 = Mark_PlateDataCorrect
+                    ElseIf Parameter.NAME = "HEADER" Then
+                        TextValue_SF16 = Mark_Header
+                    ElseIf Parameter.NAME = "XJYTA710-18" Then
+                        TextValue_SF16 = Mark_XJ_18
+                    ElseIf Parameter.NAME = "XJYTA710-24" Then
+                        TextValue_SF16 = Mark_XJ_24
+                    End If
+                    TempSpec_yta = SpecWrite_yta.Where(Function(x) x.NAME = Parameter.NAME).First
+                    xPos = TempSpec_yta.X_POS
+                    yPos = TempSpec_yta.Y_POS
+                    FontSize_SF16 = TempSpec_yta.FONT_SIZE
+                    FontThick_SF16 = TempSpec_yta.FONT_THICK
+                    FontName_SF16 = TempSpec_yta.FONT_NAME
+                    Pcount_YTA += 1
+                    ParameterArray_SF16.SetValue({TextValue_SF16, FontName_SF16, FontSize_SF16, FontThick_SF16, FontColor_SF16, xPos, yPos}, Pcount_YTA)
+                Next
+                ReDim Preserve ParameterArray_SF16(Pcount_YTA)
+
+                Dim DocPDF As String = BlankDoc
+                Dim P_Doc_Template As PdfSharp.Pdf.PdfDocument
+                P_Doc_Template = PdfSharp.Pdf.IO.PdfReader.Open(DocPDF, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Modify)
+                Dim PdfPage As PdfSharp.Pdf.PdfPage = P_Doc_Template.Pages(0)
+                If Not System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(FinalDoc)) Then
+                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                End If
+                PDF_AddText(DocPDF, FinalDoc, ParameterArray_SF16, ErrMsg)
+                    If Len(ErrMsg) > 0 Then
+                        WMsg.Message = $"QC Template preperation PDF_AddText() Error: {ErrMsg}"
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    Else
+                        BlankDoc = FinalDoc 'The filled template will be the new blank document
+                    End If
+#End Region
+
+                    'Write QCC Results
+                    Dim UseDoc As New PdfSharp.Pdf.PdfDocument
+                    If System.IO.File.Exists(BlankDoc) Then
+                        Dim P_Doc = OpenPdfOperation_x64.FileOp.GetDocument(BlankDoc, ErrMsg)
+                        Dim WPS As New List(Of OpenPdfOperation_x64.WriteTextParameters)
+
+                        For Each QcWrite In QcData_1p3
+                            If QcWrite.INDEX_NO.ToString.Length > 0 Then
+                                'If QcWrite.PROCESS_NO = "200" Then
+                                '    Dim Stopehere As String = ""
+                                'End If
+                                Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
+                                For Each WriteParam In WriteParams
+                                    Dim WriteInput = WriteParam.Split("-")(0)
+                                    WriteInput = WriteInput.Replace("|", "-")
+                                    Dim WriteSXY = WriteParam.Split("-")(1)
+                                    Dim WriteS = WriteSXY.Split(",")(0)
+                                    Dim WriteX = WriteSXY.Split(",")(1)
+                                    Dim WriteY = WriteSXY.Split(",")(2)
+                                    Dim TextToWrite As String = WriteInput
+                                    Dim FontToWrite As OpenPdfOperation_x64.FileOp.FontName = OpenPdfOperation_x64.FileOp.FontName.Arial
+                                    If WriteInput = "Tick" Then
+                                        TextToWrite = "ü"
+                                        FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
+                                    ElseIf WriteInput = "Circle" Then
+                                        TextToWrite = "¡"
+                                        FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
+                                    ElseIf WriteInput = "Cross" Then
+                                        TextToWrite = "û"
+                                        FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
+                                    End If
+                                    Dim WP As New OpenPdfOperation_x64.WriteTextParameters With {
                                             .Name = FontToWrite,
                                             .Colour = OpenPdfOperation_x64.FileOp.FontColor.Blue,
                                             .Style = OpenPdfOperation_x64.FileOp.FontStyle.Regular,
@@ -1754,49 +2015,104 @@ LoopFinished:
                                             .TextValue = TextToWrite,
                                             .X_Position = CDbl(WriteX / 100),
                                             .Y_Position = CDbl(WriteY / 100)}
-                                Dim WPS As New List(Of OpenPdfOperation_x64.WriteTextParameters)
-                                WPS.Add(WP)
-                                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
-                                OpenPdfOperation_x64.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
-                                If ErrMsg.Length > 0 Then
-                                    MsgBox(ErrMsg)
-                                    Exit Sub
-                                End If
-                            Next
-                        Else
-                            MsgBox("Hi")
+                                    WPS.Add(WP)
+                                Next
+                            Else
+                                MsgBox("Hi")
+                            End If
+                        Next
+
+                        'Save new inspection results
+                        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                        OpenPdfOperation_x64.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+                        If ErrMsg.Length > 0 Then
+                            MsgBox(ErrMsg)
+                            Exit Sub
                         End If
-                    Next
-                    P_Doc.Save(FinalDoc)
-                    'Process.Start(FinalDoc)
-                    '"QCS-Signed"
-                    For Each fname In System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
-                        If fname Like "*QCS-Signed*" Then
+                        P_Doc.Save(FinalDoc)
+
+                        'Copy to MyDocuments to show locally
+                        Dim FinalFileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+                        For i As Integer = 1 To 1
                             Try
-                                System.IO.File.Delete(fname)
+                                System.IO.File.Copy(FinalDoc, FinalFileName, True)
                             Catch ex As Exception
                                 Continue For
                             End Try
-                        End If
-                    Next
-                    Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
-                    For i As Integer = 1 To 1
+                        Next
+
+Retry_01:
                         Try
-                            System.IO.File.Copy(FinalDoc, FinalFileName, True)
+                            'open the final document
+                            Process.Start(FinalFileName)
                         Catch ex As Exception
-                            Continue For
+                            WMsg.Message = "QCC File Open Error: " & ex.Message
+                            WMsg.ShowDialog()
+                            If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                                GoTo Retry_01
+                            End If
                         End Try
-                    Next
-                    Process.Start(FinalFileName)
-                Else
-                    MsgBox("QC Template Not created in TML System. Please create it first.")
-                    Exit Sub
+
+
+                    Else
+                        MsgBox("QC Template Not created in TML System. Please create it first.")
+                        Exit Sub
+                    End If
+
+
+
                 End If
 
+        Catch ex As Exception
 
+        End Try
+    End Sub
+    Private Sub PDF_AddText(ByVal TemplatePDF As String, ByVal FinishedDoc As String, ByVal ParameterArray() As Object, ByRef ErrMsg As String)
+        ErrMsg = ""
+        Try
 
-            End If
+            Dim DocPDF As String = TemplatePDF
+            Dim P_Doc As New PdfSharp.Pdf.PdfDocument
+            P_Doc = PdfSharp.Pdf.IO.PdfReader.Open(DocPDF, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Modify)
+            Dim PdfPage As PdfSharp.Pdf.PdfPage = P_Doc.Pages(0)
+            Dim gfx As PdfSharp.Drawing.XGraphics = PdfSharp.Drawing.XGraphics.FromPdfPage(PdfPage)
 
+            Dim RowCount As Integer = ParameterArray.GetLength(0) - 1
+
+            Dim TextValue As String
+            Dim X_pos As Double
+            Dim Y_pos As Double
+            Dim FontName As String
+            Dim FontSize As String
+            Dim FontThick As String
+            Dim FontCol As String
+            Dim FontStyle As PdfSharp.Drawing.XFontStyle
+            Dim FontType As PdfSharp.Drawing.XFont
+            Dim FontColor As New PdfSharp.Drawing.XSolidBrush
+
+            For i As Integer = 0 To RowCount
+                TextValue = ParameterArray(i)(0)
+                FontName = ParameterArray(i)(1)
+                FontSize = ParameterArray(i)(2)
+                FontThick = ParameterArray(i)(3)
+                If FontThick = "Bold" Then
+                    FontStyle = PdfSharp.Drawing.XFontStyle.Bold
+                ElseIf FontThick = "Regular" Then
+                    FontStyle = PdfSharp.Drawing.XFontStyle.Regular
+                ElseIf FontThick = "BoldItalic" Then
+                    FontStyle = PdfSharp.Drawing.XFontStyle.BoldItalic
+                End If
+                FontType = New PdfSharp.Drawing.XFont(FontName, FontSize, FontStyle)
+                FontCol = ParameterArray(i)(4)
+                If FontCol = "Black" Then
+                    FontColor = PdfSharp.Drawing.XBrushes.Black
+                End If
+                X_pos = CDbl(PdfPage.Width) * CDbl(ParameterArray(i)(5).ToString)
+                Y_pos = CDbl(PdfPage.Height) * CDbl(ParameterArray(i)(6).ToString)
+                gfx.DrawString(TextValue, FontType, FontColor, New PdfSharp.Drawing.XRect(X_pos, Y_pos, PdfPage.Width, PdfPage.Height), PdfSharp.Drawing.XStringFormats.TopLeft)
+            Next
+
+            P_Doc.Save(FinishedDoc)
         Catch ex As Exception
 
         End Try

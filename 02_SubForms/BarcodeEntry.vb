@@ -39,6 +39,11 @@ Public Class BarcodeEntry
                     Label_Message.Text = ErrMsg
                     Exit Sub
                 End If
+                MainForm.CoHeader = TmlEntityYGS.GetDatabaseTableAs_Object(Of POCO_YGSP.co_register)("ORDER_NO", MainForm.CustOrd.PROD_NO, "LINE_NO", MainForm.CustOrd.LINE_NO, ErrMsg:=ErrMsg)
+                If ErrMsg.Length > 0 Then
+                    Label_Message.Text = ErrMsg
+                    Exit Sub
+                End If
                 If IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
                     If MsgBox("Production already completed on " & MainForm.CustOrd.ACTUAL_FINISH_DATE & ". Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
                         If MainForm.CurrentQCC_Version = "1.4" Then
@@ -63,11 +68,6 @@ Public Class BarcodeEntry
                 If Not MainForm.CustOrd.VALIDATE.ToString.ToUpper = "YES" Then
                     WMsg.Message = $"Selected Index_No Validate status is {MainForm.CustOrd.VALIDATE}. Please inform Supervisor"
                     WMsg.ShowDialog()
-                    Exit Sub
-                End If
-                MainForm.CoHeader = TmlEntityYGS.GetDatabaseTableAs_Object(Of POCO_YGSP.co_register)("ORDER_NO", MainForm.CustOrd.PROD_NO, "LINE_NO", MainForm.CustOrd.LINE_NO, ErrMsg:=ErrMsg)
-                If ErrMsg.Length > 0 Then
-                    Label_Message.Text = ErrMsg
                     Exit Sub
                 End If
 #End Region
