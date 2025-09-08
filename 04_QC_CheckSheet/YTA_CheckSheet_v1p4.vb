@@ -551,33 +551,6 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo60_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-        Try
-
-            Dim ProcessStepReturn As New CheckSheetStep
-            If CustOrd.MS_CODE Like "YTA*" Then
-                ProcessStepReturn.ProcessNo = "60"
-                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.Activity = "BOUT Switch setting/Plug for electrical connection"
-                ProcessStepReturn.ToCheck = "/C1  /C2  /C3  NA / Plug Installed"
-                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-                ProcessStepReturn.Initial = Initial
-
-                ProcessStepReturn.StepNo = "60_02_00"
-                ProcessStepReturn.ActivityToCheck = "Plug for Electrical connection"
-                ProcessStepReturn.SinglePointAction.SPI_Message = "[Plug] Confirm Red Plug on Electrical Connection"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
-                ProcessStepReturn.Result &= "Tick-13,70,27.6" '"OK-8,65,26.6$Tick-13,70,26"
-            End If
-            Return ProcessStepReturn
-
-
-        Catch ex As Exception
-            Return Nothing
-        End Try
-    End Function
     Public Function ProcessStepNo70_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -840,32 +813,7 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
-    Public Function ProcessStepNo110_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-        Try
 
-            Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "110"
-            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.Activity = "QR Nameplate Fixing"
-            ProcessStepReturn.ToCheck = "Name plate with QR-Image is prepared"
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-            ProcessStepReturn.Initial = Initial
-
-            ProcessStepReturn.StepNo = "110_02_00"
-            ProcessStepReturn.ActivityToCheck = "Name plate with QR Image"
-            ProcessStepReturn.SinglePointAction.SPI_Message = "Confirm Nameplate with QR image is prepared"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithOutQR_Label.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "WithQR_Label.jpg"
-            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithQR_Label.jpg"
-
-            ProcessStepReturn.Result = "Tick-13,70,36.5"
-            Return ProcessStepReturn
-
-
-        Catch ex As Exception
-            Return Nothing
-        End Try
-    End Function
 
     'Process Step-120 Basics checks
     Public Function ProcessStepNo120_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
@@ -1031,6 +979,33 @@ Public Class YTA_CheckSheet_v1p4
                 ProcessStepReturn.Result &= "$" & Array.Find(MainForm.Setting.Var_60_120_Position_Circle.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1).Split(";")(0)
             End If
             ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_120_Position_Initial.Replace("Initial", MainForm.Initial)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo120_06_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            If CustOrd.MS_CODE Like "YTA*" Then
+                ProcessStepReturn.ProcessNo = "120"
+                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+                ProcessStepReturn.Activity = "BOUT Switch setting/Plug for electrical connection"
+                ProcessStepReturn.ToCheck = "/C1  /C2  /C3  NA / Plug Installed"
+                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+                ProcessStepReturn.Initial = Initial
+
+                ProcessStepReturn.StepNo = "120_06_00"
+                ProcessStepReturn.ActivityToCheck = "Plug for Electrical connection"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Plug] Confirm Red Plug on Electrical Connection"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Installed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
+                ProcessStepReturn.Result &= "Tick-13,70,27.6" '"OK-8,65,26.6$Tick-13,70,26"
+            End If
             Return ProcessStepReturn
 
 
@@ -1278,6 +1253,101 @@ Public Class YTA_CheckSheet_v1p4
             End If
             Return ProcessStepReturn
 
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo170_03_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+            Dim ProcessStepReturn As New CheckSheetStep
+
+            ProcessStepReturn.ProcessNo = "170"
+            ProcessStepReturn.ProcessStep = "Final Assembling"
+            ProcessStepReturn.Activity = "Read QR Code?"
+            ProcessStepReturn.ToCheck = "Confirm QR Code correctness?"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.MakeUsrInpt
+            ProcessStepReturn.Initial = Initial
+
+            ProcessStepReturn.StepNo = "170_03_00"
+            ProcessStepReturn.ActivityToCheck = "Scan QR Code "
+            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR Code on unit"
+            ProcessStepReturn.MakeUserInputAction.UserInputOld = CustOrd.DLM_QR
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = ""
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK"
+            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableField = "QR_CHECK"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = $"[Correct] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("50_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+
+            Return ProcessStepReturn
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo170_04_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+            Dim ProcessStepReturn As New CheckSheetStep
+
+            ProcessStepReturn.ProcessNo = "170"
+            ProcessStepReturn.ProcessStep = "Final Check"
+            ProcessStepReturn.Activity = "Check for attached Stickers"
+            ProcessStepReturn.ActivityToCheck = "Check for attached Stickers"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo = "170_04_00"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = $""
+
+            If CustOrd.EU_COUNTRY = "SA" And Link.PlantID = "5Q00" Then
+                ProcessStepReturn.ToCheck = "SAUDI MADE Sticker attached to Unit?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "SAUDI MADE Sticker attached to Unit?"
+                AddWriteField("170_04_01", "SAUDI MADE Sticker attached?", WriteFields:=WriteFields)
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "EJA\Common\" & "Yes.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "EJA\Common\" & "No.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ResultValue = $"[Yes] ✓" '$"SAUDI MADE ✓"
+            ElseIf CustOrd.EU_COUNTRY <> "SA" And Link.PlantID = "5Q00" Then
+                ProcessStepReturn.ToCheck = "SAUDI MADE Sticker attached to Unit?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "SAUDI MADE Sticker attached to Unit?"
+                AddWriteField("170_04_01", "SAUDI MADE Sticker attached?", WriteFields:=WriteFields)
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "EJA\Common\" & "Yes.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "EJA\Common\" & "No.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No.jpg"
+                ResultValue = $"[No] ✗" '$"SAUDI MADE ✗"
+            ElseIf Link.PlantID = "6Z00" Then
+                ProcessStepReturn.ToCheck = "Any Stickers attached to Unit?"
+                ProcessStepReturn.SinglePointAction.SPI_Message = "Any Stickers attached to Unit?"
+                AddWriteField("170_04_01", "Any Stickers attached to Unit?", WriteFields:=WriteFields)
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "EJA\Common\" & "Yes.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "EJA\Common\" & "No.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No.jpg"
+                ResultValue = $"[No] ✗"
+            End If
+
+            'Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            'Dim ResultValue As String = $"[Yes] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+
+            Return ProcessStepReturn
 
         Catch ex As Exception
             Return Nothing
