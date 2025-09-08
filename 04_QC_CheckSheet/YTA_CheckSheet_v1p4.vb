@@ -256,9 +256,12 @@ Public Class YTA_CheckSheet_v1p4
                 WMsg.ShowDialog()
                 Return Nothing
             End If
+
             ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+            Return ProcessStepReturn
 
         Catch ex As Exception
+            ErrMsg = $"ProcessStepNo20_01_00() Exception: {ex.Message}"
             Return Nothing
         End Try
     End Function
@@ -459,6 +462,7 @@ Public Class YTA_CheckSheet_v1p4
         End Try
     End Function
 
+    'Process Step-50,60,70,80,90,100,110 Modification/Assembly checks
     Public Function ProcessStepNo50_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -862,6 +866,8 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
+
+    'Process Step-120 Basics checks
     Public Function ProcessStepNo120_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1033,7 +1039,7 @@ Public Class YTA_CheckSheet_v1p4
         End Try
     End Function
 
-    'HIPOT
+    'Process Step-130 ACW
     Public Function ProcessStepNo130_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1073,6 +1079,7 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
+    'Process Step-140 IR
     Public Function ProcessStepNo140_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1112,7 +1119,7 @@ Public Class YTA_CheckSheet_v1p4
         End Try
     End Function
 
-    'CRC
+    'Process Step-150 Programming and Configuration
     Public Function ProcessStepNo150_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1146,7 +1153,7 @@ Public Class YTA_CheckSheet_v1p4
         End Try
     End Function
 
-    'FINAL ASSY & CHECK
+    'Process Step-160,170 Final Assembly
     Public Function ProcessStepNo160_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1276,6 +1283,8 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
+
+    'Process Step-180 Print QIC and Documents
     Public Function ProcessStepNo180_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -1487,6 +1496,8 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
+
+    'Process Step-190 Visual Inspection
     Public Function ProcessStepNo190_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -2088,7 +2099,7 @@ FixVar3:
         End Try
     End Function
 
-    'PACKING
+    'Process Step-210 Packing
     Public Function ProcessStepNo200_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 

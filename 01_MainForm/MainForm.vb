@@ -1,4 +1,5 @@
 ﻿
+Imports System.IO
 Imports Newtonsoft.Json
 Imports Spire.Pdf.Exporting
 
@@ -1967,47 +1968,47 @@ LoopFinished:
                     System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
                 End If
                 PDF_AddText(DocPDF, FinalDoc, ParameterArray_SF16, ErrMsg)
-                    If Len(ErrMsg) > 0 Then
-                        WMsg.Message = $"QC Template preperation PDF_AddText() Error: {ErrMsg}"
-                        WMsg.ShowDialog()
-                        Exit Sub
-                    Else
-                        BlankDoc = FinalDoc 'The filled template will be the new blank document
-                    End If
+                If Len(ErrMsg) > 0 Then
+                    WMsg.Message = $"QC Template preperation PDF_AddText() Error: {ErrMsg}"
+                    WMsg.ShowDialog()
+                    Exit Sub
+                Else
+                    BlankDoc = FinalDoc 'The filled template will be the new blank document
+                End If
 #End Region
 
-                    'Write QCC Results
-                    Dim UseDoc As New PdfSharp.Pdf.PdfDocument
-                    If System.IO.File.Exists(BlankDoc) Then
-                        Dim P_Doc = OpenPdfOperation_x64.FileOp.GetDocument(BlankDoc, ErrMsg)
-                        Dim WPS As New List(Of OpenPdfOperation_x64.WriteTextParameters)
+                'Write QCC Results
+                Dim UseDoc As New PdfSharp.Pdf.PdfDocument
+                If System.IO.File.Exists(BlankDoc) Then
+                    Dim P_Doc = OpenPdfOperation_x64.FileOp.GetDocument(BlankDoc, ErrMsg)
+                    Dim WPS As New List(Of OpenPdfOperation_x64.WriteTextParameters)
 
-                        For Each QcWrite In QcData_1p3
-                            If QcWrite.INDEX_NO.ToString.Length > 0 Then
-                                'If QcWrite.PROCESS_NO = "200" Then
-                                '    Dim Stopehere As String = ""
-                                'End If
-                                Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
-                                For Each WriteParam In WriteParams
-                                    Dim WriteInput = WriteParam.Split("-")(0)
-                                    WriteInput = WriteInput.Replace("|", "-")
-                                    Dim WriteSXY = WriteParam.Split("-")(1)
-                                    Dim WriteS = WriteSXY.Split(",")(0)
-                                    Dim WriteX = WriteSXY.Split(",")(1)
-                                    Dim WriteY = WriteSXY.Split(",")(2)
-                                    Dim TextToWrite As String = WriteInput
-                                    Dim FontToWrite As OpenPdfOperation_x64.FileOp.FontName = OpenPdfOperation_x64.FileOp.FontName.Arial
-                                    If WriteInput = "Tick" Then
-                                        TextToWrite = "ü"
-                                        FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
-                                    ElseIf WriteInput = "Circle" Then
-                                        TextToWrite = "¡"
-                                        FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
-                                    ElseIf WriteInput = "Cross" Then
-                                        TextToWrite = "û"
-                                        FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
-                                    End If
-                                    Dim WP As New OpenPdfOperation_x64.WriteTextParameters With {
+                    For Each QcWrite In QcData_1p3
+                        If QcWrite.INDEX_NO.ToString.Length > 0 Then
+                            'If QcWrite.PROCESS_NO = "200" Then
+                            '    Dim Stopehere As String = ""
+                            'End If
+                            Dim WriteParams = QcWrite.CHECK_RESULT.Split("$")
+                            For Each WriteParam In WriteParams
+                                Dim WriteInput = WriteParam.Split("-")(0)
+                                WriteInput = WriteInput.Replace("|", "-")
+                                Dim WriteSXY = WriteParam.Split("-")(1)
+                                Dim WriteS = WriteSXY.Split(",")(0)
+                                Dim WriteX = WriteSXY.Split(",")(1)
+                                Dim WriteY = WriteSXY.Split(",")(2)
+                                Dim TextToWrite As String = WriteInput
+                                Dim FontToWrite As OpenPdfOperation_x64.FileOp.FontName = OpenPdfOperation_x64.FileOp.FontName.Arial
+                                If WriteInput = "Tick" Then
+                                    TextToWrite = "ü"
+                                    FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
+                                ElseIf WriteInput = "Circle" Then
+                                    TextToWrite = "¡"
+                                    FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
+                                ElseIf WriteInput = "Cross" Then
+                                    TextToWrite = "û"
+                                    FontToWrite = OpenPdfOperation_x64.FileOp.FontName.Wingdings
+                                End If
+                                Dim WP As New OpenPdfOperation_x64.WriteTextParameters With {
                                             .Name = FontToWrite,
                                             .Colour = OpenPdfOperation_x64.FileOp.FontColor.Blue,
                                             .Style = OpenPdfOperation_x64.FileOp.FontStyle.Regular,
@@ -2015,53 +2016,39 @@ LoopFinished:
                                             .TextValue = TextToWrite,
                                             .X_Position = CDbl(WriteX / 100),
                                             .Y_Position = CDbl(WriteY / 100)}
-                                    WPS.Add(WP)
-                                Next
-                            Else
-                                MsgBox("Hi")
-                            End If
-                        Next
-
-                        'Save new inspection results
-                        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
-                        OpenPdfOperation_x64.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
-                        If ErrMsg.Length > 0 Then
-                            MsgBox(ErrMsg)
-                            Exit Sub
+                                WPS.Add(WP)
+                            Next
+                        Else
+                            MsgBox("Hi")
                         End If
-                        P_Doc.Save(FinalDoc)
+                    Next
 
-                        'Copy to MyDocuments to show locally
-                        Dim FinalFileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
-                        For i As Integer = 1 To 1
-                            Try
-                                System.IO.File.Copy(FinalDoc, FinalFileName, True)
-                            Catch ex As Exception
-                                Continue For
-                            End Try
-                        Next
-
-Retry_01:
-                        Try
-                            'open the final document
-                            Process.Start(FinalFileName)
-                        Catch ex As Exception
-                            WMsg.Message = "QCC File Open Error: " & ex.Message
-                            WMsg.ShowDialog()
-                            If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                                GoTo Retry_01
-                            End If
-                        End Try
-
-
-                    Else
-                        MsgBox("QC Template Not created in TML System. Please create it first.")
+                    'Save new inspection results
+                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                    OpenPdfOperation_x64.FileOp.PDF_WriteText(P_Doc, WPS, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        MsgBox(ErrMsg)
                         Exit Sub
                     End If
+                    P_Doc.Save(FinalDoc)
 
+                    'Copy to MyDocuments to show locally
+                    Dim FinalFileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+                    For i As Integer = 1 To 1
+                        Try
+                            System.IO.File.Copy(FinalDoc, FinalFileName, True)
+                        Catch ex As Exception
+                            Continue For
+                        End Try
+                    Next
 
-
+                Else
+                    MsgBox("QC Template Not created in TML System. Please create it first.")
+                    Exit Sub
                 End If
+
+
+            End If
 
         Catch ex As Exception
 
@@ -2143,7 +2130,118 @@ Retry_01:
             WMsg.ShowDialog()
         End Try
     End Sub
+    Public Sub PrintQcc_Rev2()
+        Try
 
+
+            If IsDate(CustOrd.ACTUAL_FINISH_DATE) Then
+                If My.Settings.Login <> "46501497" Then
+                    WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+                    WMsg.ShowDialog()
+                    Exit Sub
+                Else
+                    If MsgBox($"USER:{ My.Settings.Login} Do you want to run PrintQcc_Rev2() again with the DB CheckResult values and Print QCC?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                        WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    End If
+                End If
+            End If
+
+            Dim ErrMsg As String = ""
+            QcData_1p4 = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p4)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
+            If QcData_1p4.Count > 0 Then
+                RefreshSettings(Link.Network)
+                Dim BlankDoc As String = ""
+                Dim FinalDoc As String = Setting.Var_06_DocsStore & "Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+                If SaveFinalDoc = False Then
+                    Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+                    FinalDoc = FinalFileName
+                End If
+
+Retry:
+                Try
+                    If System.IO.File.Exists(FinalDoc) Then
+                        Using fs As New FileStream(FinalDoc, FileMode.Open, FileAccess.ReadWrite, FileShare.None)
+                            ' File is not in use
+                        End Using
+                    End If
+                Catch ex As IOException
+                    ' File is in use
+                    WMsg.Message = "QCC File Open Error: " & ex.Message
+                    WMsg.ShowDialog()
+                    If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        GoTo Retry
+                    End If
+                End Try
+
+                Dim FinalTemplates As New List(Of OpenPdfOperation_x64.Template)
+                For Each ProcessStep In QcData_1p4
+                    Dim ReportResult = ProcessStep.CHECK_RESULT
+                    LoggerHelper.LogInfo($"[CHECK_RESULT] for Index No: {CustOrd.INDEX_NO} is [ {ProcessStep.CHECK_RESULT} ]")
+                    Dim Template As OpenPdfOperation_x64.Template = JsonConvert.DeserializeObject(Of OpenPdfOperation_x64.Template)(ReportResult)
+                    FinalTemplates.Add(Template)
+                Next
+                Dim DistinctTemplateNames = FinalTemplates.Select(Function(X) X.FileName).Distinct.ToArray
+                If DistinctTemplateNames.Count <> 1 Then
+                    WMsg.Message = $"There are {DistinctTemplateNames.Count} Template Filenames to Write!"
+                    WMsg.ShowDialog()
+                    Exit Sub
+                Else
+                    BlankDoc = Application.StartupPath & $"\05_Report_Templates\{DistinctTemplateNames(0)}"
+                    If System.IO.File.Exists(BlankDoc) Then
+                        Dim WriteTemplate As New OpenPdfOperation_x64.Template
+                        WriteTemplate.FileName = FinalTemplates.FirstOrDefault.FileName
+                        WriteTemplate.Width = FinalTemplates.FirstOrDefault.Width
+                        WriteTemplate.Height = FinalTemplates.FirstOrDefault.Height
+                        WriteTemplate.ZoomFactor = FinalTemplates.FirstOrDefault.ZoomFactor
+                        WriteTemplate.Dpi = FinalTemplates.FirstOrDefault.Dpi
+                        WriteTemplate.Fields = New List(Of OpenPdfOperation_x64.Field)
+                        For Each FinalTemplate In FinalTemplates
+                            WriteTemplate.Fields.AddRange(FinalTemplate.Fields)
+                        Next
+                        If WriteTemplate.Fields.Count > 0 Then
+                            OpenPdfOperation_x64.FileOp.PDF_XUnit_WriteJsonTextnBarcode(TemplatePDF:=BlankDoc, FinishedDoc:=FinalDoc, Param:=WriteTemplate, ErrMsg:=ErrMsg)
+                            If ErrMsg.Length > 0 Then
+                                MsgBox(ErrMsg)
+                            End If
+                        End If
+
+
+                        Dim FinalFileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+                        For i As Integer = 1 To 1
+                            Try
+                                System.IO.File.Copy(FinalDoc, FinalFileName, True)
+                            Catch ex As Exception
+                                Continue For
+                            End Try
+                        Next
+Retry_01:
+                        Try
+                            'open the final document
+                            Process.Start(FinalFileName)
+                        Catch ex As Exception
+                            WMsg.Message = "QCC File Open Error: " & ex.Message
+                            WMsg.ShowDialog()
+                            If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                                GoTo Retry_01
+                            End If
+                        End Try
+                    Else
+                        WMsg.Message = $"QC-Template: [ {DistinctTemplateNames(0)} ] not available in [ 13_Report_Templates ] Folder."
+                        WMsg.ShowDialog()
+                        Exit Sub
+                    End If
+                End If
+
+            End If
+
+        Catch ex As Exception
+            'MsgBox(ex.Message)
+            WMsg.Message = "PrintQcc_Rev1() Error:" & ex.Message
+            WMsg.ShowDialog()
+        End Try
+    End Sub
 
 #End Region
 

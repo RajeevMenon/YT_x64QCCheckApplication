@@ -121,6 +121,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>packages\NLog.6.0.3\lib\net46\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="OpenPdfOperation_x64">
       <HintPath>..\..\OTHERS\LIBRARY\OpenPdfOperation_x64\bin\Debug\OpenPdfOperation_x64.dll</HintPath>
     </Reference>
@@ -149,6 +152,7 @@
       <HintPath>packages\FreeSpire.XLS.12.7.0\lib\net40\Spire.XLS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -234,6 +238,7 @@
     <Compile Include="03_Model\UserInput.vb" />
     <Compile Include="04_QC_CheckSheet\YTA_CheckSheet_v1p4.vb" />
     <Compile Include="04_QC_CheckSheet\YTA_CheckSheet_v1p3.vb" />
+    <Compile Include="06_Log\LoggerHelper.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
