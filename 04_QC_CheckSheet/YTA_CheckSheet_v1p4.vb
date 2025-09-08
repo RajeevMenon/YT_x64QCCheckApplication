@@ -441,6 +441,7 @@ Public Class YTA_CheckSheet_v1p4
             Dim ResultValue_40_01_01 As String = MainForm.DataPlateCorrect
             AddWriteField(ProcessStepReturn.StepNo, ResultValue_40_01_00, WriteFields:=WriteFields)
             AddWriteField("40_01_01", ResultValue_40_01_01, WriteFields:=WriteFields)
+            AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
             Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
             If ErrMsg.Length > 0 Then
                 WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
@@ -1890,7 +1891,20 @@ FixVar3:
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "Nameplate_with_gaps.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\40\" & "NamePlate_Edge_Correct.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_Edge_Correct.jpg"
-            ProcessStepReturn.Result = "OK-8,64,22.8$Tick-13,70,22$" & Initial & "-11,84,22"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue_190_12_00 As String = "[Yes] ✓"
+            Dim ResultValue_40_02_00 As String = "[Yes] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue_190_12_00, WriteFields:=WriteFields)
+            AddWriteField("40_02_01", ResultValue_40_02_00, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+
             Return ProcessStepReturn
 
 
