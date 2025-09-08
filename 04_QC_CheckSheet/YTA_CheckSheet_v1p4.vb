@@ -1,4 +1,6 @@
-﻿Public Class YTA_CheckSheet_v1p4
+﻿Imports OpenPdfOperation_x64
+
+Public Class YTA_CheckSheet_v1p4
 
     Dim TmlEntityYGS As New MFG_ENTITY.Op(Link.Mysql_YGSP_ConStr)
     Dim WMsg As New WarningForm
@@ -103,9 +105,50 @@
 
 #Region "Version 1.2"
 
-    'BUILD
+    'Process Step-20 Initial Inspection
     Public Function ProcessStepNo20_00_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
+
+
+            Dim ProcessStepReturn As New CheckSheetStep
+
+            Dim RndAry As New TML_Library.RandomArray
+            Dim NewUnitSrNo = RndAry.RandomStringArraySERIAL(CustOrd.SERIAL_NO, 4)
+
+            ProcessStepReturn.ProcessNo = "20"
+            ProcessStepReturn.ProcessStep = "Order Tag Correctness"
+            ProcessStepReturn.Activity = "Serial No. correctness check"
+            ProcessStepReturn.ToCheck = "Correct Serial Number of unit to be Prepared"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
+
+            ProcessStepReturn.StepNo = "20_00_00"
+            ProcessStepReturn.ActivityToCheck = "Check correct Serial No. is used"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the Order Tag"
+            ProcessStepReturn.UserInputAction.UserInputList = NewUnitSrNo
+            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.SERIAL_NO
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            AddWriteField("Index_No", CustOrd.INDEX_NO, WriteFields:=WriteFields)
+            AddWriteField("Sr_No_After", CustOrd.SERIAL_NO, WriteFields:=WriteFields)
+            AddWriteField("Sales_Order_No", $"SO-No.:{CustOrd.PROD_NO} Line-No.:{CustOrd.LINE_NO}", WriteFields:=WriteFields)
+            AddWriteField("MS_Code_Before", CustOrd.MS_CODE_BEFORE, WriteFields:=WriteFields)
+            AddWriteField("MS_Code_After", CustOrd.MS_CODE, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+            Return ProcessStepReturn
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo20_00_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
 
             Dim ProcessStepReturn As New CheckSheetStep
 
@@ -115,7 +158,7 @@
             ProcessStepReturn.ToCheck = "Correct Serial Number of unit to be Prepared"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.MakeUsrInpt
 
-            ProcessStepReturn.StepNo = "20_00_00"
+            ProcessStepReturn.StepNo = "20_00_01"
             ProcessStepReturn.ActivityToCheck = "Before Modification Unit"
             ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Before Modification item Serial Number?"
             ProcessStepReturn.MakeUserInputAction.UserInputOld = CustOrd.SERIAL_NO_BEFORE
@@ -127,31 +170,7 @@
 
             ProcessStepReturn.Result = "" 'This is blank as 'MakeUserInputAction' is for saving user input to DB only
             Return ProcessStepReturn
-        Catch ex As Exception
-            Return Nothing
-        End Try
-    End Function
-    Public Function ProcessStepNo20_00_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
-        Try
 
-            Dim ProcessStepReturn As New CheckSheetStep
-
-            ProcessStepReturn.ProcessNo = "20"
-            ProcessStepReturn.ProcessStep = "QR Label"
-            ProcessStepReturn.Activity = "Scan QR Label to ensure correct Printing?"
-            ProcessStepReturn.ToCheck = "Correct QR Label Prepared"
-            ProcessStepReturn.Method = CheckSheetStep.MethodOption.MakeUsrInpt
-
-            ProcessStepReturn.StepNo = "20_00_01"
-            ProcessStepReturn.ActivityToCheck = "QR Label print correctness"
-            ProcessStepReturn.MakeUserInputAction.UserActionMessage = "Scan QR Label prepared for this job?"
-            ProcessStepReturn.MakeUserInputAction.UserInputOld = ""
-            ProcessStepReturn.MakeUserInputAction.UserInputSaveConnectionString = MainForm.Setting.Var_03_MySql_YGSP
-            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK"
-            ProcessStepReturn.MakeUserInputAction.UserInputSaveTableField = ""
-
-            ProcessStepReturn.Result = "" 'This is blank as 'MakeUserInputAction' is for saving user input to DB only
-            Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
         End Try
@@ -198,30 +217,53 @@
 #End Region
 
             Dim ProcessStepReturn As New CheckSheetStep
-            Dim RL_Tag As New TML_Library.RandomArray
-            Dim SelPartsSNO = RL_Tag.RandomStringArraySERIAL(CustOrd.SERIAL_NO_BEFORE, 4)
 
             ProcessStepReturn.ProcessNo = "20"
-            ProcessStepReturn.ProcessStep = "Parts correctness"
-            ProcessStepReturn.Activity = "Complete unit and KD Part correctness check"
-            ProcessStepReturn.ToCheck = "Part numbers and Quantity as per Bill of Material"
+            ProcessStepReturn.ProcessStep = "Correct Unit Picked"
+            ProcessStepReturn.Activity = "Picked Unit check"
+            ProcessStepReturn.ToCheck = "Correct MSCODE of Capsule or Level 2.0 unit Picked"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
 
             ProcessStepReturn.StepNo = "20_01_00"
-            ProcessStepReturn.ActivityToCheck = "Check Complete Unit Correctly Picked."
-            ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Serial number printed In the plate Of before Modificaiton unit."
-            ProcessStepReturn.UserInputAction.UserInputList = SelPartsSNO
-            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.SERIAL_NO_BEFORE
-            ProcessStepReturn.Result = Array.Find(MainForm.Setting.Var_60_020_Position_Tick.Split("|"), Function(x) x.StartsWith(ProcessStepReturn.StepNo)).Split("$")(1)
-            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_020_Position_Initial.Replace("Initial", MainForm.Initial)
-            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_020_Position_DateManufacture.Replace("DATE", Date.Today.ToString("yyyy-MM-dd").Replace("-", "|"))
-            Return ProcessStepReturn
+            ProcessStepReturn.ActivityToCheck = "Check unit Picked for Production"
+            ProcessStepReturn.UserInputAction.UserActionMessage = "MS-CODE of Capsule/Level 2.0 unit Picked?"
+
+            Dim Var1, Var2, Var3 As New String("")
+            Dim Mscode As String = CustOrd.MS_CODE_BEFORE
+
+            If Mscode Like "YTA6??-???????*" Then Var1 = Mscode.Remove(3, 1).Insert(3, "7")
+            If Mscode Like "YTA7??-???????*" Then Var1 = Mscode.Remove(3, 1).Insert(3, "6")
+
+            If Mscode Like "YTA???-J??????*" Then Var2 = Mscode.Remove(7, 1).Insert(7, "F")
+            If Mscode Like "YTA???-F??????*" Then Var2 = Mscode.Remove(7, 1).Insert(7, "J")
+
+            If Mscode Like "YTA???-???A???*" Then Var2 = Mscode.Remove(10, 1).Insert(7, "C")
+            If Mscode Like "YTA???-???C???*" Then Var2 = Mscode.Remove(10, 1).Insert(7, "A")
+
+            ProcessStepReturn.UserInputAction.UserInputList = {Mscode, Var1, Var2, Var3}
+            ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.MS_CODE_BEFORE
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[Correct] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            AddWriteField("Sr_No_Before", CustOrd.SERIAL_NO_BEFORE, WriteFields:=WriteFields) 'Link to previous step
+            AddWriteField("Prod_Date", CustOrd.ACTUAL_START_DATE, WriteFields:=WriteFields) 'Actual Start Date updated in this step
+            AddWriteField("20_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
 
         Catch ex As Exception
             Return Nothing
         End Try
     End Function
+
+    'Process Step-30 Plate Inspection
     Public Function ProcessStepNo30_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -237,18 +279,38 @@
             ProcessStepReturn.ActivityToCheck = "Prepare Data Plates with correct COO."
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the COO printed In the plate."
             ProcessStepReturn.UserInputAction.UserInputList = {"Made In China", "Made In Japan", "Made In KSA", "Made In Singapore"}
-            If (CustOrd.SERIAL_NO Like "Y3*" Or CustOrd.SERIAL_NO Like "S5???????-M") And CustOrd.EU_COUNTRY = "SA" Then
+
+            Dim ResultValue_30_01_00 As String = "[Correct] ✓"
+            Dim ResultValue_30_01_01 As String = ""
+            If (CustOrd.SERIAL_NO Like "Y3*" Or CustOrd.SERIAL_NO Like "S5???????-M") And CustOrd.EU_COUNTRY = "SA" And Link.PlantID = "5Q00" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In KSA"
-                ProcessStepReturn.Result = "Made In KSA-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
-            ElseIf CustOrd.MS_CODE Like "*/JP*" Or CustOrd.SERIAL_NO Like "Y4*" Then
-                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In Japan"
-                ProcessStepReturn.Result = "Made In Japan-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
-            Else
+                ResultValue_30_01_01 = "Made in KSA"
+            ElseIf (CustOrd.SERIAL_NO Like "Y3*" Or CustOrd.SERIAL_NO Like "S5*") And CustOrd.EU_COUNTRY <> "SA" And Link.PlantID = "5Q00" Then
                 ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In China"
-                ProcessStepReturn.Result = "Made In China-8,55,19.6$Tick-13,70,20$" & Initial & "-11,84,20"
+                ResultValue_30_01_01 = "Made in China"
+            ElseIf (CustOrd.SERIAL_NO Like "Y4*" Or CustOrd.SERIAL_NO Like "90*") And CustOrd.MS_CODE Like "*/JP*" And Link.PlantID = "6Z00" Then
+                ProcessStepReturn.UserInputAction.UserInputCorrect = "Made In Japan"
+                ResultValue_30_01_01 = "Made in Japan"
+            Else
+                WMsg.Message = $"Error for Step:{ProcessStepReturn.StepNo}: SerialNo:{CustOrd.SERIAL_NO}, EU-Country:{CustOrd.EU_COUNTRY} does not have COO rule in QCC App."
+                WMsg.ShowDialog()
+                Return Nothing
             End If
-            ProcessStepReturn.Result &= "$" & MainForm.Setting.Var_60_030_Position_SerialBefore.Replace("SERIAL_NO_BEFORE", MainForm.CustOrd.SERIAL_NO_BEFORE)
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            'Dim ResultValue As String = "[Correct] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue_30_01_00, WriteFields:=WriteFields)
+            AddWriteField("30_01_01", ResultValue_30_01_01, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
+
         Catch ex As Exception
             Return Nothing
         End Try
@@ -262,7 +324,7 @@
             ProcessStepReturn.ProcessNo = "30"
             ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Marking"
             ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
-            ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
+            ProcessStepReturn.ToCheck = "Plate data correct?"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.UserIput
             ProcessStepReturn.Initial = Initial
 
@@ -299,6 +361,7 @@
             Else
                 ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.TAG_NO_525
             End If
+
             ProcessStepReturn.Result = ""
             Return ProcessStepReturn
         Catch ex As Exception
@@ -321,19 +384,40 @@
             ProcessStepReturn.SinglePointAction.SPI_Message = "The Plate has which Of the following [with CE Or without CE]. This Is sample picture, so don't check other contents."
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_with_CE.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\30\" & "NamePlate_without_CE.jpg"
+
+            Dim ResultValue_30_04_00 As String = ""
+            Dim ResultValue_30_04_01 As String = ""
             If CustOrd.SERIAL_NO_BEFORE Like "S5WC*" Or CustOrd.SERIAL_NO_BEFORE Like "S5X1*" Then
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_without_CE.jpg"
-                ProcessStepReturn.Result = "Yes without CE-8,57,20.6"
+                ResultValue_30_04_00 = "[Yes] ✓"
+                ResultValue_30_04_01 = "No CE Mark"
             Else
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NamePlate_with_CE.jpg"
-                ProcessStepReturn.Result = "Yes with CE-8,57,20.6"
+                ResultValue_30_04_00 = "[Yes] ✓"
+                ResultValue_30_04_01 = "with CE Mark"
             End If
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            'Dim ResultValue As String = "[Correct] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue_30_04_00, WriteFields:=WriteFields)
+            AddWriteField("30_04_01", ResultValue_30_04_01, WriteFields:=WriteFields)
+            AddWriteField("30_04_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
 
             Return ProcessStepReturn
         Catch ex As Exception
             Return Nothing
         End Try
     End Function
+
+    'Process Step-40 Plate Mounting
     Public Function ProcessStepNo40_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -351,7 +435,21 @@
             ProcessStepReturn.UserInputAction.UserActionMessage = "Choose the Plate Part number from below list."
             ProcessStepReturn.UserInputAction.UserInputList = MainForm.DataPlateCheck 'SelParts
             ProcessStepReturn.UserInputAction.UserInputCorrect = MainForm.DataPlateCorrect 'PlatePartNo
-            ProcessStepReturn.Result = MainForm.DataPlateCorrect & "-8,62,21.8"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue_40_01_00 As String = "[Correct] ✓"
+            Dim ResultValue_40_01_01 As String = MainForm.DataPlateCorrect
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue_40_01_00, WriteFields:=WriteFields)
+            AddWriteField("40_01_01", ResultValue_40_01_01, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+
             Return ProcessStepReturn
 
 
@@ -359,6 +457,7 @@
             Return Nothing
         End Try
     End Function
+
     Public Function ProcessStepNo50_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
@@ -742,7 +841,7 @@
             Dim ProcessStepReturn As New CheckSheetStep
             ProcessStepReturn.ProcessNo = "110"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-            ProcessStepReturn.Activity = "DLM QR Nameplate Fixing"
+            ProcessStepReturn.Activity = "QR Nameplate Fixing"
             ProcessStepReturn.ToCheck = "Name plate with QR-Image is prepared"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
@@ -2303,4 +2402,145 @@ FixVar3:
     End Function
 #End Region
 
+#Region "Report"
+    ''' <summary>
+    ''' Update Name and Text to WriteField object and add to List of WriteField
+    ''' </summary>
+    ''' <param name="Name">WriteField Name as String</param>
+    ''' <param name="Text">WriteField Text as String</param>
+    ''' <param name="WriteFields">WriteFields object for storing Name and Text</param>
+    Private Sub AddWriteField(ByVal Name As String, ByVal Text As String, ByRef WriteFields As List(Of OpenPdfOperation_x64.WriteField))
+        Try
+            Dim WriteField As New OpenPdfOperation_x64.WriteField
+            WriteField.Name = Name
+            WriteField.Text = Text
+            WriteFields.Add(WriteField)
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    ''' <summary>
+    ''' Add the WriteFields to ResultFields by filtering from MainForm.ReportTemplate.Fields
+    ''' and update the Text from WriteFields to ResultFields.
+    ''' </summary>
+    ''' <param name="WriteFields">WriteFields object</param>
+    ''' <param name="ErrMsg">Error string returned from Function, if any</param>
+    ''' <returns></returns>
+    Private Function AddResultTexts(ByVal WriteFields As List(Of OpenPdfOperation_x64.WriteField), Optional ByRef ErrMsg As String = "") As List(Of OpenPdfOperation_x64.Field)
+        Dim ResultFields As New List(Of OpenPdfOperation_x64.Field)
+        For Each WriteItem In WriteFields
+            Dim FilteredField = GetFilteredFields(WriteItem.Name, ErrMsg:=ErrMsg)
+            If FilteredField IsNot Nothing Then
+                ResultFields.AddRange(FilteredField)
+            Else
+                Dim EmptyField As New OpenPdfOperation_x64.Field
+                EmptyField.Name = WriteItem.Name
+                EmptyField.Text = ""
+                EmptyField.X = 0
+                EmptyField.Y = 0
+                EmptyField.FontSize = 10.0
+                EmptyField.FontName = "Segoe UI Symbol"
+                EmptyField.FontStyle = "Regular"
+                EmptyField.FontColor = -11579393
+                EmptyField.Align = "Center"
+                ResultFields.Add(EmptyField)
+            End If
+        Next
+        For Each ResultItem In ResultFields
+            For Each WriteItem In WriteFields
+                If ResultItem.Name = WriteItem.Name Then
+                    If Not (ResultItem.X = 0 And ResultItem.Y = 0) Then
+                        ResultItem.Text = WriteItem.Text
+                    End If
+                End If
+            Next
+        Next
+        Return ResultFields
+    End Function
+    ''' <summary>
+    ''' Filter the MainForm.ReportTemplate.Fields by Field.Name and return the List of OpenPdfOperation_x64.Field
+    ''' </summary>
+    ''' <param name="FilterFieldName">Filter Field Name as string</param>
+    ''' <param name="ErrMsg">Error string returned from function, if any</param>
+    ''' <returns></returns>
+    Private Function GetFilteredFields(ByVal FilterFieldName As String, ByRef ErrMsg As String) As List(Of OpenPdfOperation_x64.Field)
+        Dim SubReportTemplate As OpenPdfOperation_x64.Template = MainForm.ReportTemplate
+        Dim ResultFields = SubReportTemplate.Fields.Where(Function(x) x.Name = FilterFieldName).ToList
+        If ResultFields.Count = 0 Then
+            Return Nothing
+        Else
+            Return ResultFields
+        End If
+    End Function
+    ''' <summary>
+    ''' Make a Template object .Fields from the ProcessReturnFields and other Template header from MainForm.ReportTemplate
+    ''' </summary>
+    ''' <param name="ProcessReturnFields">Fields as List(Of OpenPdfOperation_x64.Field)</param>
+    ''' <returns>object of OpenPdfOperation_x64.Template to use in report printing</returns>
+    Public Function MakeProcessReturnTemplate(ByVal ProcessReturnFields As List(Of OpenPdfOperation_x64.Field)) As OpenPdfOperation_x64.Template
+        ' Create a template object
+        Dim SubReportTemplate As OpenPdfOperation_x64.Template = MainForm.ReportTemplate
+        Dim TemplateMaster As New OpenPdfOperation_x64.Template With {
+            .FileName = SubReportTemplate.FileName,
+            .Width = SubReportTemplate.Width,
+            .Height = SubReportTemplate.Height,
+            .Dpi = SubReportTemplate.Dpi,
+            .ZoomFactor = SubReportTemplate.ZoomFactor,
+            .Fields = New List(Of OpenPdfOperation_x64.Field)
+        }
+        'Create Clone
+        Dim ChildTemplate = CloneTemplate(TemplateMaster)
+        'Add Fields to ChildTemplate
+        If ProcessReturnFields.Count > 0 Then
+            For Each ResultItem In ProcessReturnFields
+                ChildTemplate.Fields.Add(ResultItem)
+            Next
+        Else
+            Dim EmptyField As New OpenPdfOperation_x64.Field
+            EmptyField.Name = ""
+            EmptyField.Text = ""
+            EmptyField.X = 0
+            EmptyField.Y = 0
+            EmptyField.FontSize = 10.0
+            EmptyField.FontName = "Segoe UI Symbol"
+            EmptyField.FontStyle = "Regular"
+            EmptyField.FontColor = -11579393
+            EmptyField.Align = "Center"
+            ChildTemplate.Fields.Add(EmptyField)
+        End If
+        Return ChildTemplate
+    End Function
+    ''' <summary>
+    ''' Make a deep copy of Template object
+    ''' </summary>
+    ''' <param name="source">Source Template</param>
+    ''' <returns>Deep copy of Source Template</returns>
+    Public Function CloneTemplate(source As OpenPdfOperation_x64.Template) As OpenPdfOperation_x64.Template
+        Dim clonedFields As New List(Of Field)
+        For Each f In source.Fields
+            clonedFields.Add(New Field With {
+            .Name = f.Name,
+            .Text = f.Text,
+            .X = f.X,
+            .Y = f.Y,
+            .Align = f.Align,
+            .FontColor = f.FontColor,
+            .FontName = f.FontName,
+            .FontSize = f.FontSize,
+            .FontStyle = f.FontSize
+        })
+        Next
+
+        Dim clonedTemplate As New Template With {
+        .FileName = source.FileName,
+        .Width = source.Width,
+        .Height = source.Height,
+        .Dpi = source.Dpi,
+        .ZoomFactor = source.ZoomFactor,
+        .Fields = clonedFields
+    }
+
+        Return clonedTemplate
+    End Function
+#End Region
 End Class
