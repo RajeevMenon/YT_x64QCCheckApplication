@@ -88,7 +88,11 @@
     End Sub
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         Try
-            MainForm.PrintQcc_Rev1()
+            If MainForm.CurrentQCC_Version = "1.4" Then
+                MainForm.PrintQcc_Rev2()
+            Else
+                MainForm.PrintQcc_Rev1()
+            End If
         Catch ex As Exception
 
         End Try

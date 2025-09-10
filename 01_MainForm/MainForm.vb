@@ -853,7 +853,7 @@ Public Class MainForm
     Public QcSteps As List(Of POCO_QA.yta_qcc_steps)
 
     'Version control
-    Public CurrentQCC_Version As String = "1.3"
+    Public CurrentQCC_Version As String = "1.4" '"1.3"
 
     'Save FinalQcc to ProductionComplete Folder? Select True to Save.
     Dim SaveFinalDoc As Boolean = False
@@ -937,6 +937,38 @@ Repeat:
         End Try
     End Sub
     Public Sub FirstCheckPoint()
+        Try
+            If CurrentQCC_Version = "1.3" Then
+                FirstCheckPoint_v1p3()
+            ElseIf CurrentQCC_Version = "1.4" Then
+                FirstCheckPoint_v1p4()
+            Else
+                WMsg.Message = $"FirstCheckPoint() Error: Unknown QCC Version {CurrentQCC_Version}"
+                WMsg.ShowDialog()
+            End If
+        Catch ex As Exception
+            WMsg.Message = "FirstCheckPoint() Error:" & ex.Message
+            WMsg.ShowDialog()
+        End Try
+    End Sub
+    Public Sub LastCheckPoint()
+        Try
+            If CurrentQCC_Version = "1.3" Then
+                LastCheckPoint_v1p3()
+            ElseIf CurrentQCC_Version = "1.4" Then
+                LastCheckPoint_v1p4()
+            Else
+                WMsg.Message = $"LastCheckPoint() Error: Unknown QCC Version {CurrentQCC_Version}"
+                WMsg.ShowDialog()
+            End If
+        Catch ex As Exception
+            WMsg.Message = "LastCheckPoint() Error:" & ex.Message
+            WMsg.ShowDialog()
+        End Try
+    End Sub
+
+#Region "Version 1.3"
+    Public Sub FirstCheckPoint_v1p3()
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
@@ -1032,7 +1064,7 @@ Repeat:
 
         End Try
     End Sub
-    Public Sub LastCheckPoint()
+    Public Sub LastCheckPoint_v1p3()
         Try
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
@@ -1115,22 +1147,24 @@ Repeat:
 
         End Try
     End Sub
-
-    'Next (Rightside) Button
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Public Sub NextCheckPoint_v1p3()
         Try
-            'Setting = AppControl.GetSettings("C:\TML_INI\YT_x64QCCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
             RefreshSettings(Link.Network)
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
             CurrentCheckPoint = New CheckSheetStep
             If AllowedSteps(AllowedSteps.Length - 1) = TextBox_Step.Text Then
                 RichTextBox_ActivityToCheck.Text = "No more Inspection Point forward.."
+                RichTextBox_ActivityToCheck.Refresh()
                 GoTo LoopFinished
             End If
             For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 To AllowedSteps.Length - 1 Step 1
                 LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."
+                RichTextBox_ActivityToCheck.Refresh()
+                For Each form In PanelSubForm.Controls.OfType(Of Form).ToList()
+                    form.Close()
+                Next
                 PanelSubForm.Controls.Clear()
                 CurrentCheckPoint = YTA_CheckSheet_v1p3.ProcessStepNo(StepNo:=AllowedSteps(i), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
@@ -1227,34 +1261,26 @@ Repeat:
 LoopFinished:
             If LoopStarted = False And Not (RichTextBox_Step.BackColor = Color.Yellow Or RichTextBox_Step.BackColor = Color.OrangeRed) Then
                 Dim AllPass As Boolean = True
+                Dim CR_Count As Integer = 0
                 For Each item In AllCheckResult
                     If Not IsNothing(item) Then
                         If Not item.CheckResult Like "*True*" Then
+                            RichTextBox_ActivityToCheck.Text = "Last Failed Step: " & item.StepNo
                             AllPass = False
                             Exit For
                         End If
                     Else
+                        RichTextBox_ActivityToCheck.Text = "Last Failed Step: Next step after " & AllCheckResult(CR_Count - 1).StepNo
                         AllPass = False
                         Exit For
                     End If
+                    CR_Count += 1
                 Next
                 If AllPass = True Then
                     ShowCompleteInspection()
-                    'RichTextBox_ActivityToCheck.Text = ""
-                    'RichTextBox_Step.Text = ""
-                    'TextBox_Step.Text = ""
-                    'RichTextBox_Step.BackColor = Color.White
-                    'PanelSubForm.Controls.Clear()
-                    'Dim BEY As New CompleteInspection
-                    'BEY.TopLevel = False
-                    'PanelSubForm.Controls.Add(BEY)
-                    'BEY.AutoScroll = True
-                    'BEY.Dock = DockStyle.Fill
-                    'PanelSubForm.AutoScroll = True
-                    'BEY.Show()
-                    'BEY.Button1.Select()
                 Else
-                    FirstCheckPoint()
+                    RichTextBox_ActivityToCheck.Refresh()
+                    'FirstCheckPoint()
                 End If
             End If
 
@@ -1262,11 +1288,8 @@ LoopFinished:
 
         End Try
     End Sub
-
-    'Previous (Leftside) Button
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Public Sub PreviousCheckPoint_v1p3()
         Try
-            'Setting = AppControl.GetSettings("C:\TML_INI\YT_x64QCCheckAppliation\") 'System.Windows.Forms.Application.StartupPath)
             RefreshSettings(Link.Network)
             Dim LoopStarted As Boolean = False
             Dim ErMsg As String = ""
@@ -1277,13 +1300,13 @@ LoopFinished:
             Else
                 StartIndex = Array.IndexOf(AllowedSteps, TextBox_Step.Text)
             End If
-            'If Array.IndexOf(AllowedSteps, TextBox_Step.Text) = 0 Then
-            '    RichTextBox_ActivityToCheck.Text = "No more Inspection Point backward.."
-            '    Exit Sub
-            'End If
             For i As Integer = StartIndex - 1 To 0 Step -1
                 LoopStarted = True
                 RichTextBox_ActivityToCheck.Text = "Wait.."
+                RichTextBox_ActivityToCheck.Refresh()
+                For Each form In PanelSubForm.Controls.OfType(Of Form).ToList()
+                    form.Dispose()
+                Next
                 PanelSubForm.Controls.Clear()
                 CurrentCheckPoint = YTA_CheckSheet_v1p3.ProcessStepNo(StepNo:=AllowedSteps(i), Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
                 If Not IsDBNull(CurrentCheckPoint) Then
@@ -1368,39 +1391,523 @@ LoopFinished:
 
             If LoopStarted = False And Not (RichTextBox_Step.BackColor = Color.Yellow Or RichTextBox_Step.BackColor = Color.OrangeRed) Then
                 Dim AllPass As Boolean = True
+                Dim CR_Count As Integer = 0
                 For Each item In AllCheckResult
                     If Not IsNothing(item) Then
                         If Not item.CheckResult Like "*True*" Then
+                            RichTextBox_ActivityToCheck.Text = "Last Failed Step: " & item.StepNo
                             AllPass = False
                             Exit For
                         End If
                     Else
+                        RichTextBox_ActivityToCheck.Text = "Last Failed Step: Next step after " & AllCheckResult(CR_Count - 1).StepNo
                         AllPass = False
                         Exit For
                     End If
+                    CR_Count += 1
                 Next
                 If AllPass = True Then
                     ShowCompleteInspection()
-                    'RichTextBox_ActivityToCheck.Text = ""
-                    'RichTextBox_Step.Text = ""
-                    'TextBox_Step.Text = ""
-                    'RichTextBox_Step.BackColor = Color.White
-                    'PanelSubForm.Controls.Clear()
-                    'Dim BEY As New CompleteInspection
-                    'BEY.TopLevel = False
-                    'PanelSubForm.Controls.Add(BEY)
-                    'BEY.AutoScroll = True
-                    'BEY.Dock = DockStyle.Fill
-                    'PanelSubForm.AutoScroll = True
-                    'BEY.Show()
-                    'BEY.Button1.Select()
                 Else
-                    LastCheckPoint()
+                    RichTextBox_ActivityToCheck.Refresh()
+                    'LastCheckPoint()
                 End If
             End If
 
         Catch ex As Exception
 
+        End Try
+    End Sub
+#End Region
+#Region "Version 1.4"
+    Public Sub FirstCheckPoint_v1p4()
+        Try
+            Dim ErMsg As String = ""
+            CurrentCheckPoint = New CheckSheetStep
+            Dim StepNumbers = Setting.Var_08_StepsCurrent.Split(",")
+
+            RichTextBox_ActivityToCheck.Text = "Wait.."
+            CurrentCheckPoint = YTA_CheckSheet_v1p4.ProcessStepNo(StepNo:=StepNumbers(0), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+            If Not IsDBNull(CurrentCheckPoint) Then
+                If Not IsNothing(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                        RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                        TextBox_Step.Text = CurrentCheckPoint.StepNo
+                        RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                        ToolTip1.SetToolTip(RichTextBox_ActivityToCheck, CurrentCheckPoint.StepNo)
+                        RichTextBox_AutoSize(RichTextBox_Step)
+                        RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                        RichTextBox_ActivityToCheck.Refresh()
+                        PanelSubForm.Controls.Clear()
+
+                        If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                            Dim PSV As New ProcedureStepView
+                            PSV.TopLevel = False
+                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                            PanelSubForm.Controls.Add(PSV)
+                            PSV.AutoScroll = True
+                            PSV.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            PSV.PictureBox1.Select()
+                            PSV.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                            Dim SUI As SelectUserInput = New SelectUserInput
+                            SUI.TopLevel = False
+                            SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                            SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                            PanelSubForm.Controls.Add(SUI)
+                            'SUI.BringToFront()
+                            SUI.AutoScroll = True
+                            SUI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SUI.ListView1.Select()
+                            SUI.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.MakeUsrInpt Then
+                            Dim SUI As MakeUserInput = New MakeUserInput
+                            SUI.TopLevel = False
+                            SUI.Message = CurrentCheckPoint.MakeUserInputAction.UserActionMessage
+                            SUI.InputValueOld = CurrentCheckPoint.MakeUserInputAction.UserInputOld
+                            SUI.InputValueNew = ""
+                            PanelSubForm.Controls.Add(SUI)
+                            'SUI.BringToFront()
+                            SUI.AutoScroll = True
+                            SUI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SUI.InputTextBox.Select()
+                            SUI.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                            Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                            SPI.TopLevel = False
+                            SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                            PanelSubForm.Controls.Add(SPI)
+                            SPI.AutoScroll = True
+                            SPI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SPI.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.DocumentCheck Then
+                            Dim VDOC As ViewDocument = New ViewDocument
+                            VDOC.TopLevel = False
+                            VDOC.curNaviageUrl = CurrentCheckPoint.ViewDocAction.PdfPath_DocumentCheck
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                            Dim VDOC As AddedDocs = New AddedDocs
+                            VDOC.TopLevel = False
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
+                        End If
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Public Sub LastCheckPoint_v1p4()
+        Try
+            Dim ErMsg As String = ""
+            CurrentCheckPoint = New CheckSheetStep
+            Dim StepNumbers = Setting.Var_08_StepsCurrent.Split(",")
+
+            RichTextBox_ActivityToCheck.Text = "Wait.."
+            CurrentCheckPoint = YTA_CheckSheet_v1p4.ProcessStepNo(StepNo:=StepNumbers(StepNumbers.Length - 1), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+            If Not IsDBNull(CurrentCheckPoint) Then
+                If Not IsNothing(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                        RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                        TextBox_Step.Text = CurrentCheckPoint.StepNo
+                        RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                        ToolTip1.SetToolTip(RichTextBox_ActivityToCheck, CurrentCheckPoint.StepNo)
+                        RichTextBox_AutoSize(RichTextBox_Step)
+                        RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                        RichTextBox_ActivityToCheck.Refresh()
+                        PanelSubForm.Controls.Clear()
+
+                        If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                            Dim PSV As New ProcedureStepView
+                            PSV.TopLevel = False
+                            PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                            PanelSubForm.Controls.Add(PSV)
+                            PSV.AutoScroll = True
+                            PSV.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            PSV.PictureBox1.Select()
+                            PSV.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                            Dim SUI As SelectUserInput = New SelectUserInput
+                            SUI.TopLevel = False
+                            SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                            SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                            PanelSubForm.Controls.Add(SUI)
+                            'SUI.BringToFront()
+                            SUI.AutoScroll = True
+                            SUI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SUI.ListView1.Select()
+                            SUI.Show()
+                            Me.Refresh()
+
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                            Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                            SPI.TopLevel = False
+                            SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                            PanelSubForm.Controls.Add(SPI)
+                            SPI.AutoScroll = True
+                            SPI.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            SPI.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.DocumentCheck Then
+                            Dim VDOC As ViewDocument = New ViewDocument
+                            VDOC.TopLevel = False
+                            VDOC.curNaviageUrl = CurrentCheckPoint.ViewDocAction.PdfPath_DocumentCheck
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
+                        ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                            Dim VDOC As AddedDocs = New AddedDocs
+                            VDOC.TopLevel = False
+                            PanelSubForm.Controls.Add(VDOC)
+                            VDOC.AutoScroll = True
+                            VDOC.Dock = DockStyle.Fill
+                            PanelSubForm.AutoScroll = True
+                            VDOC.Show()
+                            Me.Refresh()
+                        End If
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Public Sub NextCheckPoint_v1p4()
+        Try
+            RefreshSettings(Link.Network)
+            Dim LoopStarted As Boolean = False
+            Dim ErMsg As String = ""
+            CurrentCheckPoint = New CheckSheetStep
+            If AllowedSteps(AllowedSteps.Length - 1) = TextBox_Step.Text Then
+                RichTextBox_ActivityToCheck.Text = "No more Inspection Point forward.."
+                RichTextBox_ActivityToCheck.Refresh()
+                GoTo LoopFinished
+            End If
+            For i As Integer = Array.IndexOf(AllowedSteps, TextBox_Step.Text) + 1 To AllowedSteps.Length - 1 Step 1
+                LoopStarted = True
+                RichTextBox_ActivityToCheck.Text = "Wait.."
+                RichTextBox_ActivityToCheck.Refresh()
+                For Each form In PanelSubForm.Controls.OfType(Of Form).ToList()
+                    form.Close()
+                Next
+                PanelSubForm.Controls.Clear()
+                CurrentCheckPoint = YTA_CheckSheet_v1p4.ProcessStepNo(StepNo:=AllowedSteps(i), Initial:=Initial, CustOrd, ErrMsg:=ErMsg)
+                If Not IsDBNull(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint) Then
+                        If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                            RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                            TextBox_Step.Text = CurrentCheckPoint.StepNo
+                            ToolTip1.SetToolTip(RichTextBox_Step, TextBox_Step.Text)
+                            RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                            ToolTip1.SetToolTip(RichTextBox_ActivityToCheck, CurrentCheckPoint.StepNo)
+                            RichTextBox_AutoSize(RichTextBox_Step)
+                            RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                            RichTextBox_ActivityToCheck.Refresh()
+                            PanelSubForm.Controls.Clear()
+
+                            If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                                Dim PSV As New ProcedureStepView
+                                PSV.TopLevel = False
+                                PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                                PanelSubForm.Controls.Add(PSV)
+                                PSV.AutoScroll = True
+                                PSV.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                PSV.PictureBox1.Select()
+                                PSV.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                                Dim SUI As SelectUserInput = New SelectUserInput
+                                SUI.TopLevel = False
+                                SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                                SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                                PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
+                                SUI.AutoScroll = True
+                                SUI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SUI.ListView1.Select()
+                                SUI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.MakeUsrInpt Then
+                                Dim SUI As MakeUserInput = New MakeUserInput
+                                SUI.TopLevel = False
+                                SUI.Message = CurrentCheckPoint.MakeUserInputAction.UserActionMessage
+                                SUI.InputValueOld = CurrentCheckPoint.MakeUserInputAction.UserInputOld
+                                SUI.InputValueNew = ""
+                                PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
+                                SUI.AutoScroll = True
+                                SUI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SUI.InputTextBox.Select()
+                                SUI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                                Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                                SPI.TopLevel = False
+                                SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                                PanelSubForm.Controls.Add(SPI)
+                                SPI.AutoScroll = True
+                                SPI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SPI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.DocumentCheck Then
+                                Dim VDOC As ViewDocument = New ViewDocument
+                                VDOC.TopLevel = False
+                                VDOC.curNaviageUrl = CurrentCheckPoint.ViewDocAction.PdfPath_DocumentCheck
+                                PanelSubForm.Controls.Add(VDOC)
+                                VDOC.AutoScroll = True
+                                VDOC.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                VDOC.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                                Dim VDOC As AddedDocs = New AddedDocs
+                                VDOC.TopLevel = False
+                                PanelSubForm.Controls.Add(VDOC)
+                                VDOC.AutoScroll = True
+                                VDOC.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                VDOC.Show()
+                                Me.Refresh()
+                                Exit For
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+
+LoopFinished:
+            If LoopStarted = False And Not (RichTextBox_Step.BackColor = Color.Yellow Or RichTextBox_Step.BackColor = Color.OrangeRed) Then
+                Dim AllPass As Boolean = True
+                Dim CR_Count As Integer = 0
+                For Each item In AllCheckResult
+                    If Not IsNothing(item) Then
+                        If Not item.CheckResult Like "*True*" Then
+                            RichTextBox_ActivityToCheck.Text = "Last Failed Step: " & item.StepNo
+                            AllPass = False
+                            Exit For
+                        End If
+                    Else
+                        RichTextBox_ActivityToCheck.Text = "Last Failed Step: Next step after " & AllCheckResult(CR_Count - 1).StepNo
+                        AllPass = False
+                        Exit For
+                    End If
+                    CR_Count += 1
+                Next
+                If AllPass = True Then
+                    ShowCompleteInspection()
+                Else
+                    RichTextBox_ActivityToCheck.Refresh()
+                    'FirstCheckPoint()
+                End If
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Public Sub PreviousCheckPoint_v1p4()
+        Try
+            RefreshSettings(Link.Network)
+            Dim LoopStarted As Boolean = False
+            Dim ErMsg As String = ""
+            CurrentCheckPoint = New CheckSheetStep
+            Dim StartIndex As Integer = 0
+            If TextBox_Step.Text = "" Then
+                StartIndex = AllowedSteps.Length
+            Else
+                StartIndex = Array.IndexOf(AllowedSteps, TextBox_Step.Text)
+            End If
+            For i As Integer = StartIndex - 1 To 0 Step -1
+                LoopStarted = True
+                RichTextBox_ActivityToCheck.Text = "Wait.."
+                RichTextBox_ActivityToCheck.Refresh()
+                For Each form In PanelSubForm.Controls.OfType(Of Form).ToList()
+                    form.Dispose()
+                Next
+                PanelSubForm.Controls.Clear()
+                CurrentCheckPoint = YTA_CheckSheet_v1p4.ProcessStepNo(StepNo:=AllowedSteps(i), Initial:="46501497", CustOrd, ErrMsg:=ErMsg)
+                If Not IsDBNull(CurrentCheckPoint) Then
+                    If Not IsNothing(CurrentCheckPoint) Then
+                        If Not IsNothing(CurrentCheckPoint.ActivityToCheck) Then
+                            RichTextBox_Step.Text = CurrentCheckPoint.ProcessNo '& vbCrLf & CheckPoint.ProcessStep
+                            TextBox_Step.Text = CurrentCheckPoint.StepNo
+                            ToolTip1.SetToolTip(RichTextBox_Step, TextBox_Step.Text)
+                            RichTextBox_ActivityToCheck.Text = CurrentCheckPoint.ActivityToCheck
+                            ToolTip1.SetToolTip(RichTextBox_ActivityToCheck, CurrentCheckPoint.StepNo)
+                            RichTextBox_AutoSize(RichTextBox_Step)
+                            RichTextBox_AutoSize(RichTextBox_ActivityToCheck)
+                            RichTextBox_ActivityToCheck.Refresh()
+                            PanelSubForm.Controls.Clear()
+
+                            If CurrentCheckPoint.Method = CheckSheetStep.MethodOption.ProcedureStep Then
+                                Dim PSV As New ProcedureStepView
+                                PSV.TopLevel = False
+                                PSV.InputFeatures(CurrentCheckPoint.ProcessStep, CurrentCheckPoint.ProcedureStepAction.ProcedureMessage, CurrentCheckPoint.ProcedureStepAction.ImagePath_ProcedureStep)
+                                PanelSubForm.Controls.Add(PSV)
+                                PSV.AutoScroll = True
+                                PSV.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                PSV.PictureBox1.Select()
+                                PSV.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.UserIput Then
+                                Dim SUI As SelectUserInput = New SelectUserInput
+                                SUI.TopLevel = False
+                                SUI.Message = CurrentCheckPoint.UserInputAction.UserActionMessage
+                                SUI.inputValues = CurrentCheckPoint.UserInputAction.UserInputList
+                                PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
+                                SUI.AutoScroll = True
+                                SUI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SUI.ListView1.Select()
+                                SUI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.MakeUsrInpt Then
+                                Dim SUI As MakeUserInput = New MakeUserInput
+                                SUI.TopLevel = False
+                                SUI.Message = CurrentCheckPoint.MakeUserInputAction.UserActionMessage
+                                SUI.InputValueOld = CurrentCheckPoint.MakeUserInputAction.UserInputOld
+                                SUI.InputValueNew = ""
+                                PanelSubForm.Controls.Add(SUI)
+                                'SUI.BringToFront()
+                                SUI.AutoScroll = True
+                                SUI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SUI.InputTextBox.Select()
+                                SUI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.SinglePntInst Then
+                                Dim SPI As SinglePointInstruction = New SinglePointInstruction
+                                SPI.TopLevel = False
+                                SPI.InputFeatures(CurrentCheckPoint.SinglePointAction.ImagePath_SPI_1, CurrentCheckPoint.SinglePointAction.ImagePath_SPI_2, CurrentCheckPoint.SinglePointAction.SPI_Message)
+                                PanelSubForm.Controls.Add(SPI)
+                                SPI.AutoScroll = True
+                                SPI.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                SPI.Show()
+                                Me.Refresh()
+                                Exit For
+                            ElseIf CurrentCheckPoint.Method = CheckSheetStep.MethodOption.AddedDocs Then
+                                Dim VDOC As AddedDocs = New AddedDocs
+                                VDOC.TopLevel = False
+                                PanelSubForm.Controls.Add(VDOC)
+                                VDOC.AutoScroll = True
+                                VDOC.Dock = DockStyle.Fill
+                                PanelSubForm.AutoScroll = True
+                                VDOC.Show()
+                                Me.Refresh()
+                                Exit For
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+
+            If LoopStarted = False And Not (RichTextBox_Step.BackColor = Color.Yellow Or RichTextBox_Step.BackColor = Color.OrangeRed) Then
+                Dim AllPass As Boolean = True
+                Dim CR_Count As Integer = 0
+                For Each item In AllCheckResult
+                    If Not IsNothing(item) Then
+                        If Not item.CheckResult Like "*True*" Then
+                            RichTextBox_ActivityToCheck.Text = "Last Failed Step: " & item.StepNo
+                            AllPass = False
+                            Exit For
+                        End If
+                    Else
+                        RichTextBox_ActivityToCheck.Text = "Last Failed Step: Next step after " & AllCheckResult(CR_Count - 1).StepNo
+                        AllPass = False
+                        Exit For
+                    End If
+                    CR_Count += 1
+                Next
+                If AllPass = True Then
+                    ShowCompleteInspection()
+                Else
+                    RichTextBox_ActivityToCheck.Refresh()
+                    'LastCheckPoint()
+                End If
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+#End Region
+
+
+    'Next (Rightside) Button
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Try
+            If CurrentQCC_Version = "1.3" Then
+                NextCheckPoint_v1p3()
+            ElseIf CurrentQCC_Version = "1.4" Then
+                NextCheckPoint_v1p4()
+            Else
+                WMsg.Message = $"NextCheckPoint() Error: Unknown QCC Version {CurrentQCC_Version}"
+                WMsg.ShowDialog()
+            End If
+        Catch ex As Exception
+            WMsg.Message = "NextCheckPoint() Error:" & ex.Message
+            WMsg.ShowDialog()
+        End Try
+    End Sub
+
+    'Previous (Leftside) Button
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            If CurrentQCC_Version = "1.3" Then
+                PreviousCheckPoint_v1p3()
+            ElseIf CurrentQCC_Version = "1.4" Then
+                PreviousCheckPoint_v1p4()
+            Else
+                WMsg.Message = $"PreviousCheckPoint() Error: Unknown QCC Version {CurrentQCC_Version}"
+                WMsg.ShowDialog()
+            End If
+        Catch ex As Exception
+            WMsg.Message = "PreviousCheckPoint() Error:" & ex.Message
+            WMsg.ShowDialog()
         End Try
     End Sub
 
@@ -1481,28 +1988,33 @@ LoopFinished:
                     RichTextBox_Step.BackColor = Color.Yellow
                 End If
             Else
-                If QcData_1p3.Count > 0 Then
-                    For Each Item In QcData_1p3
-                        If Item.PROCESS_NO = ProcessNo And Item.REMARK Like "*" & StepNo & "*" Then
-                            If Item.REMARK Like "*GO*" Then
-                                RichTextBox_Step.BackColor = Color.LightGreen
-                            ElseIf Item.REMARK Like "*NG*" Then
-                                RichTextBox_Step.BackColor = Color.OrangeRed
+
+                If CurrentQCC_Version = "1.4" Then
+                    If QcData_1p4.Count > 0 Then
+                        For Each Item In QcData_1p4
+                            If Item.PROCESS_NO = ProcessNo And Item.REMARK Like "*" & StepNo & "*" Then
+                                If Item.REMARK Like "*GO*" Then
+                                    RichTextBox_Step.BackColor = Color.LightGreen
+                                ElseIf Item.REMARK Like "*NG*" Then
+                                    RichTextBox_Step.BackColor = Color.OrangeRed
+                                End If
                             End If
-                        End If
-                    Next
-                End If
-                If QcData_1p4.Count > 0 Then
-                    For Each Item In QcData_1p4
-                        If Item.PROCESS_NO = ProcessNo And Item.REMARK Like "*" & StepNo & "*" Then
-                            If Item.REMARK Like "*GO*" Then
-                                RichTextBox_Step.BackColor = Color.LightGreen
-                            ElseIf Item.REMARK Like "*NG*" Then
-                                RichTextBox_Step.BackColor = Color.OrangeRed
+                        Next
+                    End If
+                Else
+                    If QcData_1p3.Count > 0 Then
+                        For Each Item In QcData_1p3
+                            If Item.PROCESS_NO = ProcessNo And Item.REMARK Like "*" & StepNo & "*" Then
+                                If Item.REMARK Like "*GO*" Then
+                                    RichTextBox_Step.BackColor = Color.LightGreen
+                                ElseIf Item.REMARK Like "*NG*" Then
+                                    RichTextBox_Step.BackColor = Color.OrangeRed
+                                End If
                             End If
-                        End If
-                    Next
+                        Next
+                    End If
                 End If
+
             End If
         Catch ex As Exception
 

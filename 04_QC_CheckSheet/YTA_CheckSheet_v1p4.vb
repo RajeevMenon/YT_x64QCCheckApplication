@@ -10,7 +10,7 @@ Public Class YTA_CheckSheet_v1p4
         Try
             Dim ProcessStepReturn As New CheckSheetStep
             Dim stepMethodName As String = "ProcessStepNo" & StepNo
-            Dim checker As New YTA_CheckSheet_v1p3
+            Dim checker As New YTA_CheckSheet_v1p4
             Dim methodInfo = checker.GetType().GetMethod(stepMethodName)
             If methodInfo IsNot Nothing Then
                 ProcessStepReturn = methodInfo.Invoke(checker, New Object() {Initial, CustOrd, ErrMsg})
@@ -238,8 +238,8 @@ Public Class YTA_CheckSheet_v1p4
             If Mscode Like "YTA???-J??????*" Then Var2 = Mscode.Remove(7, 1).Insert(7, "F")
             If Mscode Like "YTA???-F??????*" Then Var2 = Mscode.Remove(7, 1).Insert(7, "J")
 
-            If Mscode Like "YTA???-???A???*" Then Var2 = Mscode.Remove(10, 1).Insert(7, "C")
-            If Mscode Like "YTA???-???C???*" Then Var2 = Mscode.Remove(10, 1).Insert(7, "A")
+            If Mscode Like "YTA???-???A???*" Then Var3 = Mscode.Remove(10, 1).Insert(7, "C")
+            If Mscode Like "YTA???-???C???*" Then Var3 = Mscode.Remove(10, 1).Insert(7, "A")
 
             ProcessStepReturn.UserInputAction.UserInputList = {Mscode, Var1, Var2, Var3}
             ProcessStepReturn.UserInputAction.UserInputCorrect = CustOrd.MS_CODE_BEFORE

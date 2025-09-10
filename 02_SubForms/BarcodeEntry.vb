@@ -31,6 +31,7 @@ Public Class BarcodeEntry
                     Label_Message.Text = "Please scan SerialNo./IndexNo./BarNo. or QR Code"
                     Exit Sub
                 End If
+                InitiPublicVar() 'To free memory usage
 #End Region
 
 #Region "CustOrd Read"
@@ -47,7 +48,7 @@ Public Class BarcodeEntry
                 If IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
                     If MsgBox("Production already completed on " & MainForm.CustOrd.ACTUAL_FINISH_DATE & ". Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
                         If MainForm.CurrentQCC_Version = "1.4" Then
-                            'MainForm.PrintQcc_Rev2()
+                            MainForm.PrintQcc_Rev2()
                         Else
                             MainForm.PrintQcc_Rev1()
                         End If
@@ -83,7 +84,7 @@ Public Class BarcodeEntry
                 Dim Reportjson As String = System.IO.File.ReadAllText(MainForm.JsonReportFile_STD)
                 MainForm.ReportTemplate = JsonConvert.DeserializeObject(Of OpenPdfOperation_x64.Template)(Reportjson)
 
-                Dim TotalInspectionSteps = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_steps)("STEP_NO", "%", ErrMsg).OrderBy(Function(y) y.SLNO).ToList
+                Dim TotalInspectionSteps = MainForm.QcSteps 'TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_steps)("STEP_NO", "%", ErrMsg).OrderBy(Function(y) y.SLNO).ToList
                 If ErrMsg.Length > 0 Then
                     Label_Message.Text = ErrMsg
                     Exit Sub
@@ -138,7 +139,7 @@ Public Class BarcodeEntry
                 If TotalStepsInspected.Length = TotalInspectionSteps.Count Then 'If all Inspection Done
                     If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
                         If MainForm.CurrentQCC_Version = "1.4" Then
-                            'MainForm.PrintQcc_Rev2()
+                            MainForm.PrintQcc_Rev2()
                         Else
                             MainForm.PrintQcc_Rev1()
                         End If
@@ -279,9 +280,10 @@ Public Class BarcodeEntry
 
             End If
         Catch ex As Exception
-            Label_Message.Text = "Runtime Error:" & ex.Message.Substring(0, 50) & ".."
+            Label_Message.Text = "Runtime Error:" & ex.Message.Substring(0, Math.Min(50, ex.Message.Length)) & ".."
         End Try
     End Sub
+
     Private Sub SelectYtaPlates(ByVal CustOrd As POCO_YGSP.cust_ord, ByRef ErrMsg As String)
         Try
             ErrMsg = ""
@@ -327,5 +329,14 @@ Public Class BarcodeEntry
         Catch ex As Exception
             ErrMsg = ex.Message
         End Try
+    End Sub
+
+    Private Sub InitiPublicVar()
+        MainForm.CoHeader = Nothing
+        MainForm.CustOrd = Nothing
+        MainForm.Hipot = Nothing
+        MainForm.QcData_1p3 = Nothing
+        MainForm.QcData_1p4 = Nothing
+        MainForm.QcSteps = Nothing
     End Sub
 End Class
