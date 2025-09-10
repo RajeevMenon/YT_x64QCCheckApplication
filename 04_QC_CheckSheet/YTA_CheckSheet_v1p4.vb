@@ -115,7 +115,7 @@ Public Class YTA_CheckSheet_v1p4
             Dim RndAry As New TML_Library.RandomArray
             Dim NewUnitSrNo = RndAry.RandomStringArraySERIAL(CustOrd.SERIAL_NO, 4)
 
-            ProcessStepReturn.ProcessNo = "20"
+            ProcessStepReturn.ProcessNo = "020"
             ProcessStepReturn.ProcessStep = "Order Tag Correctness"
             ProcessStepReturn.Activity = "Serial No. correctness check"
             ProcessStepReturn.ToCheck = "Correct Serial Number of unit to be Prepared"
@@ -152,7 +152,7 @@ Public Class YTA_CheckSheet_v1p4
 
             Dim ProcessStepReturn As New CheckSheetStep
 
-            ProcessStepReturn.ProcessNo = "20"
+            ProcessStepReturn.ProcessNo = "020"
             ProcessStepReturn.ProcessStep = "Before Modification Unit"
             ProcessStepReturn.Activity = "Before Modification Serial Number?"
             ProcessStepReturn.ToCheck = "Correct Serial Number of unit to be Prepared"
@@ -218,7 +218,7 @@ Public Class YTA_CheckSheet_v1p4
 
             Dim ProcessStepReturn As New CheckSheetStep
 
-            ProcessStepReturn.ProcessNo = "20"
+            ProcessStepReturn.ProcessNo = "020"
             ProcessStepReturn.ProcessStep = "Correct Unit Picked"
             ProcessStepReturn.Activity = "Picked Unit check"
             ProcessStepReturn.ToCheck = "Correct MSCODE of Capsule or Level 2.0 unit Picked"
@@ -271,7 +271,7 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "30"
+            ProcessStepReturn.ProcessNo = "030"
             ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Marking"
             ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
             ProcessStepReturn.ToCheck = "Country of Origin"
@@ -324,7 +324,7 @@ Public Class YTA_CheckSheet_v1p4
             Dim SelPartsSNO = RL_Tag.RandomStringArraySERIAL(CustOrd.SERIAL_NO, 4)
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "30"
+            ProcessStepReturn.ProcessNo = "030"
             ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Marking"
             ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
             ProcessStepReturn.ToCheck = "Plate data correct?"
@@ -348,7 +348,7 @@ Public Class YTA_CheckSheet_v1p4
             Dim SelPartsTAG = RL_Tag.RandomStringArrayYTA(CustOrd.TAG_NO_525, 4)
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "30"
+            ProcessStepReturn.ProcessNo = "030"
             ProcessStepReturn.ProcessStep = "Tag Plate Marking"
             ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
             ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
@@ -375,7 +375,7 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "30"
+            ProcessStepReturn.ProcessNo = "030"
             ProcessStepReturn.ProcessStep = "Data Plate Marking"
             ProcessStepReturn.Activity = "Prepare Data and Tag Plates with correct contents"
             ProcessStepReturn.ToCheck = "Plate data correct?  YES NO"
@@ -425,7 +425,7 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "40"
+            ProcessStepReturn.ProcessNo = "040"
             ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
             ProcessStepReturn.Activity = "Mount the marked Data and Tag Plates to the unit"
             ProcessStepReturn.ToCheck = "Approval type Data plate Part No. and No gap between plate and housing"
@@ -461,13 +461,51 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
+    Public Function ProcessStepNo40_02_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "040"
+            ProcessStepReturn.ProcessStep = "Data Plate/Tag Plate Mounting"
+            ProcessStepReturn.Activity = "Mount the Tag Plates to the unit"
+            ProcessStepReturn.ToCheck = "Tag plate Properly mounted"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo_Group = "40"
+
+            ProcessStepReturn.StepNo = "40_02_00"
+            ProcessStepReturn.ActivityToCheck = "Correctness of Tag plate"
+            ProcessStepReturn.SinglePointAction.SPI_Message = "Tag plate correctly mounted?"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
 
     'Process Step-50,60,70,80,90,100,110 Modification/Assembly checks
     Public Function ProcessStepNo50_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "50"
+            ProcessStepReturn.ProcessNo = "050"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
             ProcessStepReturn.Activity = "Display, Terminal Cover Open"
             ProcessStepReturn.ToCheck = "No Thread damage"
@@ -480,7 +518,18 @@ Public Class YTA_CheckSheet_v1p4
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "DamagedCovers.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "UnDamagedCovers.jpg"
             ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "UnDamagedCovers.jpg"
-            ProcessStepReturn.Result = "[GO]-8,65,24.6$Tick-13,70,24$" & Initial & "-11,84,30"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
 
 
@@ -492,13 +541,16 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "60"
+            ProcessStepReturn.ProcessNo = "060"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
             ProcessStepReturn.Activity = "BOUT Switch setting/Plug for electrical connection"
             ProcessStepReturn.ToCheck = "/C1  /C2  /C3  NA / Plug Installed"
             ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
             ProcessStepReturn.Initial = Initial
             ProcessStepReturn.StepNo = "60_01_00"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
 
             If ((CustOrd.MS_CODE Like "YTA*/C[123]*") And (Not CustOrd.MS_CODE_BEFORE Like "YTA*/C[123]*")) _
                 Or ((Not CustOrd.MS_CODE Like "YTA*/C[123]*") And (CustOrd.MS_CODE_BEFORE Like "YTA*/C[123]*")) Then
@@ -508,14 +560,18 @@ Public Class YTA_CheckSheet_v1p4
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C3_NORMAL.jpg"
                 If CustOrd.MS_CODE Like "YTA*/C[12]*" Then
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C1_C2.jpg"
-                    If CustOrd.MS_CODE Like "YTA*/C1*" Then ProcessStepReturn.Result = "Circle-16,50,25.8"
-                    If CustOrd.MS_CODE Like "YTA*/C2*" Then ProcessStepReturn.Result = "Circle-16,54.1,25.8"
+                    If CustOrd.MS_CODE Like "YTA*/C1*" Then
+                        ResultValue = "[C1] ✓"
+                    End If
+                    If CustOrd.MS_CODE Like "YTA*/C2*" Then
+                        ResultValue = "[C2] ✓"
+                    End If
                 ElseIf CustOrd.MS_CODE Like "YTA*/C3*" Then
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C3_NORMAL.jpg"
-                    ProcessStepReturn.Result = "Circle-16,58.5,25.8"
+                    ResultValue = "[C3] ✓"
                 Else
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C3_NORMAL.jpg"
-                    ProcessStepReturn.Result = "Circle-16,62.5,25.8"
+                    ResultValue = "[NA GO] ✓"
                 End If
             Else
                 If CustOrd.MS_CODE Like "YTA*/C[12]*" Then
@@ -524,26 +580,39 @@ Public Class YTA_CheckSheet_v1p4
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C1_C2.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C3_NORMAL.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C1_C2.jpg"
-                    If CustOrd.MS_CODE Like "YTA*/C1*" Then ProcessStepReturn.Result = "Circle-16,50,25.8"
-                    If CustOrd.MS_CODE Like "YTA*/C2*" Then ProcessStepReturn.Result = "Circle-16,54.1,25.8"
+                    If CustOrd.MS_CODE Like "YTA*/C1*" Then
+                        ResultValue = "[C1] ✓"
+                    End If
+                    If CustOrd.MS_CODE Like "YTA*/C2*" Then
+                        ResultValue = "[C2] ✓"
+                    End If
                 ElseIf CustOrd.MS_CODE Like "YTA*/C3*" Then
                     ProcessStepReturn.ActivityToCheck = "BOUT Switch setting"
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Burn-Out Switch] Confirm Switch [1] Position on Switch Block - SW1"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C1_C2.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C3_NORMAL.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "BOUT_C3_NORMAL.jpg"
-                    ProcessStepReturn.Result = "Circle-16,58.5,25.8"
+                    ResultValue = "[C3] ✓"
                 Else
                     ProcessStepReturn.ActivityToCheck = "BOUT Switch setting"
                     ProcessStepReturn.SinglePointAction.SPI_Message = "[Burn-Out Switch] Confirm Switch [1] Position on Switch Block - SW1"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "BOUT_C1_C2.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
                     ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
-                    ProcessStepReturn.Result = "Circle-16,62.5,25.8"
+                    ResultValue = "[NA GO] ✓"
                 End If
             End If
 
-            ProcessStepReturn.Result &= "$Tick-13,70,26"
+
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
 
 
@@ -555,44 +624,34 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            If CustOrd.MS_CODE Like "YTA*" Then
-                ProcessStepReturn.ProcessNo = "70"
-                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.Activity = "Display Indicator"
-                ProcessStepReturn.ToCheck = "ADDED   REMOVED    NO-CHANGE"
-                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-                ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.ProcessNo = "070"
+            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.Activity = "Electrical Connection Plug"
+            ProcessStepReturn.ToCheck = "Installation of Plug"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
 
-                ProcessStepReturn.StepNo = "70_01_00"
-                ProcessStepReturn.ActivityToCheck = "Display Indicator"
-                If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
-                    ProcessStepReturn.Result = "Circle-16,62,28.8"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Added or Removed?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Removed.jpg"
-                    ProcessStepReturn.Result = "Circle-16,54,28.8"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Added or Removed?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
-                    ProcessStepReturn.Result = "Circle-16,47.5,28.8"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
-                    ProcessStepReturn.Result = "Circle-16,62,28.8"
-                End If
+            ProcessStepReturn.StepNo = "70_01_00"
+            ProcessStepReturn.ActivityToCheck = "Plug installation"
 
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
+
+            ProcessStepReturn.SinglePointAction.SPI_Message = "[Plug] Electrical connection plug Installed?"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Yes.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No.jpg"
+            ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+            ResultValue = "[Yes] ✓"
+
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
             End If
-            ProcessStepReturn.Result &= "$Tick-13,70,29.1"
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
 
 
@@ -604,40 +663,109 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            If CustOrd.MS_CODE Like "YTA*" Then
-                ProcessStepReturn.ProcessNo = "70"
-                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.Activity = "Display Indicator"
-                ProcessStepReturn.ToCheck = "ADDED   REMOVED    NO-CHANGE"
-                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-                ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.ProcessNo = "070"
+            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.Activity = "Display Indicator"
+            ProcessStepReturn.ToCheck = "ADDED   REMOVED    NO-CHANGE"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
 
-                ProcessStepReturn.StepNo = "70_02_00"
-                ProcessStepReturn.ActivityToCheck = "Display Indicator"
-                If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_W_Nut.jpg"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NoneInd_w_Stud.jpg"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_W_Nut.jpg"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NoneInd_w_Stud.jpg"
-                End If
+            ProcessStepReturn.StepNo = "70_02_00"
+            ProcessStepReturn.ActivityToCheck = "Display Indicator"
 
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
+            If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Not Installed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                ResultValue = "[Type: D] ✓"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Added or Removed?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Removed.jpg"
+                ResultValue = "[NA GO] ✓"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Added or Removed?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Removed.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Installed.jpg"
+                ResultValue = "[Type: D] ✓"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Indicator] Confirm Indicator Status?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "No Change.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\Common\" & "Added.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Change.jpg"
+                ResultValue = "[NA GO] ✓"
             End If
-            ProcessStepReturn.Result = ""
+
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+            Return ProcessStepReturn
+
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Function ProcessStepNo70_02_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+
+            Dim ProcessStepReturn As New CheckSheetStep
+
+            ProcessStepReturn.ProcessNo = "070"
+            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.Activity = "Display Indicator"
+            ProcessStepReturn.ToCheck = "ADDED   REMOVED    NO-CHANGE"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
+
+            ProcessStepReturn.StepNo = "70_02_01"
+            ProcessStepReturn.ActivityToCheck = "Display Indicator"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = ""
+
+            If CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_W_Nut.jpg"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????D?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NoneInd_w_Stud.jpg"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_W_Nut.jpg"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-?????N?*" And CustOrd.MS_CODE Like "YTA[67]10-?????N?*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[Nut/Stud] Confirm Nut/Stud usage for Indicator/Board fixing to case"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "Indicator_W_Nut.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\70\" & "NoneInd_w_Stud.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "NoneInd_w_Stud.jpg"
+            End If
+
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
 
 
@@ -649,7 +777,7 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            ProcessStepReturn.ProcessNo = "80"
+            ProcessStepReturn.ProcessNo = "080"
             ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
             ProcessStepReturn.Activity = "Lock Screw installation"
             ProcessStepReturn.ToCheck = "YES    NO"
@@ -658,32 +786,45 @@ Public Class YTA_CheckSheet_v1p4
 
             ProcessStepReturn.StepNo = "80_01_00"
             ProcessStepReturn.ActivityToCheck = "Lock Screw installation"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
+
             If CustOrd.MS_CODE Like "YTA[67]10-?????D?*/[KS][UF][12]*" Then
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_w_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_wo_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_w_F9900RP.jpg"
-                ProcessStepReturn.Result = "Circle-16,51,31.8"
+                ResultValue = "[Yes] ✓"
             ElseIf CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_w_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Indicator_wo_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Indicator_wo_F9900RP.jpg"
-                ProcessStepReturn.Result = "Circle-16,61.5,31.8"
+                ResultValue = "[NA] ✓"
             ElseIf CustOrd.MS_CODE Like "YTA[67]10-?????N?*/[KS][UF][12]*" Then
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_w_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_wo_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Blind_w_F9900RP.jpg"
-                ProcessStepReturn.Result = "Circle-16,51,31.8"
+                ResultValue = "[Yes] ✓"
             Else
                 ProcessStepReturn.SinglePointAction.SPI_Message = "[Lock Screw] Confirm Installation of Lock Screw [F9900RP] ?"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_w_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\80\" & "Blind_wo_F9900RP.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Blind_wo_F9900RP.jpg"
-                ProcessStepReturn.Result = "Circle-16,61.5,31.8"
+                ResultValue = "[NA] ✓"
             End If
-            ProcessStepReturn.Result &= "$Tick-13,70,32.1"
+
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
 
 
@@ -696,7 +837,7 @@ Public Class YTA_CheckSheet_v1p4
 
             Dim ProcessStepReturn As New CheckSheetStep
             If CustOrd.MS_CODE Like "YTA[67]10-?????D?*" Then
-                ProcessStepReturn.ProcessNo = "90"
+                ProcessStepReturn.ProcessNo = "090"
                 ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
                 ProcessStepReturn.Activity = "Display Cover Assembling"
                 ProcessStepReturn.ToCheck = "Clean & No galling"
@@ -724,7 +865,18 @@ Public Class YTA_CheckSheet_v1p4
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\50\" & "Galling.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No Galling.jpg"
             End If
-            ProcessStepReturn.Result = "Tick-13,70,30.6"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
 
 
@@ -736,45 +888,58 @@ Public Class YTA_CheckSheet_v1p4
         Try
 
             Dim ProcessStepReturn As New CheckSheetStep
-            If CustOrd.MS_CODE Like "YTA*" Then
-                ProcessStepReturn.ProcessNo = "100"
-                ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
-                ProcessStepReturn.Activity = "Lightning Protector"
-                ProcessStepReturn.ToCheck = "ADDED    REMOVED    NO-CHANGE"
-                ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
-                ProcessStepReturn.Initial = Initial
 
-                ProcessStepReturn.StepNo = "100_01_00"
-                ProcessStepReturn.ActivityToCheck = "[Screw Tighten/Appearance] Lightning Arrestor Check"
-                If Not CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Lightning Arrestor Installed?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithA.jpg"
-                    ProcessStepReturn.Result = "Circle-16,47.4,33.3"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Lightning Arrestor Installed?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithA.jpg"
-                    ProcessStepReturn.Result = "Circle-16,47.4,33.3"
-                ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And Not CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Confirm Lightning Arrestor Status?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithoutA.jpg"
-                    ProcessStepReturn.Result = "Circle-16,55,33.3"
-                ElseIf Not CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And Not CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
-                    ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Confirm Lightning Arrestor Status?"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
-                    ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithoutA.jpg"
-                    ProcessStepReturn.Result = "Circle-16,63,33.3"
-                End If
+            ProcessStepReturn.ProcessNo = "100"
+            ProcessStepReturn.ProcessStep = "Modification / Assembly Checks"
+            ProcessStepReturn.Activity = "Lightning Protector"
+            ProcessStepReturn.ToCheck = "ADDED    REMOVED    NO-CHANGE"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.SinglePntInst
+            ProcessStepReturn.Initial = Initial
 
+            ProcessStepReturn.StepNo = "100_01_00"
+            ProcessStepReturn.ActivityToCheck = "[Screw Tighten/Appearance] Lightning Arrestor Check"
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[GO] ✓"
+
+            If Not CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Lightning Arrestor Installed?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithA.jpg"
+                ResultValue = "[/A GO]✓"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Lightning Arrestor Installed?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithA.jpg"
+                ResultValue = "[/A GO]✓"
+            ElseIf CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And Not CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Confirm Lightning Arrestor Status?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithoutA.jpg"
+                ResultValue = "[NA GO]✓"
+            ElseIf Not CustOrd.MS_CODE_BEFORE Like "YTA[67]10-???????*/A*" And Not CustOrd.MS_CODE Like "YTA[67]10-???????*/A*" Then
+                ProcessStepReturn.SinglePointAction.SPI_Message = "[/A Option] Confirm Lightning Arrestor Status?"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_1 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithoutA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\100\" & "WithA.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "WithoutA.jpg"
+                ResultValue = "[NA GO]✓"
             End If
-            ProcessStepReturn.Result &= "$Tick-13,70,33.6"
+
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("40_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
+
+
 
 
         Catch ex As Exception
@@ -805,7 +970,17 @@ Public Class YTA_CheckSheet_v1p4
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_2 = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\110\" & "ExtEarth_wo_Washer.jpg"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "ExtEarth_wo_Washer.jpg"
             End If
-            ProcessStepReturn.Result = "Tick-13,70,35"
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = "[Yes] ✓"
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            AddWriteField("50_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
             Return ProcessStepReturn
 
 

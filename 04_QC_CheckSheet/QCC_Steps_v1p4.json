@@ -54,5 +54,75 @@
 		"QCC_VER": "1.2",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "09",
+		"STEP_NO": "40_02_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "10",
+		"STEP_NO": "50_01_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "11",
+		"STEP_NO": "60_01_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "12",
+		"STEP_NO": "70_01_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "13",
+		"STEP_NO": "70_02_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "14",
+		"STEP_NO": "70_02_01",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "15",
+		"STEP_NO": "80_01_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "16",
+		"STEP_NO": "90_01_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "17",
+		"STEP_NO": "100_01_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "18",
+		"STEP_NO": "110_01_00",
+		"QCC_VER": "1.2",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
 	}
 ]
