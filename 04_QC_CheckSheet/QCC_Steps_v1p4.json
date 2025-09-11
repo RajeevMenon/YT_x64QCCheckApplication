@@ -159,5 +159,187 @@
 		"QCC_VER": "1.2",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "24",
+		"STEP_NO": "130_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "25",
+		"STEP_NO": "140_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "26",
+		"STEP_NO": "150_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "27",
+		"STEP_NO": "160_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "28",
+		"STEP_NO": "170_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "29",
+		"STEP_NO": "170_02_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "30",
+		"STEP_NO": "170_03_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "31",
+		"STEP_NO": "170_04_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "32",
+		"STEP_NO": "180_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "33",
+		"STEP_NO": "180_02_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "34",
+		"STEP_NO": "180_03_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "35",
+		"STEP_NO": "190_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "36",
+		"STEP_NO": "190_02_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "37",
+		"STEP_NO": "190_03_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "38",
+		"STEP_NO": "190_04_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "39",
+		"STEP_NO": "190_05_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "40",
+		"STEP_NO": "190_06_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "41",
+		"STEP_NO": "190_07_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "42",
+		"STEP_NO": "190_08_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "43",
+		"STEP_NO": "190_09_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "44",
+		"STEP_NO": "190_10_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "45",
+		"STEP_NO": "190_11_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "46",
+		"STEP_NO": "190_11_01",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "47",
+		"STEP_NO": "190_12_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "48",
+		"STEP_NO": "190_12_01",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "49",
+		"STEP_NO": "190_13_00",
+		"QCC_VER": "1.4",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
 	}
 ]

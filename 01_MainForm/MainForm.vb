@@ -2636,6 +2636,14 @@ LoopFinished:
             Setting.Var_05_Factory = Link.Factory 'This is necessary for the application to work at YUAE and YKS
             Setting.Var_06_DocsStore = Link.DocsStore 'This is necessary for the application to work at YUAE and YKS
 
+            If CurrentQCC_Version = "1.4" Then
+                Dim QcStepsjson As String = System.IO.File.ReadAllText(QcSteps_1p4_File)
+                QcSteps = JsonConvert.DeserializeObject(Of List(Of POCO_QA.yta_qcc_steps))(QcStepsjson)
+            Else
+                Dim QcStepsjson As String = System.IO.File.ReadAllText(QcSteps_1p3_File)
+                QcSteps = JsonConvert.DeserializeObject(Of List(Of POCO_QA.yta_qcc_steps))(QcStepsjson)
+            End If
+
         Catch ex As Exception
             'MsgBox("Settings files read error. Error: " & ex.Message)
             WMsg.Message = "Settings files read error. Error: " & ex.Message
@@ -2700,6 +2708,7 @@ Retry:
                     WMsg.ShowDialog()
                     Exit Sub
                 Else
+                    If DistinctTemplateNames(0) Like "*.rpd" Then DistinctTemplateNames(0) = DistinctTemplateNames(0).Replace(".rpd", ".pdf")
                     BlankDoc = Application.StartupPath & $"\05_Report_Templates\{DistinctTemplateNames(0)}"
                     If System.IO.File.Exists(BlankDoc) Then
                         Dim WriteTemplate As New OpenPdfOperation_x64.Template
@@ -2740,7 +2749,7 @@ Retry_01:
                             End If
                         End Try
                     Else
-                        WMsg.Message = $"QC-Template: [ {DistinctTemplateNames(0)} ] not available in [ 13_Report_Templates ] Folder."
+                        WMsg.Message = $"QC-Template: [ {DistinctTemplateNames(0)} ] not available in [ 05_Report_Templates ] Folder."
                         WMsg.ShowDialog()
                         Exit Sub
                     End If
@@ -2764,11 +2773,12 @@ Retry_01:
             VersionText = AppControl.GetVersion(Application.StartupPath & "\00_Settings")
             Me.Text = $"YTA QC Check (x64)  [ App-Ver: { VersionText } ]  Station: [ {My.Settings.Station} ] QCC Ver: [ {CurrentQCC_Version} ] Plant: [ {Link.PlantID} ] Server: [ {Link.ServerAddress} ] QCC-Save: [ {SaveFinalDoc.ToString} ]"
 Repeat:
-            StationName = InputBox("Please select Station Name", "STATION", Setting.Var_08_StepsName)
+            Dim Stations As String = "BUILD,FINALASSY,PACKING"
+            StationName = InputBox("Please select Station Name", "STATION", Stations)
             If Setting.Var_08_StepsName Like "*" & StationName & "*" And Not StationName.Contains(",") And StationName.Length > 0 Then
                 My.Settings.Station = StationName
                 My.Settings.Save()
-                Me.Text = "YTA QC Check" & " [ Ver:" & VersionText & "]" & " [ Station:" & My.Settings.Station & "]"
+                Me.Text = $"YTA QC Check (x64)  [ App-Ver: { VersionText } ]  Station: [ {My.Settings.Station} ] QCC Ver: [ {CurrentQCC_Version} ] Plant: [ {Link.PlantID} ] Server: [ {Link.ServerAddress} ] QCC-Save: [ {SaveFinalDoc.ToString} ]"
             Else
                 GoTo Repeat
             End If
