@@ -7,6 +7,7 @@
     Public Const GWL_STYLE As Integer = (-16)
     Public Const WS_VSCROLL As Integer = &H200000
     Public Const WS_HSCROLL As Integer = &H100000
+    Dim TmlEntityYGS As New MFG_ENTITY.Op(Link.Mysql_YGSP_ConStr)
 
     Enum Status
         InActive
@@ -103,7 +104,7 @@
                 If MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString.Length > 0 Then
 
                     Dim ErrMsg As String = ""
-                    Dim TmlEty As New MFG_ENTITY.Op(MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveConnectionString)
+                    Dim TmlEty As New MFG_ENTITY.Op(Link.Mysql_YGSP_ConStr)
                     Dim Sql(0) As String
 
                     If MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableName = "QR_CHECK" Then 'DLM QR Label. Here connectionstring is empty
@@ -112,9 +113,35 @@
                         If InputTextBox.Text.Trim.ToUpper Like (CheckString.ToUpper & MainForm.CustOrd.SERIAL_NO.ToUpper) Or
                             InputTextBox.Text.Trim.ToUpper Like (CheckString_New.ToUpper & MainForm.CustOrd.SERIAL_NO.ToUpper) Then
                             InputTextBox.BackColor = Color.Green
-                            MainForm.wait(1)
-                            MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
-                            MainForm.Button2.PerformClick()
+                            InputTextBox.Refresh()
+                            Sql(0) = $"UPDATE cust_ord SET DLM_QR='{InputTextBox.Text.Trim}' WHERE INDEX_NO='{MainForm.CustOrd.INDEX_NO}';"
+                            If Sql(0).Length = 0 Then
+                                WMsg.Message = "Error: No Data to Save to DB!"
+                                WMsg.ShowDialog()
+                                Exit Sub
+                            End If
+                            TmlEntityYGS.ExecuteTransactionQuery(Sql, ErrMsg:=ErrMsg)
+                            If ErrMsg.Length > 0 Then
+                                WMsg.Message = $"Error: QR Update Error: {ErrMsg}"
+                                WMsg.ShowDialog()
+                                MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+                                MainForm.wait(1)
+                                Exit Sub
+                            Else
+                                MainForm.CustOrd = TmlEntityYGS.GetDatabaseTableAs_List(Of POCO_YGSP.cust_ord)("INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg:=ErrMsg).FirstOrDefault
+                                If ErrMsg.Length > 0 Then
+                                    WMsg.Message = $"Error: cust_ord read Error: {ErrMsg}"
+                                    WMsg.ShowDialog()
+                                    MainForm.InspectionStatus(MainForm.CurrentCheckPoint, False)
+                                    MainForm.wait(1)
+                                    Exit Sub
+                                Else
+                                    MainForm.InspectionStatus(MainForm.CurrentCheckPoint, True)
+                                    MainForm.Button2.PerformClick()
+                                    MainForm.wait(1)
+                                    Exit Sub
+                                End If
+                            End If
                             Me.Close()
                         End If
                     ElseIf MainForm.CurrentCheckPoint.MakeUserInputAction.UserInputSaveTableField = "SERIAL_NO_BEFORE" Then

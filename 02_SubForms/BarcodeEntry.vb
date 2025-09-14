@@ -102,11 +102,22 @@ Public Class BarcodeEntry
                 ReDim MainForm.AllCheckResult(MainForm.AllowedSteps.Length - 1)
 
                 'Inspection Results till now in DB
-                Dim InspRes = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p2)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
-                If ErrMsg.Length > 0 Then
-                    Label_Message.Text = ErrMsg
-                    Exit Sub
+                Dim InspRes
+                If MainForm.CurrentQCC_Version = "1.4" Then
+                    InspRes = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p4)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        Label_Message.Text = ErrMsg
+                        Exit Sub
+                    End If
+                Else
+                    InspRes = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p4)("INDEX_NO", MainForm.CustOrd.INDEX_NO, "INDEX_NO", MainForm.CustOrd.INDEX_NO, ErrMsg)
+                    If ErrMsg.Length > 0 Then
+                        Label_Message.Text = ErrMsg
+                        Exit Sub
+                    End If
                 End If
+
+
                 Dim TotalStepsInspected(0) As String
                 If InspRes.Count > 0 Then
                     For Each process In InspRes

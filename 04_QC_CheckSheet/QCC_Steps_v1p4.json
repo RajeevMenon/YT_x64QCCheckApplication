@@ -2,161 +2,161 @@
 	{
 		"SLNO": "01",
 		"STEP_NO": "20_00_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "02",
 		"STEP_NO": "20_00_01",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "03",
 		"STEP_NO": "20_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "04",
 		"STEP_NO": "30_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "05",
 		"STEP_NO": "30_02_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "06",
 		"STEP_NO": "30_03_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "07",
 		"STEP_NO": "30_04_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "08",
 		"STEP_NO": "40_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "09",
 		"STEP_NO": "40_02_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "10",
 		"STEP_NO": "50_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "11",
 		"STEP_NO": "60_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "12",
 		"STEP_NO": "70_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "13",
 		"STEP_NO": "70_02_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "14",
 		"STEP_NO": "70_02_01",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "15",
 		"STEP_NO": "80_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "16",
 		"STEP_NO": "90_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "17",
 		"STEP_NO": "100_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "18",
 		"STEP_NO": "110_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "19",
 		"STEP_NO": "120_01_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "20",
 		"STEP_NO": "120_02_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "21",
 		"STEP_NO": "120_03_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "22",
 		"STEP_NO": "120_04_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
 	{
 		"SLNO": "23",
 		"STEP_NO": "120_05_00",
-		"QCC_VER": "1.2",
+		"QCC_VER": "1.4",
 		"STATION": "BUILD",
 		"PRODUCT": "YTA"
 	},
@@ -340,6 +340,69 @@
 		"STEP_NO": "190_13_00",
 		"QCC_VER": "1.4",
 		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "50",
+		"STEP_NO": "200_01_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "51",
+		"STEP_NO": "200_02_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "52",
+		"STEP_NO": "200_03_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "53",
+		"STEP_NO": "200_04_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "54",
+		"STEP_NO": "200_05_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "55",
+		"STEP_NO": "200_05_01",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "56",
+		"STEP_NO": "200_06_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "57",
+		"STEP_NO": "200_07_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
+		"PRODUCT": "YTA"
+	},
+	{
+		"SLNO": "58",
+		"STEP_NO": "200_08_00",
+		"QCC_VER": "1.4",
+		"STATION": "PACKING",
 		"PRODUCT": "YTA"
 	}
 ]
