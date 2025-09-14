@@ -2855,7 +2855,7 @@ FixVar3:
             Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
             Dim ResultValue As String = "[GO] ✓"
             AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
-            AddWriteField("200_07_01", "KC + Moroccan Marks Only", WriteFields:=WriteFields)
+            AddWriteField("200_07_01", "KC + Moroccan", WriteFields:=WriteFields)
             Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
             If ErrMsg.Length > 0 Then
                 WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
