@@ -856,7 +856,7 @@ Public Class MainForm
     Public CurrentQCC_Version As String = "1.4" '"1.3"
 
     'Save FinalQcc to ProductionComplete Folder? Select True to Save.
-    Dim SaveFinalDoc As Boolean = False
+    Dim SaveFinalDoc As Boolean = True
 
     'Version specific objects
     Dim CheckSheet_v1p3 As New YTA_CheckSheet_v1p3
@@ -2673,7 +2673,7 @@ LoopFinished:
             If QcData_1p4.Count > 0 Then
                 RefreshSettings(Link.Network)
                 Dim BlankDoc As String = ""
-                Dim FinalDoc As String = Setting.Var_06_DocsStore & "Production Complete Documents\Signed_QCC\" & CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+                Dim FinalDoc As String = System.IO.Path.Combine(Setting.Var_06_DocsStore, "Production Complete Documents\Signed_QCC", CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf")
                 If SaveFinalDoc = False Then
                     Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
                     FinalDoc = FinalFileName
@@ -2685,6 +2685,10 @@ Retry:
                         Using fs As New FileStream(FinalDoc, FileMode.Open, FileAccess.ReadWrite, FileShare.None)
                             ' File is not in use
                         End Using
+                    Else
+                        If Not System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(FinalDoc)) Then
+                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                        End If
                     End If
                 Catch ex As IOException
                     ' File is in use
