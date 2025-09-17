@@ -63,6 +63,13 @@
 		"PRODUCT": "YTA"
 	},
 	{
+		"SLNO": "09",
+		"STEP_NO": "40_02_01",
+		"QCC_VER": "1.4",
+		"STATION": "BUILD",
+		"PRODUCT": "YTA"
+	},
+	{
 		"SLNO": "10",
 		"STEP_NO": "50_01_00",
 		"QCC_VER": "1.4",

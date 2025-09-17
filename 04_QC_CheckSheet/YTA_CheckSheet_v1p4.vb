@@ -498,6 +498,56 @@ Public Class YTA_CheckSheet_v1p4
             Return Nothing
         End Try
     End Function
+    Public Function ProcessStepNo40_02_01(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
+        Try
+            Dim ProcessStepReturn As New CheckSheetStep
+            ProcessStepReturn.ProcessNo = "040"
+            ProcessStepReturn.ProcessStep = "Sticker Mounting"
+            ProcessStepReturn.Method = CheckSheetStep.MethodOption.ProcedureStep
+            ProcessStepReturn.Initial = Initial
+            ProcessStepReturn.StepNo = "40_02_01"
+
+
+            If CustOrd.EU_COUNTRY = "SA" And Link.PlantID = "5Q00" Then
+                ProcessStepReturn.Activity = "Saudi Made Logo"
+                ProcessStepReturn.ToCheck = "SAUDI MADE logo correctness"
+                ProcessStepReturn.ActivityToCheck = "Attach Saudi Made Logo"
+                ProcessStepReturn.ProcedureStepAction.ProcedureMessage = "Attach to location shown below"
+                ProcessStepReturn.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.CenterImage
+                ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\170\" & "Saudi_Made.jpg"
+            ElseIf Link.PlantID = "5Q00" Then
+                ProcessStepReturn.Activity = "Saudi Made Logo"
+                ProcessStepReturn.ToCheck = "No stickers attached to unit"
+                ProcessStepReturn.ActivityToCheck = "No stickers attached to unit"
+                ProcessStepReturn.ProcedureStepAction.ProcedureMessage = "Remove any old sticker, (e.g. QR or SAUDI Made), if present."
+                ProcessStepReturn.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.CenterImage
+                ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\170\" & "No_Stickers.jpg"
+            Else
+                ProcessStepReturn.Activity = "QR Sticker check"
+                ProcessStepReturn.ToCheck = "No stickers attached to unit"
+                ProcessStepReturn.ActivityToCheck = "No stickers attached to unit"
+                ProcessStepReturn.ProcedureStepAction.ProcedureMessage = "Remove any old QR stickers, if present."
+                ProcessStepReturn.ProcedureStepAction.SetSizeMode = ProcedureStep.SizeMode.CenterImage
+                ProcessStepReturn.ProcedureStepAction.ImagePath_ProcedureStep = MainForm.Setting.Var_52_SinglePntInst_ImagePath & "YTA\170\" & "No_Stickers.jpg"
+            End If
+
+            Dim WriteFields As New List(Of OpenPdfOperation_x64.WriteField)
+            Dim ResultValue As String = $""
+            AddWriteField(ProcessStepReturn.StepNo, ResultValue, WriteFields:=WriteFields)
+            'AddWriteField("50_01_00_01", MainForm.Initial, WriteFields:=WriteFields)
+            Dim ResultJson = AddResultTexts(WriteFields, ErrMsg:=ErrMsg)
+            If ErrMsg.Length > 0 Then
+                WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"
+                WMsg.ShowDialog()
+                Return Nothing
+            End If
+            ProcessStepReturn.Result = Newtonsoft.Json.JsonConvert.SerializeObject(ResultJson, Newtonsoft.Json.Formatting.Indented)
+
+            Return ProcessStepReturn
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
 
     'Process Step-50,60,70,80,90,100,110 Modification/Assembly checks
     Public Function ProcessStepNo50_01_00(ByVal Initial As String, ByVal CustOrd As POCO_YGSP.cust_ord, Optional ByRef ErrMsg As String = "") As CheckSheetStep
