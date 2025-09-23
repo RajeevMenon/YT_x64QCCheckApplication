@@ -157,18 +157,33 @@
                                 WMsg.Message = "Error: Before Serial No. [ " & SerialScan & " ] already used for modification!"
                                 WMsg.ShowDialog()
                                 Exit Sub
-                            ElseIf CustOrdList.Count = 1 Then
+                            ElseIf CustOrdList.Count = 1 And MainForm.CoHeader.MS_CODE <> "MFGSV004" Then
                                 If CustOrdList.Item(0).INDEX_NO <> MainForm.CustOrd.INDEX_NO Then
                                     WMsg.Message = "Error: Before Serial No. [ " & SerialScan & " ] already used for IndexNo.:" & CustOrdList.Item(0).INDEX_NO
                                     WMsg.ShowDialog()
                                     Exit Sub
                                 End If
                             End If
-                            If MainForm.CustOrd.SERIAL_NO = SerialScan Then
-                                WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] is not of 'BEFORE MODIFICATION UNIT'."
-                                WMsg.ShowDialog()
-                                Exit Sub
+
+                            If MainForm.CoHeader.MS_CODE = "MFGSV004" Then
+                                If MainForm.CustOrd.SERIAL_NO_BEFORE Like "*-M*" Then
+                                    WMsg.Message = "Error: For MFGSV004,  Before Serial No. cannot be with '-M'. Try make QCC + OrderTag again!"
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
+                                If MainForm.CustOrd.SERIAL_NO_BEFORE <> SerialScan Then
+                                    WMsg.Message = "Error: For MFGSV004,  Before Serial No. needs to be [" & MainForm.CustOrd.SERIAL_NO_BEFORE & "]. Try make QCC + OrderTag again!"
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
+                            Else
+                                If MainForm.CustOrd.SERIAL_NO = SerialScan Then
+                                    WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] Before and After cannot be same."
+                                    WMsg.ShowDialog()
+                                    Exit Sub
+                                End If
                             End If
+
                             If Link.PlantID = "6Z00" Then
                                 If Not (SerialScan Like "[9Y][014]???????") Then
                                     WMsg.Message = "Error: Serial No. [ " & SerialScan & " ] not correct!"
