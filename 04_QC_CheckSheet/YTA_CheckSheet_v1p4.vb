@@ -2670,10 +2670,12 @@ FixVar3:
                 ProcessStepReturn.ActivityToCheck = "IM, SafetyIM and EU-Documents kept Inside Box?"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "IM, SafetyIM & EU-Documents kept Inside Box??  YES  ||  NO"
                 ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ResultValue = "[Yes] ✓"
             ElseIf Integer.Parse(CustOrd.QTY_NO) >= 1 And Not (CustOrd.MS_CODE Like "YTA*/K[UFS]*") Then
                 ProcessStepReturn.ActivityToCheck = "IM+SafetyIM only kept Inside Box with [NO] EuDocument?"
                 ProcessStepReturn.SinglePointAction.SPI_Message = "Only IM and SafetyIM kept Inside Box??  YES  ||  NO"
-                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "No.jpg"
+                ProcessStepReturn.SinglePointAction.ImagePath_SPI_Correct = "Yes.jpg"
+                ResultValue = "[NA] ✓"
             Else
                 ErrMsg = $"Unknown MS-CODE: {CustOrd.MS_CODE}"
                 WMsg.Message = $"AddResultTexts() Error for Step:{ProcessStepReturn.StepNo}: {ErrMsg}"

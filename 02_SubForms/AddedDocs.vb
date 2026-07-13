@@ -28,7 +28,7 @@ Public Class AddedDocs
                 Dim IM_ReplacementValue As String = ""
 
                 If TextBox_IM.Text.ToUpper.Length > 0 Then
-                    Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0) 'Same
+                    Dim IM_Name As String = TextBox_IM.Text.ToUpper.Trim.Split("/")(0).Replace(" ", "").Trim 'Always
                     Dim DocList = DocTbl.Where(Function(x) x.CAT_DOC = IM_Name).FirstOrDefault
                     If MainForm.CurrentQCC_Version = "1.3" Then IM_Name = IM_Name.Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
                     Dim IM_Ver As String = DocList.DOC_VERSION '"(" & Decimal.Parse(TextBox_IM.Text.ToUpper.Trim.Split("/")(1) / 10).ToString("#") & ")" 'Devide by 10
@@ -43,7 +43,7 @@ Public Class AddedDocs
                 End If
 
                 If TextBox_SIM.Text.ToUpper.Length > 0 Then
-                    Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0) 'Same
+                    Dim SIM_Name As String = TextBox_SIM.Text.ToUpper.Trim.Split("/")(0).Replace(" ", "").Trim 'Always
                     Dim DocList = DocTbl.Where(Function(x) x.CAT_DOC = SIM_Name).FirstOrDefault
                     SIM_Name = SIM_Name.Replace("-", "|") 'Same with - replaced with | for PrintQcc_Rev1()
                     Dim SIM_Ver As String = DocList.DOC_VERSION
