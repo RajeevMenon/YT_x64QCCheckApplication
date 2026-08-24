@@ -161,6 +161,7 @@ Public Class AppControl
             Return Nothing
         End Try
     End Function
+
     ''' <summary>
     ''' Read and Return Settings as per data in the path variable
     ''' </summary>

@@ -853,7 +853,7 @@ Public Class MainForm
     Public QcSteps As List(Of POCO_QA.yta_qcc_steps)
 
     'Version control
-    Public CurrentQCC_Version As String = "1.4" '"1.3"
+    Public CurrentQCC_Version As String = "1.3" '"1.4" '
 
     'Save FinalQcc to ProductionComplete Folder? Select True to Save.
     Dim SaveFinalDoc As Boolean = True
@@ -864,7 +864,7 @@ Public Class MainForm
     Public QcData_1p3 As List(Of POCO_QA.yta_qcc_v1p2)
     Public QcData_1p4 As List(Of POCO_QA.yta_qcc_v1p4)
     Public QcSteps_1p3_File As String = Application.StartupPath & "\04_QC_CheckSheet\QCC_Steps_v1p3.json"
-    Public QcSteps_1p4_File As String = Application.StartupPath & "\04_QC_CheckSheet\QCC_Steps_v1p4.json"
+    Public QcSteps_1p4_File As String = Application.StartupPath & "\04_QC_CheckSheet\QCC_Steps_v1p4_Rev1.json"
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
 
@@ -2414,7 +2414,7 @@ LoopFinished:
 
 
                 Dim MfgEntity As New MFG_ENTITY.Op(Link.Mysql_PMS_ConStr, MFG_ENTITY.Connections.DB_PMS)
-                Dim SpecWrite_yta = MfgEntity.GetDatabaseAsModel_List(Of POCO_PMS.sf_templates)(New POCO_PMS.sf_templates, "DOC_NUMBER", "YMA-TML-SF-16", "REV", "1.2", ErrMsg)
+                Dim SpecWrite_yta = MfgEntity.GetDatabaseAsModel_List(Of POCO_PMS.sf_templates)("DOC_NUMBER", "YMA-TML-SF-16", "REV", "1.2", ErrMsg:=ErrMsg)
                 If ErrMsg.Length > 0 Then
                     WMsg.Message = "QCC File Print Error: " & ErrMsg
                     WMsg.ShowDialog()
