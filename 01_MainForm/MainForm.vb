@@ -1,6 +1,7 @@
 ﻿
 Imports System.IO
 Imports Newtonsoft.Json
+Imports POCO_QA
 Imports Spire.Pdf.Exporting
 
 Public Class MainForm
@@ -853,7 +854,7 @@ Public Class MainForm
     Public QcSteps As List(Of POCO_QA.yta_qcc_steps)
 
     'Version control
-    Public CurrentQCC_Version As String = "1.3" '"1.4" '
+    Public CurrentQCC_Version As String = "1.4" '"1.3" '
 
     'Save FinalQcc to ProductionComplete Folder? Select True to Save.
     Dim SaveFinalDoc As Boolean = True
@@ -865,6 +866,10 @@ Public Class MainForm
     Public QcData_1p4 As List(Of POCO_QA.yta_qcc_v1p4)
     Public QcSteps_1p3_File As String = Application.StartupPath & "\04_QC_CheckSheet\QCC_Steps_v1p3.json"
     Public QcSteps_1p4_File As String = Application.StartupPath & "\04_QC_CheckSheet\QCC_Steps_v1p4_Rev1.json"
+
+    'API reference
+    Dim FileMgr As New FileManager
+    Dim DirMgr As New DirectoryManager
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles Me.Load
 
@@ -2652,16 +2657,14 @@ LoopFinished:
     End Sub
     Public Sub PrintQcc_Rev2()
         Try
-
-
             If IsDate(CustOrd.ACTUAL_FINISH_DATE) Then
                 If My.Settings.Login <> "46501497" Then
-                    WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+                    WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please check in Production Complete Documents Folder."
                     WMsg.ShowDialog()
                     Exit Sub
                 Else
-                    If MsgBox($"USER:{ My.Settings.Login} Do you want to run PrintQcc_Rev2() again with the DB CheckResult values and Print QCC?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
-                        WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+                    If MsgBox($"USER:{My.Settings.Login} Do you want to run PrintQcc_Rev2() again with the DB CheckResult values and Print QCC?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                        WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please check in Production Complete Documents Folder."
                         WMsg.ShowDialog()
                         Exit Sub
                     End If
@@ -2670,103 +2673,251 @@ LoopFinished:
 
             Dim ErrMsg As String = ""
             QcData_1p4 = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p4)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
-            If QcData_1p4.Count > 0 Then
-                RefreshSettings(Link.Network)
-                Dim BlankDoc As String = ""
-                Dim FinalDoc As String = System.IO.Path.Combine(Setting.Var_06_DocsStore, "Production Complete Documents\Signed_QCC", CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf")
-                If SaveFinalDoc = False Then
-                    Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
-                    FinalDoc = FinalFileName
+
+            If QcData_1p4.Count = 0 Then
+                WMsg.Message = $"QCC File Open Error: Not able to read QCC records for Index: {CustOrd.INDEX_NO} from Table:yta_qcc_v1p4"
+                WMsg.ShowDialog()
+                Exit Sub ' Added Exit Sub so it doesn't crash downstream
+            End If
+
+            RefreshSettings(Link.Network)
+            Dim BlankDoc As String = ""
+
+            ' Define relative subfolder and filename components for server storage
+            Dim relSubFolder As String = System.IO.Path.Combine("Production Complete Documents", "Signed_QCC", CustOrd.PROD_NO, "Line-" & CustOrd.LINE_NO)
+            Dim fileNameOnly As String = CustOrd.INDEX_NO & "-QCS-Signed.pdf"
+            Dim FinalDoc As String = System.IO.Path.Combine(relSubFolder, fileNameOnly)
+
+            ' System Temp directory combined with subfolder structure
+            Dim TempDocPath As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), relSubFolder, fileNameOnly)
+
+            ' Ensure the physical directory exists in Temp before writing the file
+            Dim tempDirectory As String = System.IO.Path.GetDirectoryName(TempDocPath)
+            If Not System.IO.Directory.Exists(tempDirectory) Then
+                System.IO.Directory.CreateDirectory(tempDirectory)
+            End If
+
+            ' Optional server directory preparation
+            Try
+                If SaveFinalDoc Then
+                    If Not DirMgr.Exists(relSubFolder) Then
+                        DirMgr.CreateDirectory(relSubFolder)
+                    End If
                 End If
 
-Retry:
-                Try
-                    If System.IO.File.Exists(FinalDoc) Then
-                        Using fs As New FileStream(FinalDoc, FileMode.Open, FileAccess.ReadWrite, FileShare.None)
-                            ' File is not in use
-                        End Using
-                    Else
-                        If Not System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(FinalDoc)) Then
-                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+                ' Local fallback check for Temp path lock
+                If System.IO.File.Exists(TempDocPath) Then
+                    Using fs As New System.IO.FileStream(TempDocPath, System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None)
+                        ' File is not in use
+                    End Using
+                End If
+            Catch ex As Exception
+                System.Diagnostics.Debug.WriteLine("Error during document save preparation: " & ex.Message)
+            End Try
+
+            Dim FinalTemplates As New List(Of OpenPdfOperation_x64.Template)
+            For Each ProcessStep In QcData_1p4
+                Dim ReportResult = ProcessStep.CHECK_RESULT
+                LoggerHelper.LogInfo($"[CHECK_RESULT] for Index No: {CustOrd.INDEX_NO} is [ {ProcessStep.CHECK_RESULT} ]")
+                Dim Template As OpenPdfOperation_x64.Template = JsonConvert.DeserializeObject(Of OpenPdfOperation_x64.Template)(ReportResult)
+                FinalTemplates.Add(Template)
+            Next
+
+            Dim DistinctTemplateNames = FinalTemplates.Select(Function(X) X.FileName).Distinct.ToArray
+            If DistinctTemplateNames.Count <> 1 Then
+                WMsg.Message = $"There are {DistinctTemplateNames.Count} Template Filenames to Write!"
+                WMsg.ShowDialog()
+                Exit Sub
+            Else
+                If DistinctTemplateNames(0) Like "*.rpd" Then DistinctTemplateNames(0) = DistinctTemplateNames(0).Replace(".rpd", ".pdf")
+                BlankDoc = Application.StartupPath & $"\05_Report_Templates\{DistinctTemplateNames(0)}"
+
+                If System.IO.File.Exists(BlankDoc) Then
+                    Dim WriteTemplate As New OpenPdfOperation_x64.Template
+                    WriteTemplate.FileName = FinalTemplates.FirstOrDefault.FileName
+                    WriteTemplate.Width = FinalTemplates.FirstOrDefault.Width
+                    WriteTemplate.Height = FinalTemplates.FirstOrDefault.Height
+                    WriteTemplate.ZoomFactor = FinalTemplates.FirstOrDefault.ZoomFactor
+                    WriteTemplate.Dpi = FinalTemplates.FirstOrDefault.Dpi
+                    WriteTemplate.Fields = New List(Of OpenPdfOperation_x64.Field)
+
+                    For Each FinalTemplate In FinalTemplates
+                        WriteTemplate.Fields.AddRange(FinalTemplate.Fields)
+                    Next
+
+                    If WriteTemplate.Fields.Count > 0 Then
+                        OpenPdfOperation_x64.FileOp.PDF_XUnit_WriteJsonTextnBarcode(TemplatePDF:=BlankDoc, FinishedDoc:=TempDocPath, Param:=WriteTemplate, ErrMsg:=ErrMsg)
+                        If ErrMsg.Length > 0 Then
+                            MsgBox(ErrMsg)
                         End If
                     End If
-                Catch ex As IOException
-                    ' File is in use
-                    WMsg.Message = "QCC File Open Error: " & ex.Message
-                    WMsg.ShowDialog()
-                    If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        GoTo Retry
-                    End If
-                End Try
 
-                Dim FinalTemplates As New List(Of OpenPdfOperation_x64.Template)
-                For Each ProcessStep In QcData_1p4
-                    Dim ReportResult = ProcessStep.CHECK_RESULT
-                    LoggerHelper.LogInfo($"[CHECK_RESULT] for Index No: {CustOrd.INDEX_NO} is [ {ProcessStep.CHECK_RESULT} ]")
-                    Dim Template As OpenPdfOperation_x64.Template = JsonConvert.DeserializeObject(Of OpenPdfOperation_x64.Template)(ReportResult)
-                    FinalTemplates.Add(Template)
-                Next
-                Dim DistinctTemplateNames = FinalTemplates.Select(Function(X) X.FileName).Distinct.ToArray
-                If DistinctTemplateNames.Count <> 1 Then
-                    WMsg.Message = $"There are {DistinctTemplateNames.Count} Template Filenames to Write!"
+                    ' If SaveFinalDoc is true, upload/save the file to the server using FileMgr
+                    If SaveFinalDoc Then
+                        Try
+                            FileMgr.Save(relSubFolder, TempDocPath, True)
+                        Catch ex As Exception
+                            System.Diagnostics.Debug.WriteLine($"FileMgr Save Error: {ex.Message}")
+                        End Try
+                    End If
+                Else
+                    WMsg.Message = $"Template Filename {BlankDoc} not available!"
                     WMsg.ShowDialog()
                     Exit Sub
-                Else
-                    If DistinctTemplateNames(0) Like "*.rpd" Then DistinctTemplateNames(0) = DistinctTemplateNames(0).Replace(".rpd", ".pdf")
-                    BlankDoc = Application.StartupPath & $"\05_Report_Templates\{DistinctTemplateNames(0)}"
-                    If System.IO.File.Exists(BlankDoc) Then
-                        Dim WriteTemplate As New OpenPdfOperation_x64.Template
-                        WriteTemplate.FileName = FinalTemplates.FirstOrDefault.FileName
-                        WriteTemplate.Width = FinalTemplates.FirstOrDefault.Width
-                        WriteTemplate.Height = FinalTemplates.FirstOrDefault.Height
-                        WriteTemplate.ZoomFactor = FinalTemplates.FirstOrDefault.ZoomFactor
-                        WriteTemplate.Dpi = FinalTemplates.FirstOrDefault.Dpi
-                        WriteTemplate.Fields = New List(Of OpenPdfOperation_x64.Field)
-                        For Each FinalTemplate In FinalTemplates
-                            WriteTemplate.Fields.AddRange(FinalTemplate.Fields)
-                        Next
-                        If WriteTemplate.Fields.Count > 0 Then
-                            OpenPdfOperation_x64.FileOp.PDF_XUnit_WriteJsonTextnBarcode(TemplatePDF:=BlankDoc, FinishedDoc:=FinalDoc, Param:=WriteTemplate, ErrMsg:=ErrMsg)
-                            If ErrMsg.Length > 0 Then
-                                MsgBox(ErrMsg)
-                            End If
-                        End If
+                End If
 
-
-                        Dim FinalFileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
-                        For i As Integer = 1 To 1
-                            Try
-                                System.IO.File.Copy(FinalDoc, FinalFileName, True)
-                            Catch ex As Exception
-                                Continue For
-                            End Try
-                        Next
 Retry_01:
-                        Try
-                            'open the final document
-                            Process.Start(FinalFileName)
-                        Catch ex As Exception
-                            WMsg.Message = "QCC File Open Error: " & ex.Message
+                Try
+                    ' FIXED: Conditionally check server existence only if SaveFinalDoc is true
+                    If SaveFinalDoc Then
+                        If Not FileMgr.Exists(FinalDoc) Then
+                            WMsg.Message = $"Could not save Filename {System.IO.Path.GetFileName(FinalDoc)} to server!"
                             WMsg.ShowDialog()
-                            If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                                GoTo Retry_01
-                            End If
-                        End Try
+                            Exit Sub
+                        End If
+                    End If
+
+                    ' Ensure local file exists before attempting to open it
+                    If System.IO.File.Exists(TempDocPath) Then
+                        Process.Start(TempDocPath)
                     Else
-                        WMsg.Message = $"QC-Template: [ {DistinctTemplateNames(0)} ] not available in [ 05_Report_Templates ] Folder."
+                        WMsg.Message = $"Could not find Local Filename {System.IO.Path.GetFileName(TempDocPath)}!"
                         WMsg.ShowDialog()
                         Exit Sub
                     End If
-                End If
+
+                Catch ex As Exception
+                    WMsg.Message = "QCC File Open Error: " & ex.Message
+                    WMsg.ShowDialog()
+                    If MsgBox("There is an error starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        GoTo Retry_01
+                    End If
+                End Try
 
             End If
 
         Catch ex As Exception
-            'MsgBox(ex.Message)
-            WMsg.Message = "PrintQcc_Rev1() Error:" & ex.Message
+            WMsg.Message = "PrintQcc_Rev2() Error:" & ex.Message
             WMsg.ShowDialog()
         End Try
     End Sub
+    '    Public Sub PrintQcc_Rev2()
+    '        Try
+
+
+    '            If IsDate(CustOrd.ACTUAL_FINISH_DATE) Then
+    '                If My.Settings.Login <> "46501497" Then
+    '                    WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+    '                    WMsg.ShowDialog()
+    '                    Exit Sub
+    '                Else
+    '                    If MsgBox($"USER:{ My.Settings.Login} Do you want to run PrintQcc_Rev2() again with the DB CheckResult values and Print QCC?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+    '                        WMsg.Message = "Current transmitter already finished on " & CustOrd.ACTUAL_FINISH_DATE & ". Please checK in Production Complete Documents Folder."
+    '                        WMsg.ShowDialog()
+    '                        Exit Sub
+    '                    End If
+    '                End If
+    '            End If
+
+    '            Dim ErrMsg As String = ""
+    '            QcData_1p4 = TmlEntityQA.GetDatabaseTableAs_List(Of POCO_QA.yta_qcc_v1p4)("INDEX_NO", CustOrd.INDEX_NO, "INDEX_NO", CustOrd.INDEX_NO, ErrMsg)
+    '            If QcData_1p4.Count > 0 Then
+    '                RefreshSettings(Link.Network)
+    '                Dim BlankDoc As String = ""
+    '                Dim FinalDoc As String = System.IO.Path.Combine(Setting.Var_06_DocsStore, "Production Complete Documents\Signed_QCC", CustOrd.PROD_NO & "\Line-" & CustOrd.LINE_NO & "\" & CustOrd.INDEX_NO & "-QCS-Signed.pdf")
+    '                If SaveFinalDoc = False Then
+    '                    Dim FinalFileName As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+    '                    FinalDoc = FinalFileName
+    '                End If
+
+    'Retry:
+    '                Try
+    '                    If System.IO.File.Exists(FinalDoc) Then
+    '                        Using fs As New FileStream(FinalDoc, FileMode.Open, FileAccess.ReadWrite, FileShare.None)
+    '                            ' File is not in use
+    '                        End Using
+    '                    Else
+    '                        If Not System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(FinalDoc)) Then
+    '                            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FinalDoc))
+    '                        End If
+    '                    End If
+    '                Catch ex As IOException
+    '                    ' File is in use
+    '                    WMsg.Message = "QCC File Open Error: " & ex.Message
+    '                    WMsg.ShowDialog()
+    '                    If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+    '                        GoTo Retry
+    '                    End If
+    '                End Try
+
+    '                Dim FinalTemplates As New List(Of OpenPdfOperation_x64.Template)
+    '                For Each ProcessStep In QcData_1p4
+    '                    Dim ReportResult = ProcessStep.CHECK_RESULT
+    '                    LoggerHelper.LogInfo($"[CHECK_RESULT] for Index No: {CustOrd.INDEX_NO} is [ {ProcessStep.CHECK_RESULT} ]")
+    '                    Dim Template As OpenPdfOperation_x64.Template = JsonConvert.DeserializeObject(Of OpenPdfOperation_x64.Template)(ReportResult)
+    '                    FinalTemplates.Add(Template)
+    '                Next
+    '                Dim DistinctTemplateNames = FinalTemplates.Select(Function(X) X.FileName).Distinct.ToArray
+    '                If DistinctTemplateNames.Count <> 1 Then
+    '                    WMsg.Message = $"There are {DistinctTemplateNames.Count} Template Filenames to Write!"
+    '                    WMsg.ShowDialog()
+    '                    Exit Sub
+    '                Else
+    '                    If DistinctTemplateNames(0) Like "*.rpd" Then DistinctTemplateNames(0) = DistinctTemplateNames(0).Replace(".rpd", ".pdf")
+    '                    BlankDoc = Application.StartupPath & $"\05_Report_Templates\{DistinctTemplateNames(0)}"
+    '                    If System.IO.File.Exists(BlankDoc) Then
+    '                        Dim WriteTemplate As New OpenPdfOperation_x64.Template
+    '                        WriteTemplate.FileName = FinalTemplates.FirstOrDefault.FileName
+    '                        WriteTemplate.Width = FinalTemplates.FirstOrDefault.Width
+    '                        WriteTemplate.Height = FinalTemplates.FirstOrDefault.Height
+    '                        WriteTemplate.ZoomFactor = FinalTemplates.FirstOrDefault.ZoomFactor
+    '                        WriteTemplate.Dpi = FinalTemplates.FirstOrDefault.Dpi
+    '                        WriteTemplate.Fields = New List(Of OpenPdfOperation_x64.Field)
+    '                        For Each FinalTemplate In FinalTemplates
+    '                            WriteTemplate.Fields.AddRange(FinalTemplate.Fields)
+    '                        Next
+    '                        If WriteTemplate.Fields.Count > 0 Then
+    '                            OpenPdfOperation_x64.FileOp.PDF_XUnit_WriteJsonTextnBarcode(TemplatePDF:=BlankDoc, FinishedDoc:=FinalDoc, Param:=WriteTemplate, ErrMsg:=ErrMsg)
+    '                            If ErrMsg.Length > 0 Then
+    '                                MsgBox(ErrMsg)
+    '                            End If
+    '                        End If
+
+
+    '                        Dim FinalFileName = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), System.IO.Path.GetFileName(FinalDoc))
+    '                        For i As Integer = 1 To 1
+    '                            Try
+    '                                System.IO.File.Copy(FinalDoc, FinalFileName, True)
+    '                            Catch ex As Exception
+    '                                Continue For
+    '                            End Try
+    '                        Next
+    'Retry_01:
+    '                        Try
+    '                            'open the final document
+    '                            Process.Start(FinalFileName)
+    '                        Catch ex As Exception
+    '                            WMsg.Message = "QCC File Open Error: " & ex.Message
+    '                            WMsg.ShowDialog()
+    '                            If MsgBox("There is error in starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+    '                                GoTo Retry_01
+    '                            End If
+    '                        End Try
+    '                    Else
+    '                        WMsg.Message = $"QC-Template: [ {DistinctTemplateNames(0)} ] not available in [ 05_Report_Templates ] Folder."
+    '                        WMsg.ShowDialog()
+    '                        Exit Sub
+    '                    End If
+    '                End If
+
+    '            End If
+
+    '        Catch ex As Exception
+    '            'MsgBox(ex.Message)
+    '            WMsg.Message = "PrintQcc_Rev1() Error:" & ex.Message
+    '            WMsg.ShowDialog()
+    '        End Try
+    '    End Sub
 
 #End Region
 

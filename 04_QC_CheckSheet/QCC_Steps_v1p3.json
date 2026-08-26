@@ -217,6 +217,13 @@
 		"PRODUCT": "YTA"
 	},
 	{
+		"SLNO": "42",
+		"STEP_NO": "190_07_01",
+		"QCC_VER": "1.2",
+		"STATION": "FINALASSY",
+		"PRODUCT": "YTA"
+	},
+	{
 		"SLNO": "32",
 		"STEP_NO": "190_08_00",
 		"QCC_VER": "1.2",

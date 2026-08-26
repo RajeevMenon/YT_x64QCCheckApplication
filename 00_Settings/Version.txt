@@ -10,3 +10,4 @@
 3.5		-	2025-03-01	-	DLM QR insepection steps modified per FZ2-YaTA-01146 (steps 110_02 and 190_12)
 3.6		-	2025-09-16	-	Updated application to 64bit and added Saudi Logo as per FZ2-YTA-01229
 3.7		-	2026-07-07	-	Revised version number to control latest revision at each stations
+3.8		-	2026-07-07	-	/A option check added in FinalAssy as part of 190_07_01 in QCC 1.4

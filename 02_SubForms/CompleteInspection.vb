@@ -89,7 +89,7 @@ UpdateResult:
                     WMsg.ShowDialog()
                     Exit Sub
                 End If
-                If Not IsNothing(SavedLine.INDEX_NO) Then
+                If Not IsNothing(SavedLine.INDEX_NO) AndAlso SavedLine.INDEX_NO.ToString.Length > 0 Then
                     Sql(Count) = TmlEntityQA.SetDatabaseModel_Sql(Tbl, "INDEX_NO", MainForm.CustOrd.INDEX_NO, "PROCESS_NO", ProcessSave.ProcessNo, ErrMsg)
                     Count += 1
                 Else
