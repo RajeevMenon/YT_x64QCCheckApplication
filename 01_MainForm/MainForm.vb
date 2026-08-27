@@ -2684,15 +2684,16 @@ LoopFinished:
             Dim BlankDoc As String = ""
 
             ' Define relative subfolder and filename components for server storage
-            Dim relSubFolder As String = System.IO.Path.Combine("Production Complete Documents", "Signed_QCC", CustOrd.PROD_NO, "Line-" & CustOrd.LINE_NO)
+            Dim relSoFolder As String = System.IO.Path.Combine("Production Complete Documents", "Signed_QCC", CustOrd.PROD_NO)
+            Dim relSoLotFolder As String = System.IO.Path.Combine("Production Complete Documents", "Signed_QCC", CustOrd.PROD_NO, "Line-" & CustOrd.LINE_NO)
             Dim fileNameOnly As String = CustOrd.INDEX_NO & "-QCS-Signed.pdf"
-            Dim FinalDoc As String = System.IO.Path.Combine(relSubFolder, fileNameOnly)
+            Dim FinalDoc As String = System.IO.Path.Combine(relSoLotFolder, fileNameOnly)
 
             ' System Temp directory combined with subfolder structure
-            Dim TempDocPath As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), relSubFolder, fileNameOnly)
+            Dim LocalDocPath As String = System.IO.Path.Combine(System.IO.Path.GetTempPath(), fileNameOnly)
 
             ' Ensure the physical directory exists in Temp before writing the file
-            Dim tempDirectory As String = System.IO.Path.GetDirectoryName(TempDocPath)
+            Dim tempDirectory As String = System.IO.Path.GetDirectoryName(LocalDocPath)
             If Not System.IO.Directory.Exists(tempDirectory) Then
                 System.IO.Directory.CreateDirectory(tempDirectory)
             End If
@@ -2700,17 +2701,21 @@ LoopFinished:
             ' Optional server directory preparation
             Try
                 If SaveFinalDoc Then
-                    If Not DirMgr.Exists(relSubFolder) Then
-                        DirMgr.CreateDirectory(relSubFolder)
+                    If Not DirMgr.Exists(relSoFolder) Then
+                        DirMgr.CreateDirectory(relSoFolder)
+                    End If
+                    If Not DirMgr.Exists(relSoLotFolder) Then
+                        DirMgr.CreateDirectory(relSoLotFolder)
                     End If
                 End If
 
                 ' Local fallback check for Temp path lock
-                If System.IO.File.Exists(TempDocPath) Then
-                    Using fs As New System.IO.FileStream(TempDocPath, System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None)
+                If System.IO.File.Exists(LocalDocPath) Then
+                    Using fs As New System.IO.FileStream(LocalDocPath, System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None)
                         ' File is not in use
                     End Using
                 End If
+
             Catch ex As Exception
                 System.Diagnostics.Debug.WriteLine("Error during document save preparation: " & ex.Message)
             End Try
@@ -2725,7 +2730,7 @@ LoopFinished:
 
             Dim DistinctTemplateNames = FinalTemplates.Select(Function(X) X.FileName).Distinct.ToArray
             If DistinctTemplateNames.Count <> 1 Then
-                WMsg.Message = $"There are {DistinctTemplateNames.Count} Template Filenames to Write!"
+                WMsg.Message = $"There are {DistinctTemplateNames.Count} Template Filenames to Write. QCC Inspection record count is {QcData_1p4.Count}!"
                 WMsg.ShowDialog()
                 Exit Sub
             Else
@@ -2746,7 +2751,7 @@ LoopFinished:
                     Next
 
                     If WriteTemplate.Fields.Count > 0 Then
-                        OpenPdfOperation_x64.FileOp.PDF_XUnit_WriteJsonTextnBarcode(TemplatePDF:=BlankDoc, FinishedDoc:=TempDocPath, Param:=WriteTemplate, ErrMsg:=ErrMsg)
+                        OpenPdfOperation_x64.FileOp.PDF_XUnit_WriteJsonTextnBarcode(TemplatePDF:=BlankDoc, FinishedDoc:=LocalDocPath, Param:=WriteTemplate, ErrMsg:=ErrMsg)
                         If ErrMsg.Length > 0 Then
                             MsgBox(ErrMsg)
                         End If
@@ -2755,18 +2760,17 @@ LoopFinished:
                     ' If SaveFinalDoc is true, upload/save the file to the server using FileMgr
                     If SaveFinalDoc Then
                         Try
-                            FileMgr.Save(relSubFolder, TempDocPath, True)
+                            FileMgr.Save(relSoLotFolder, LocalDocPath, True)
                         Catch ex As Exception
                             System.Diagnostics.Debug.WriteLine($"FileMgr Save Error: {ex.Message}")
                         End Try
                     End If
                 Else
-                    WMsg.Message = $"Template Filename {BlankDoc} not available!"
+                    WMsg.Message = $"Template Filename {BlankDoc} not available in [ 05_Report_Templates ] Folder."
                     WMsg.ShowDialog()
                     Exit Sub
                 End If
 
-Retry_01:
                 Try
                     ' FIXED: Conditionally check server existence only if SaveFinalDoc is true
                     If SaveFinalDoc Then
@@ -2778,10 +2782,10 @@ Retry_01:
                     End If
 
                     ' Ensure local file exists before attempting to open it
-                    If System.IO.File.Exists(TempDocPath) Then
-                        Process.Start(TempDocPath)
+                    If System.IO.File.Exists(LocalDocPath) Then
+                        Process.Start(LocalDocPath)
                     Else
-                        WMsg.Message = $"Could not find Local Filename {System.IO.Path.GetFileName(TempDocPath)}!"
+                        WMsg.Message = $"Could not find Local Filename {System.IO.Path.GetFileName(LocalDocPath)}!"
                         WMsg.ShowDialog()
                         Exit Sub
                     End If
@@ -2789,9 +2793,6 @@ Retry_01:
                 Catch ex As Exception
                     WMsg.Message = "QCC File Open Error: " & ex.Message
                     WMsg.ShowDialog()
-                    If MsgBox("There is an error starting the QCC File. Do you want to re-open the file?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        GoTo Retry_01
-                    End If
                 End Try
 
             End If
