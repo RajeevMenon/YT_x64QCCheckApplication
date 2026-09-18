@@ -45,22 +45,17 @@ Public Class BarcodeEntry
                     Label_Message.Text = ErrMsg
                     Exit Sub
                 End If
-                If IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) Then
+                If IsDate(MainForm.CustOrd.ACTUAL_FINISH_DATE) AndAlso MainForm.CustOrd.INSP_REQ <> "RECHECK" Then
                     If MsgBox("Production already completed on " & MainForm.CustOrd.ACTUAL_FINISH_DATE & ". Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
                         If MainForm.CurrentQCC_Version = "1.4" Then
                             MainForm.PrintQcc_Rev2()
                         Else
                             MainForm.PrintQcc_Rev1()
                         End If
-                        Exit Sub
-                    Else
-                        If Not (MainForm.Initial Like "RR*" And MainForm.WorkerName.ToUpper Like "*RAJEEV*") Then
-                            WMsg.Message = "Production Already completed. Please check QC-Checksheet from Intranet Portal."
-                            WMsg.ShowDialog()
-                            Exit Sub
-                        End If
                     End If
+                    Exit Sub
                 End If
+
                 If Not (MainForm.CustOrd.MS_CODE Like "YTA[67]10-???????*") Then
                     WMsg.Message = "Selected Index_No does not belongs to YTA Model. Model:" & MainForm.CustOrd.MS_CODE
                     WMsg.ShowDialog()
@@ -143,7 +138,7 @@ Public Class BarcodeEntry
                         Exit For
                     End If
                 Next
-                If PreviousInspectionsDone = False Then
+                If PreviousInspectionsDone = False AndAlso MainForm.CustOrd.INSP_REQ <> "RECHECK" Then
                     MsgBox("Some of the Previous Inspection steps are not completed. eg." & NotDoneStep, MsgBoxStyle.OkCancel)
                     TextBox_Scan.Text = ""
                     Exit Sub
@@ -151,7 +146,7 @@ Public Class BarcodeEntry
 
 
                 'All Station Inspection Step Check
-                If TotalStepsInspected.Length = TotalInspectionSteps.Count Then 'If all Inspection Done
+                If TotalStepsInspected.Length = TotalInspectionSteps.Count AndAlso MainForm.CustOrd.INSP_REQ <> "RECHECK" Then 'If all Inspection Done
                     If MsgBox("Inspection already completed. Do you want to see QC Checksheet?", MsgBoxStyle.YesNoCancel) = MsgBoxResult.Yes Then
                         If MainForm.CurrentQCC_Version = "1.4" Then
                             MainForm.PrintQcc_Rev2()
@@ -159,15 +154,6 @@ Public Class BarcodeEntry
                             MainForm.PrintQcc_Rev1()
                         End If
                         Exit Sub
-                    Else
-                        If MsgBox("Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
-                            MsgBox("Canceled current Operation.", MsgBoxStyle.OkCancel)
-                            TextBox_Scan.Text = ""
-                            Exit Sub
-                        Else
-                            MainForm.RichTextBox_ActivityToCheck.Text = "Loading inspection check points. Wait.."
-                            MainForm.Refresh()
-                        End If
                     End If
                 End If
 
@@ -181,7 +167,7 @@ Public Class BarcodeEntry
                         Exit For
                     End If
                 Next
-                If CurrentInspComplete = True Then
+                If CurrentInspComplete = True AndAlso MainForm.CustOrd.INSP_REQ <> "RECHECK" Then
                     If MsgBox("Current Station Inspections are complete. Do you want to re-inspect the unit?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                         Exit Sub
                     Else
